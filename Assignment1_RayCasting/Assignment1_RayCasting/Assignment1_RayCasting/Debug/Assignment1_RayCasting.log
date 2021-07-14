@@ -1,0 +1,10 @@
+﻿  main.cpp
+E:\Codes\CG\MIT\Assignment1_RayCasting\group.h(19,16): warning C4018: '<': signed/unsigned mismatch
+E:\Codes\CG\MIT\Assignment1_RayCasting\main.cpp(51,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT\Assignment1_RayCasting\main.cpp(54,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  scene_parser.cpp
+E:\Codes\CG\MIT\Assignment1_RayCasting\group.h(19,16): warning C4018: '<': signed/unsigned mismatch
+E:\Codes\CG\MIT\Assignment1_RayCasting\orthographiccamera.h(17,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT\Assignment1_RayCasting\orthographiccamera.h(17,79): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+  Assignment1_RayCasting.vcxproj -> E:\Codes\CG\MIT\Assignment1_RayCasting\Assignment1_RayCasting\Debug\Assignment1_RayCasting.exe

@@ -1,0 +1,9 @@
+-input E:\Codes\CG\MIT\Assignment1_RayCasting\data\scene1_01.txt -size 200 200 -output E:\Codes\CG\MIT\Assignment1_RayCasting\data\output1_01.tga -depth 9 10 E:\Codes\CG\MIT\Assignment1_RayCasting\data\depth1_01.tga
+-input E:\Codes\CG\MIT\Assignment1_RayCasting\data\scene1_02.txt -size 200 200 -output E:\Codes\CG\MIT\Assignment1_RayCasting\data\output1_02.tga -depth 8 12 E:\Codes\CG\MIT\Assignment1_RayCasting\data\depth1_02.tga
+-input E:\Codes\CG\MIT\Assignment1_RayCasting\data\scene1_03.txt -size 200 200 -output E:\Codes\CG\MIT\Assignment1_RayCasting\data\output1_03.tga -depth 8 12 E:\Codes\CG\MIT\Assignment1_RayCasting\data\depth1_03.tga
+-input E:\Codes\CG\MIT\Assignment1_RayCasting\data\scene1_04.txt -size 200 200 -output E:\Codes\CG\MIT\Assignment1_RayCasting\data\output1_04.tga -depth 8 12 E:\Codes\CG\MIT\Assignment1_RayCasting\data\depth1_04.tga
+-input E:\Codes\CG\MIT\Assignment1_RayCasting\data\scene1_05.txt -size 200 200 -output E:\Codes\CG\MIT\Assignment1_RayCasting\data\output1_05.tga -depth 8 12 E:\Codes\CG\MIT\Assignment1_RayCasting\data\depth1_05.tga
+-input E:\Codes\CG\MIT\Assignment1_RayCasting\data\scene1_06.txt -size 200 200 -output E:\Codes\CG\MIT\Assignment1_RayCasting\data\output1_06.tga -depth 8 12 E:\Codes\CG\MIT\Assignment1_RayCasting\data\depth1_06.tga
+-input E:\Codes\CG\MIT\Assignment1_RayCasting\data\scene1_07.txt -size 200 200 -output E:\Codes\CG\MIT\Assignment1_RayCasting\data\output1_07.tga -depth 8 12 E:\Codes\CG\MIT\Assignment1_RayCasting\data\depth1_07.tga
+
+
