@@ -24,15 +24,13 @@ public:
 		return tmin;
 	}
 
-	OrthographicCamera(Vec3f center, Vec3f direction, Vec3f up, float size) : Camera(-INFINITY), center(center)
+	OrthographicCamera(Vec3f center, Vec3f direction, Vec3f up, float size) : Camera(-INFINITY), center(center), direction(direction), up(up), size(size)
 	{
-		this->direction = direction;
 		this->direction.Normalize();
-		this->up = up - direction * up.Dot3(direction);
-		up.Normalize();
+		this->up = this->up - this->direction * this->up.Dot3(this->direction);
+		this->up.Normalize();
 		Vec3f::Cross3(this->horizontal, this->direction, this->up);
 		this->horizontal.Normalize();
-		this->size = size;
 	}
 
 private:
