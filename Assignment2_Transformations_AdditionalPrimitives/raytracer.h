@@ -1,12 +1,15 @@
-#ifndef _RAYTRACER_
-#define _RAYTRACER_
+#ifndef _RAYTRACER_H_
+#define _RAYTRACER_H_
 
 #include "scene_parser.h"
 #include "image.h"
-#include "hit.h"
-#include "camera.h"
-#include "light.h"
-#include "group.h"
+//#include "image.h"
+//#include "hit.h"
+//#include "camera.h"
+//#include "light.h"
+//#include "group.h"
+
+class SceneParser;
 
 class Raytracer
 {

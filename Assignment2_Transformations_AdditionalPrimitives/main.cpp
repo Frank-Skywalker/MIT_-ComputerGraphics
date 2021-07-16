@@ -1,9 +1,5 @@
 #include<iostream>
 #include<assert.h>
-#include "scene_parser.h"
-#include "image.h"
-#include "hit.h"
-#include "ray.h"
 #include "raytracer.h"
 using namespace std;
 

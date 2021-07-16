@@ -1,17 +1,12 @@
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include "scene_parser.h"
-#include "matrix.h"
-#include "camera.h" 
-#include "light.h"
-#include "material.h"
-#include "object3d.h"
-#include "group.h" 
-#include "sphere.h"
-#include "plane.h"
-#include "triangle.h"
-#include "transform.h"
+
+
+
+#define M_PI acos(-1)
 
 #define DegreesToRadians(x) ((M_PI * x) / 180.0f)
 
@@ -141,6 +136,7 @@ void SceneParser::parseBackground() {
       break;  
     } else if (!strcmp(token, "color")) {
       background_color = readVec3f();
+	  background_material = new Material(background_color);
     } else if (!strcmp(token, "ambientLight")) {
       ambient_light = readVec3f();
     } else {
@@ -159,7 +155,7 @@ void SceneParser::parseLights() {
   // read in the number of objects
   getToken(token); assert (!strcmp(token, "numLights"));
   num_lights = readInt();
-  lights = new (Light*)[num_lights];
+  lights = new  Light* [num_lights];
   // read in the objects
   int count = 0;
   while (num_lights > count) {
@@ -519,5 +515,32 @@ int SceneParser::readInt() {
   return answer;
 }
 
+
 // ====================================================================
 // ====================================================================
+
+
+Camera* SceneParser::getCamera() const { return camera; }
+Vec3f SceneParser::getBackgroundColor() const { return background_color; }
+Vec3f SceneParser::getAmbientLight() const { return ambient_light; }
+int SceneParser::getNumLights() const { return num_lights; }
+
+Light* SceneParser::getLight(int i) const {
+    assert(i >= 0 && i < num_lights);
+    return lights[i];
+}
+int SceneParser::getNumMaterials() const { return num_materials; }
+
+Material* SceneParser::getMaterial(int i) const {
+    assert(i >= 0 && i < num_materials);
+    return materials[i];
+}
+
+
+Group* SceneParser::getGroup() const { return group; }
+
+Material* SceneParser::getBackgroundMaterial() const
+{
+    assert(background_material != NULL);
+    return background_material;
+};

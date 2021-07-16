@@ -29,11 +29,34 @@ public:
   Material* getMaterial() const { return material; }
   Vec3f getNormal() const { return normal; }
   Vec3f getIntersectionPoint() const { return intersectionPoint; }
+  Ray getRay()const { return ray; }
   
   // MODIFIER
   void set(float _t, Material *m, Vec3f n, const Ray &ray) {
     t = _t; material = m; normal = n; 
+    this->ray = ray;
     intersectionPoint = ray.pointAtParameter(t); }
+
+  void set(float _t, const Ray& ray)
+  {
+      t = _t; 
+      this->ray = ray;
+      intersectionPoint = ray.pointAtParameter(t);
+  }
+  void setBackgroundMaterial(Material* m)
+  {
+      material = m;
+  }
+
+  
+  void setT(float _t)
+  {
+      t = _t;
+  }
+  void setNormal(Vec3f norm)
+  {
+      normal = norm;
+  }
 
 private: 
 
@@ -42,6 +65,7 @@ private:
   Material *material;
   Vec3f normal;
   Vec3f intersectionPoint;
+  Ray ray;
 
 };
 

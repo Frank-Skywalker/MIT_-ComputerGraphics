@@ -41,16 +41,18 @@ public:
             if (t1 < h.getT())
             {
                 h.set(t1, getMaterial(), n1, r);
+                return true;
             }
-            return true;
+            //return true;
         }
         else if (t2 > tmin)
         {
             if (t2 < h.getT())
             {
                 h.set(t2, getMaterial(), n2, r);
+                return true;
             }
-            return true;
+            //return true;
         }
         return false;
     }

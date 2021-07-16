@@ -40,8 +40,9 @@ public:
 			if (t < h.getT())
 			{
 				h.set(t, getMaterial(), normal, r);
+				return true;
 			}
-			return true;
+			//return true;
 		}
 		return false;
 	}
