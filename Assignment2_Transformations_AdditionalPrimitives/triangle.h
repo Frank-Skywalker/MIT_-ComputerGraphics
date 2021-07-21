@@ -3,7 +3,7 @@
 
 #include "object3d.h"
 #include "plane.h"
-#include "matrix.cpp"
+#include "matrix.h"
 
 class Triangle :public Object3D
 {
@@ -18,17 +18,17 @@ public:
 	{
 		Vec3f Ro = r.getOrigin();
 		Vec3f Rd = r.getDirection();
-		float detA = det3x3(a.x() - b.x(), a.x() - c.x(), Rd.x(),
+		float detA = Matrix::det3x3(a.x() - b.x(), a.x() - c.x(), Rd.x(),
 						a.y()-b.y(),a.y()-c.y(),Rd.y(),
 			a.z() - b.z(), a.z() - c.z(), Rd.z());
-		float detBeta= det3x3(a.x() - Ro.x(), a.x() - c.x(), Rd.x(),
+		float detBeta= Matrix::det3x3(a.x() - Ro.x(), a.x() - c.x(), Rd.x(),
 			a.y() - Ro.y(), a.y() - c.y(), Rd.y(),
 			a.z() - Ro.z(), a.z() - c.z(), Rd.z());
-		float detGamma = det3x3(a.x() - b.x(), a.x() - Ro.x(), Rd.x(),
+		float detGamma = Matrix::det3x3(a.x() - b.x(), a.x() - Ro.x(), Rd.x(),
 			a.y() - b.y(), a.y() - Ro.y(), Rd.y(),
 			a.z() - b.z(), a.z() - Ro.z(), Rd.z());
 
-		float detT= det3x3(a.x() - b.x(), a.x() - c.x(), a.x()-Ro.x(),
+		float detT= Matrix::det3x3(a.x() - b.x(), a.x() - c.x(), a.x()-Ro.x(),
 			a.y() - b.y(), a.y() - c.y(), a.y()-Ro.y(),
 			a.z() - b.z(), a.z() - c.z(), a.z()-Ro.z());
 
