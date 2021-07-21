@@ -6,17 +6,4 @@ E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitive
 E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\group.h(19,16): warning C4018: '<': signed/unsigned mismatch
 E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\main.cpp(51,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\main.cpp(54,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  matrix.cpp
-  scene_parser.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\camera.h(30,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\camera.h(30,82): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\camera.h(84,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\camera.h(84,99): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\group.h(19,16): warning C4018: '<': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\scene_parser.cpp(124,23): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\scene_parser.cpp(426,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\scene_parser.cpp(428,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\scene_parser.cpp(430,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\scene_parser.cpp(435,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
   Assignment2.vcxproj -> E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\Assignment2\Debug\Assignment2.exe

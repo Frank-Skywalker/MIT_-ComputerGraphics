@@ -40,6 +40,8 @@ public:
             {
                 hits[i].setBackgroundMaterial(scene->getBackgroundMaterial());
             }
+            //cout << "hits[i].Normal: " << hits[i].getNormal() << endl;
+            //cout << "hits[i].T: " << hits[i].getT() << endl;
 
         }
 
@@ -96,6 +98,11 @@ public:
         {
             int x = i % width;
             int y = i / width;
+            //if (hits[i].getT() == INFINITY)
+            //{
+            //    outputImage.SetPixel(x, y, scene->getBackgroundColor());
+            //    continue;
+            //}
             Vec3f N = hits[i].getNormal();
             Vec3f depthColor(fabsf(N.x()), fabsf(N.y()), fabsf(N.z()));
             outputImage.SetPixel(x, y, depthColor);
@@ -116,7 +123,13 @@ public:
         {
             int x = i % width;
             int y = i / width;
+            if (hits[i].getT() == INFINITY)
+            {
+                outputImage.SetPixel(x, y, scene->getBackgroundColor());
+                continue;
+			}
             Vec3f N = hits[i].getNormal();
+            //cout << "N: " << N << endl;
             //if shade back
 			if (shadeBack && rays[i].getDirection().Dot3(N) > 0)
             {

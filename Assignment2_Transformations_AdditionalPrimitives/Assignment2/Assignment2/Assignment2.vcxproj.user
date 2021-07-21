@@ -1,4 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LocalDebuggerCommand>$(TargetPath)</LocalDebuggerCommand>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_04_perspective.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_04.tga -normals E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\normals2_04.tga</LocalDebuggerCommandArguments>
+  </PropertyGroup>
 </Project>

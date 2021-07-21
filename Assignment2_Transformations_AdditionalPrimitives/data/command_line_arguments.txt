@@ -1,0 +1,29 @@
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_01_diffuse.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_01.tga
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_02_ambient.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_02.tga
+
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_03_colored_lights.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_03.tga -normals E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\normals2_03.tga
+
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_04_perspective.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_04.tga -normals E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\normals2_04.tga
+
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_05_inside_sphere.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_05.tga -depth 9 11 E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\depth2_05.tga -normals E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\normals2_05.tga -shade_back
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_05_inside_sphere.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_05_no_back.tga
+
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_06_plane.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_06.tga -depth 8 20 E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\depth2_06.tga -normals E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\normals2_06.tga
+
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_07_sphere_triangles.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_07.tga -depth 9 11 E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\depth2_07.tga -normals E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\normals2_07.tga -shade_back
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_07_sphere_triangles.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_07_no_back.tga
+
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_08_cube.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_08.tga
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_09_bunny_200.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_09.tga
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_10_bunny_1k.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_10.tga
+
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_11_squashed_sphere.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_11.tga -normals E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\normals2_11.tga
+
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_12_rotated_sphere.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_12.tga -normals E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\normals2_12.tga
+
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_13_rotated_squashed_sphere.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_13.tga -normals E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\normals2_13.tga
+
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_14_axes_cube.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_14.tga
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_15_crazy_transforms.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_15.tga
+
+-input E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\scene2_16_t_scale.txt -size 200 200 -output E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\output2_16.tga -depth 2 7 E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\depth2_16.tga

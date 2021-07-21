@@ -34,13 +34,19 @@ public:
         Vec3f p2 = r.pointAtParameter(t2);
         Vec3f n1 = p1 - center;
         Vec3f n2 = p2 - center;
-        //cout << "t1:" << t1 << endl;
-        //cout << "t2:" << t2 << endl;
+        n1.Normalize();
+        n2.Normalize();
+    /*    cout << n1 << endl;
+        cout << n2 << endl;*/
+
         if (t1 > tmin )
         {
             if (t1 < h.getT())
             {
                 h.set(t1, getMaterial(), n1, r);
+                //cout << "hit with sphere: " << this->center<<endl;
+               /* cout << "t: " << t1 << endl;
+                cout << "N: " << n1 << endl;*/
                 return true;
             }
             //return true;
@@ -50,10 +56,14 @@ public:
             if (t2 < h.getT())
             {
                 h.set(t2, getMaterial(), n2, r);
+                //cout << "hit with sphere: " << this->center << endl;
+                //cout << "t: " << t1 << endl;
+                //cout << "N: " << n1 << endl;
                 return true;
             }
             //return true;
         }
+        //cout << "false" << endl;
         return false;
     }
 
