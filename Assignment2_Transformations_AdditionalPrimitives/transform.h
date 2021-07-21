@@ -15,6 +15,7 @@ public:
 
 	virtual bool intersect(const Ray& r, Hit& h, float tmin)
 	{
+		//cout << "here" << endl;
 		//transform ray from world space to object space
 		Matrix inverseTransform = transform;
 		assert(inverseTransform.Inverse());
@@ -24,15 +25,17 @@ public:
 		inverseTransform.Transform(rayOriginOS);
 		inverseTransform.TransformDirection(rayDirectionOS);
 
+		float ratio = rayDirectionOS.Length();
+
 		//store the transform ratio
-		float ratio = r.getDirection().x() / rayDirectionOS.x();
+		//float ratio = r.getDirection().x() / rayDirectionOS.x();
 		rayDirectionOS.Normalize();
 		Ray rayOS(rayOriginOS,rayDirectionOS);
 
 		//do intersect in object space
 		Hit temph(h);
-		temph.set(temph.getT() / ratio, rayOS);
-		if (!object->intersect(rayOS, temph, tmin))
+		temph.set(h.getT() * ratio, h.getMaterial(), h.getNormal(), rayOS);
+		if (!object->intersect(rayOS, temph, tmin*ratio))
 		{
 			return false;
 		}
@@ -41,7 +44,8 @@ public:
 		inverseTransform.Transpose();
 		Vec3f normalWS = temph.getNormal();
 		inverseTransform.TransformDirection(normalWS);
-		h.set(temph.getT()*ratio,temph.getMaterial(),normalWS,r);
+		normalWS.Normalize();
+		h.set(temph.getT()/ratio,temph.getMaterial(),normalWS,r);
 		return true;
 	}
 

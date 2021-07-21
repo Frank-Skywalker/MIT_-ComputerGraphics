@@ -52,7 +52,7 @@ public:
                 cout << "N: " << n1 << endl;*/
                 return true;
             }
-            return true;
+            //return true;
         }
         else if (t2 > tmin)
         {
@@ -64,7 +64,7 @@ public:
                 //cout << "N: " << n1 << endl;
                 return true;
             }
-            return true;
+            //return true;
         }
         //cout << "false" << endl;
         return false;

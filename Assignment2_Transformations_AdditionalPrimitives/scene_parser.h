@@ -14,7 +14,7 @@ class Plane;
 class Triangle;
 class Transform;
 
-#define MAX_PARSER_TOKEN_LENGTH 100
+#define MAX_PARSER_TOKEN_LENGTH 1000
 
 // ====================================================================
 // ====================================================================

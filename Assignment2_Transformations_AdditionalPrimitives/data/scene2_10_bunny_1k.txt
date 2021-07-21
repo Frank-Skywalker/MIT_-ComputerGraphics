@@ -7,4 +7,4 @@ Background { color 0.1 0.7 0.2 ambientLight 0.1 0.1 0.1 }
 Materials { numMaterials 1 Material { diffuseColor 1 1 1 } }
 
 Group { numObjects 1 MaterialIndex 0 Transform { UniformScale 5 Translate 0.03 -0.0666 0
-TriangleMesh { obj_file bunny_1k.obj } } }
+TriangleMesh { obj_file E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\bunny_1k.obj } } }

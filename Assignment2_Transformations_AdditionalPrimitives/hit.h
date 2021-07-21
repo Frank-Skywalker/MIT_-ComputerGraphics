@@ -40,28 +40,29 @@ public:
   void set(float _t, Material *m, Vec3f n, const Ray &ray) {
     t = _t; material = m; normal = n; 
     this->ray = ray;
-    intersectionPoint = ray.pointAtParameter(t); }
+    intersectionPoint = ray.pointAtParameter(t); 
+  }
 
-  void set(float _t, const Ray& ray)
-  {
-      t = _t; 
-      this->ray = ray;
-      intersectionPoint = ray.pointAtParameter(t);
-  }
-  void setBackgroundMaterial(Material* m)
-  {
-      material = m;
-  }
+  //void set(float _t, const Ray& ray)
+  //{
+  //    t = _t; 
+  //    this->ray = ray;
+  //    intersectionPoint = ray.pointAtParameter(t);
+  //}
+  //void setBackgroundMaterial(Material* m)
+  //{
+  //    material = m;
+  //}
 
   
-  void setT(float _t)
-  {
-      t = _t;
-  }
-  void setNormal(Vec3f norm)
-  {
-      normal = norm;
-  }
+  //void setT(float _t)
+  //{
+  //    t = _t;
+  //}
+  //void setNormal(Vec3f norm)
+  //{
+  //    normal = norm;
+  //}
 
 private: 
 

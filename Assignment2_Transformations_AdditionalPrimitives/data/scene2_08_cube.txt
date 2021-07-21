@@ -6,4 +6,4 @@ Background { color 0.2 0 0.6 ambientLight 0.1 0.1 0.1 }
 
 Materials { numMaterials 1 Material { diffuseColor 1 0 0 } }
 
-Group { numObjects 1 MaterialIndex 0 TriangleMesh { obj_file cube.obj } }
+Group { numObjects 1 MaterialIndex 0 TriangleMesh { obj_file E:\Codes\CG\MIT_ComputerGraphics\Assignment2_Transformations_AdditionalPrimitives\data\cube.obj } }

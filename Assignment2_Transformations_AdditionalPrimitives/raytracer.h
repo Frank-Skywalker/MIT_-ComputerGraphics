@@ -138,6 +138,12 @@ public:
             {
                 N.Negate();
             }
+            //no shade back and ray inside object
+            if (!shadeBack && rays[i].getDirection().Dot3(N) > 0)
+            {
+                outputImage.SetPixel(x, y, Vec3f(0,0,0));
+                continue;
+            }
             Vec3f objectColor = hits[i].getMaterial()->getDiffuseColor();
             Vec3f ambientColor = scene->getAmbientLight() * objectColor;
             Vec3f diffuseColor(0,0,0);
