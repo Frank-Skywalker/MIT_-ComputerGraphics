@@ -14,9 +14,11 @@ class Sphere : public Object3D
 public:
     Sphere(const Vec3f center, const float radius, Material* mat) : Object3D(mat), center(center), radius(radius) {}
 
+
     virtual bool intersect(const Ray& r, Hit& h, float tmin)
     {
-        Ray raySphereSpace(r.getOrigin() - center, r.getDirection()-center);
+        //cout << "Sphere center: " << this->center << endl;
+        Ray raySphereSpace(r.getOrigin() - center, r.getDirection());
         float disRayOrigin = raySphereSpace.getOrigin().Length();
 
         float a = raySphereSpace.getDirection().Dot3(raySphereSpace.getDirection());
@@ -38,7 +40,8 @@ public:
         n2.Normalize();
     /*    cout << n1 << endl;
         cout << n2 << endl;*/
-
+        //cout << "t1:" << t1 << endl;
+        //cout << "t2:" << t2 << endl;
         if (t1 > tmin )
         {
             if (t1 < h.getT())
@@ -49,7 +52,7 @@ public:
                 cout << "N: " << n1 << endl;*/
                 return true;
             }
-            //return true;
+            return true;
         }
         else if (t2 > tmin)
         {
@@ -61,7 +64,7 @@ public:
                 //cout << "N: " << n1 << endl;
                 return true;
             }
-            //return true;
+            return true;
         }
         //cout << "false" << endl;
         return false;

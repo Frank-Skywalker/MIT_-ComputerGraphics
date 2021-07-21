@@ -5,9 +5,12 @@
 #include "image.h"
 //#include "image.h"
 //#include "hit.h"
-//#include "camera.h"
-//#include "light.h"
-//#include "group.h"
+#include "camera.h"
+#include "light.h"
+#include "group.h"
+#include "Ray.h"
+#include "hit.h"
+#include "material.h"
 
 class SceneParser;
 
@@ -38,7 +41,7 @@ public:
             //cout << "hits[i]" << hits[i].getMaterial()->getDiffuseColor()<<endl;
             if (!scene->getGroup()->intersect(GenerateRayAtIndex(i), hits[i], scene->getCamera()->getTMin()))
             {
-                hits[i].setBackgroundMaterial(scene->getBackgroundMaterial());
+                //hits[i].setBackgroundMaterial(scene->getBackgroundMaterial());
             }
             //cout << "hits[i].Normal: " << hits[i].getNormal() << endl;
             //cout << "hits[i].T: " << hits[i].getT() << endl;
