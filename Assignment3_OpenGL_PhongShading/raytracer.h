@@ -33,7 +33,7 @@ public:
 
     void doRaytrace(void)
     {
-        Material mat(Vec3f(1, 0, 0));
+        //Material mat(Vec3f(1, 0, 0));
         for (int i = 0; i < width * height; i++)
         {
             //cout << "i=" << i << endl;
@@ -154,14 +154,16 @@ public:
                 outputImage.SetPixel(x, y, Vec3f(0,0,0));
                 continue;
             }
+
             Vec3f objectColor = hits[i].getMaterial()->getDiffuseColor();
             Vec3f ambientColor = scene->getAmbientLight() * objectColor;
             Vec3f diffuseColor(0,0,0);
-            for (int i = 0; i < scene->getNumLights(); i++)
+            for (int j = 0; j < scene->getNumLights(); j++)
             {
                 Vec3f L;
                 Vec3f lightColor;
-                scene->getLight(i)->getIllumination(hits[i].getIntersectionPoint(), L, lightColor);
+                float distanceToLight;
+                scene->getLight(j)->getIllumination(hits[i].getIntersectionPoint(), L, lightColor, distanceToLight);
                 float temp = L.Dot3(N);
                 if (temp < 0)
                     temp = 0;
@@ -172,6 +174,57 @@ public:
         }
         outputImage.SaveTGA(outputFile);
     }
+
+
+    void PhongShader(char* outputFile, bool shadeBack)
+    {
+        Image outputImage(width, height);
+        for (int i = 0; i < width * height; i++)
+        {
+            int x = i % width;
+            int y = i / width;
+            if (hits[i].getT() == INFINITY)
+            {
+                outputImage.SetPixel(x, y, scene->getBackgroundColor());
+                continue;
+            }
+            Vec3f N = hits[i].getNormal();
+            //cout << "N: " << N << endl;
+            //if shade back
+            if (shadeBack && rays[i].getDirection().Dot3(N) > 0)
+            {
+                N.Negate();
+            }
+            //no shade back and ray inside object
+            if (!shadeBack && rays[i].getDirection().Dot3(N) > 0)
+            {
+                outputImage.SetPixel(x, y, Vec3f(0, 0, 0));
+                continue;
+            }
+
+
+
+            Vec3f objectColor = hits[i].getMaterial()->getDiffuseColor();
+            Vec3f ambientColor = scene->getAmbientLight() * objectColor;
+            Vec3f diffuseSpecularColor(0, 0, 0);
+            for (int j = 0; j < scene->getNumLights(); j++)
+            {
+                Vec3f dirToLight;
+                Vec3f lightColor;
+                float distanceToLight;
+                scene->getLight(j)->getIllumination(hits[i].getIntersectionPoint(), dirToLight, lightColor, distanceToLight);
+                diffuseSpecularColor+= hits[i].getMaterial()->Shade(hits[i].getRay(), hits[i],dirToLight,lightColor);
+            }
+
+            Vec3f pixelColor = diffuseSpecularColor + ambientColor;
+            outputImage.SetPixel(x, y, pixelColor);
+
+        }
+        outputImage.SaveTGA(outputFile);
+    }
+
+
+
 
 private:
     char *input_file;

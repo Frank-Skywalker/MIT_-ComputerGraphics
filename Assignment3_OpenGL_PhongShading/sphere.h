@@ -1,10 +1,13 @@
 #ifndef _SPHERE_H_
 #define _SPHERE_H_
 
+
 #include "Object3D.h"
 #include "ray.h"
 #include "vectors.h"
 #include <math.h>
+
+#define M_PI acos(-1)
 
 using namespace std;
 
@@ -72,21 +75,66 @@ public:
 
     void paint(void)
     {
+        extern int thetaSteps;
+        extern int phiSteps;
+        extern bool gouraudShading;
 
+        float thetaStepLength=(float)2*M_PI/thetaSteps;
+        float phiStepLength=(float)M_PI/phiSteps;
+
+        Vec3f nowVec(1,0,0);
+        
         glBegin(GL_QUADS);
-        for (iPhi = ...; iPhi < ...; iPhi += ...)
-            for (int iTheta = ...; iTheta = ...; iTheta += ...) {
-                // compute appropriate coordinates & normals
-                ...
+        for (float iPhi = 0; iPhi < M_PI; iPhi += phiStepLength)
+        {
+            for (float iTheta = 0; iTheta < 2*M_PI; iTheta += thetaStepLength) 
+            {
+                Vec3f points[4];
+                points[0].Set(radius * sinf(iPhi) * cosf(iTheta), radius * sinf(iPhi) * sinf(iTheta), radius * cosf(iPhi));
+                points[1].Set(radius * sinf(iPhi) * cosf(iTheta + thetaStepLength), radius * sinf(iPhi) * sinf(iTheta + thetaStepLength), radius * cosf(iPhi));
+                points[2].Set(radius * sinf(iPhi + phiStepLength) * cosf(iTheta + thetaStepLength), radius * sinf(iPhi + phiStepLength) * sinf(iTheta + thetaStepLength), radius * cosf(iPhi + phiStepLength));
+                points[3].Set(radius * sinf(iPhi + phiStepLength) * cosf(iTheta), radius * sinf(iPhi + phiStepLength) * sinf(iTheta), radius * cosf(iPhi + phiStepLength));
 
-                    // send gl vertex commands
-                    glVertex3f(x0, y0, z0);
-                glVertex3f(x1, y1, z1);
-                glVertex3f(x2, y2, z2);
-                glVertex3f(x3, y3, z3);
+                //Gouraund interpolation
+                if (gouraudShading)
+                {
+                    Vec3f normali;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        normali = points[i];
+                        normali.Normalize();
+                        glNormal3f(normali.x(), normali.y(), normali.z());
+                        points[i] += center;
+                        glVertex3f(points[i].x(), points[i].y(), points[i].z());
+                    }
+                }
+                //flat shading 
+                else 
+                {
+                    Vec3f line1 = points[1] - points[0];
+                    Vec3f line2 = points[2] - points[1];
+                    Vec3f flatNormal;
+                    Vec3f::Cross3(flatNormal, line1, line2);
+                    flatNormal.Normalize();
+                    glNormal3f(flatNormal.x(), flatNormal.y(), flatNormal.z());
+                    for (int i = 0; i < 4; i++)
+                    {
+                        points[i] += center;
+                        glVertex3f(points[i].x(), points[i].y(), points[i].z());
+                    }
+
+                }
+               
+                // send gl vertex commands
+                //glVertex3f(x0, y0, z0);
+                //glVertex3f(x1, y1, z1);
+                //glVertex3f(x2, y2, z2);
+                //glVertex3f(x3, y3, z3);
+
+                
             }
-    }
-    glEnd();
+        }
+        glEnd();
     }
 
 private:

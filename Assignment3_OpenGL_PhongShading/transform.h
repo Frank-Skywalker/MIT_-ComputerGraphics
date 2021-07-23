@@ -49,6 +49,16 @@ public:
 		return true;
 	}
 
+	virtual void paint(void)
+	{
+		glPushMatrix();
+		GLfloat* glMatrix = transform.glGet();
+		glMultMatrixf(glMatrix);
+		delete[] glMatrix;
+		object->paint();
+		glPopMatrix();
+	}
+
 private:
 	Matrix transform;
 	Object3D* object;

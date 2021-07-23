@@ -4,27 +4,46 @@
 #include"glCanvas.h"
 
 using namespace std;
-Raytracer *raytracer;
 
 
-void raytrace(void)
+Raytracer *raytracer=NULL;
+char* input_file = NULL;
+int width = 100;
+int height = 100;
+char* output_file = NULL;
+float depth_min = 0;
+float depth_max = 1;
+char* depth_file = NULL;
+char* normal_file = NULL;
+bool shade_back = false;
+bool previsualize = false;
+bool gouraudShading = false;
+int thetaSteps;
+int phiSteps;
+
+void shade(void)
 {
+	assert(raytracer != NULL);
 	raytracer->doRaytrace();
+	if (output_file != NULL)
+	{
+		raytracer->diffuseShader(output_file, shade_back);
+	}
+
+	if (depth_file != NULL)
+	{
+		raytracer->depthShader(depth_file);
+	}
+
+	if (normal_file != NULL)
+	{
+		raytracer->normalShader(normal_file);
+	}
 }
 
 int main(int argc, char* argv[])
 {
 	// ======================================================== // ======================================================== // Some sample code you might like to use for parsing // command line arguments
-
-	char* input_file = NULL;
-	int width = 100;
-	int height = 100;
-	char* output_file = NULL;
-	float depth_min = 0;
-	float depth_max = 1;
-	char* depth_file = NULL;
-	char* normal_file = NULL;
-	bool shade_back = false;
 
 
 
@@ -76,6 +95,24 @@ int main(int argc, char* argv[])
 			assert(i < argc);
 			shade_back = true;
 		}
+		//Assignment3
+		else if (!strcmp(argv[i], "-gui"))
+		{
+			previsualize = true;
+		}
+		else if (!strcmp(argv[i], "-gouraud"))
+		{
+			gouraudShading = true;
+		}
+		else if (!strcmp(argv[i], "-tessellation"))
+		{
+			i++;
+			assert(i < argc);
+			thetaSteps = atoi(argv[i]);
+			i++;
+			assert(i < argc);
+			phiSteps = atoi(argv[i]);
+		}
 		else
 		{
 			printf("whoops error with command line argument %d: '%s'\n", i, argv[i]);
@@ -84,29 +121,17 @@ int main(int argc, char* argv[])
 	}
 
 	// ======================================================== // ========================================================
-	
-	raytracer=new Raytracer(input_file,width,height,depth_min,depth_max);
-	GLCanvas glCanvas;
-	glCanvas.initialize(raytracer->getScene(), raytrace);
-
-	//raytracer.doRaytrace();
-	//if (output_file != NULL)
-	//{
-	//	raytracer.diffuseShader(output_file,shade_back);
-	//}
-
-	//if (depth_file != NULL)
-	//{
-	//	raytracer.depthShader(depth_file);
-	//}
-
-	//if (normal_file != NULL)
-	//{
-	//	raytracer.normalShader(normal_file);
-	//}
-
-
-   
+	//previsualize this scene with OpenGL
+	raytracer = new Raytracer(input_file, width, height, depth_min, depth_max);
+	if (previsualize)
+	{
+		GLCanvas glCanvas;
+		glCanvas.initialize(raytracer->getScene(), shade);
+	}
+	else
+	{
+		shade();
+	}
 	
 	return 0;
 }

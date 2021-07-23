@@ -1,40 +1,36 @@
 ﻿  glCanvas.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(35,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(35,82): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(103,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(103,99): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(77,9): error C2065: 'GLfloat': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(77,17): error C2146: syntax error: missing ';' before identifier 'one'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(77,17): error C2065: 'one': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(78,9): error C2065: 'GLfloat': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(78,17): error C2146: syntax error: missing ';' before identifier 'zero'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(78,17): error C2065: 'zero': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(79,9): error C2065: 'GLfloat': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(79,17): error C2146: syntax error: missing ';' before identifier 'specular'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(79,17): error C2065: 'specular': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(80,9): error C2065: 'GLfloat': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(80,17): error C2146: syntax error: missing ';' before identifier 'diffuse'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(80,17): error C2065: 'diffuse': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(91,22): error C2065: 'GL_FRONT_AND_BACK': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(91,41): error C2065: 'GL_DIFFUSE': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(91,53): error C2065: 'diffuse': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(91,9): error C3861: 'glMaterialfv': identifier not found
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(92,22): error C2065: 'GL_FRONT_AND_BACK': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(92,41): error C2065: 'GL_AMBIENT': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(92,53): error C2065: 'diffuse': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(92,9): error C3861: 'glMaterialfv': identifier not found
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(93,22): error C2065: 'GL_FRONT_AND_BACK': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(93,41): error C2065: 'GL_SPECULAR': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(93,54): error C2065: 'specular': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(93,9): error C3861: 'glMaterialfv': identifier not found
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(94,22): error C2065: 'GL_FRONT_AND_BACK': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(94,41): error C2065: 'GL_SHININESS': undeclared identifier
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\material.h(94,9): error C3861: 'glMaterialfv': identifier not found
 E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\group.h(19,16): warning C4018: '<': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(108,23): error C2039: 'glPlaceCamera': is not a member of 'Camera'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(8): message : see declaration of 'Camera'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(122,25): error C2039: 'glInit': is not a member of 'Light'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\light.h(10): message : see declaration of 'Light'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(130,22): error C2039: 'paint': is not a member of 'Group'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\group.h(9): message : see declaration of 'Group'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(172,23): error C2039: 'glInit': is not a member of 'Camera'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(8): message : see declaration of 'Camera'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(198,25): error C2039: 'rotateCamera': is not a member of 'Camera'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(8): message : see declaration of 'Camera'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(205,25): error C2039: 'truckCamera': is not a member of 'Camera'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(8): message : see declaration of 'Camera'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(212,25): error C2039: 'dollyCamera': is not a member of 'Camera'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(8): message : see declaration of 'Camera'
+  light.cpp
   main.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(35,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(35,82): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(103,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(103,99): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\group.h(19,16): warning C4018: '<': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\main.cpp(53,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\main.cpp(56,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  matrix.cpp
   scene_parser.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(35,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(35,82): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(103,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(103,99): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\group.h(19,16): warning C4018: '<': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\scene_parser.cpp(137,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\scene_parser.cpp(460,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\scene_parser.cpp(463,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\scene_parser.cpp(466,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\scene_parser.cpp(472,54): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   Generating Code...

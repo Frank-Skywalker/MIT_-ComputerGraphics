@@ -1,4 +1,5 @@
-#include <GL/gl.h>
+#include <gl/glew.h>
+#include <gl/GL.h>
 
 #include "light.h"
 

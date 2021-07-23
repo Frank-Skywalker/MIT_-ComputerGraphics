@@ -4,7 +4,9 @@
 #include "vectors.h"
 // include glCanvas.h to access the preprocessor variable SPECULAR_FIX
 #include "glCanvas.h"
-
+#include "hit.h"
+#include "vectors.h"
+#include "ray.h"
 
 #ifdef SPECULAR_FIX
 // OPTIONAL: global variable allows (hacky) communication
@@ -47,7 +49,7 @@ public:
         {
             cosBeta = 0;
         }
-        //no r^2 and ks
+        //ignore r^2 and ks
         Vec3f specularComponent=powf(cosBeta, exponent)* lightColor*specularColor;
 
         float cosTheta = normal.Dot3(dirToLight);
