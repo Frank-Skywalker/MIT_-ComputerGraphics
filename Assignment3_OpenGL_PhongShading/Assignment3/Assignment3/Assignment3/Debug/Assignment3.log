@@ -1,0 +1,40 @@
+﻿  glCanvas.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(35,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(35,82): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(103,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(103,99): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\group.h(19,16): warning C4018: '<': signed/unsigned mismatch
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(108,23): error C2039: 'glPlaceCamera': is not a member of 'Camera'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(8): message : see declaration of 'Camera'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(122,25): error C2039: 'glInit': is not a member of 'Light'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\light.h(10): message : see declaration of 'Light'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(130,22): error C2039: 'paint': is not a member of 'Group'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\group.h(9): message : see declaration of 'Group'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(172,23): error C2039: 'glInit': is not a member of 'Camera'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(8): message : see declaration of 'Camera'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(198,25): error C2039: 'rotateCamera': is not a member of 'Camera'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(8): message : see declaration of 'Camera'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(205,25): error C2039: 'truckCamera': is not a member of 'Camera'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(8): message : see declaration of 'Camera'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\glCanvas.cpp(212,25): error C2039: 'dollyCamera': is not a member of 'Camera'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(8): message : see declaration of 'Camera'
+  main.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(35,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(35,82): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(103,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(103,99): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\group.h(19,16): warning C4018: '<': signed/unsigned mismatch
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\main.cpp(53,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\main.cpp(56,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  scene_parser.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(35,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(35,82): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(103,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\camera.h(103,99): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\group.h(19,16): warning C4018: '<': signed/unsigned mismatch
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\scene_parser.cpp(137,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\scene_parser.cpp(460,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\scene_parser.cpp(463,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\scene_parser.cpp(466,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment3_OpenGL_PhongShading\scene_parser.cpp(472,54): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
