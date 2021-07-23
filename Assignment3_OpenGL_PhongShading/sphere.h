@@ -82,8 +82,8 @@ public:
         float thetaStepLength=(float)2*M_PI/thetaSteps;
         float phiStepLength=(float)M_PI/phiSteps;
 
-        Vec3f nowVec(1,0,0);
         
+        getMaterial()->glSetMaterial();
         glBegin(GL_QUADS);
         for (float iPhi = 0; iPhi < M_PI; iPhi += phiStepLength)
         {
@@ -94,7 +94,16 @@ public:
                 points[1].Set(radius * sinf(iPhi) * cosf(iTheta + thetaStepLength), radius * sinf(iPhi) * sinf(iTheta + thetaStepLength), radius * cosf(iPhi));
                 points[2].Set(radius * sinf(iPhi + phiStepLength) * cosf(iTheta + thetaStepLength), radius * sinf(iPhi + phiStepLength) * sinf(iTheta + thetaStepLength), radius * cosf(iPhi + phiStepLength));
                 points[3].Set(radius * sinf(iPhi + phiStepLength) * cosf(iTheta), radius * sinf(iPhi + phiStepLength) * sinf(iTheta), radius * cosf(iPhi + phiStepLength));
+                
+                //points[0].Set(radius * cosf(iPhi) * cosf(iTheta), radius * cosf(iPhi) * sinf(iTheta), -radius * sinf(iPhi));
+                //points[1].Set(radius * cosf(iPhi) * cosf(iTheta + thetaStepLength), radius * cosf(iPhi) * sinf(iTheta + thetaStepLength), -radius * sinf(iPhi));
+                //points[2].Set(radius * cosf(iPhi + phiStepLength) * cosf(iTheta + thetaStepLength), radius * cosf(iPhi + phiStepLength) * sinf(iTheta + thetaStepLength), -radius * sinf(iPhi + phiStepLength));
+                //points[3].Set(radius * cosf(iPhi + phiStepLength) * cosf(iTheta), radius * cosf(iPhi + phiStepLength) * sinf(iTheta), -radius * sinf(iPhi + phiStepLength));
 
+                //cout << points[0]<<endl;
+                //cout << points[1] << endl;
+                //cout << points[2] << endl;
+                //cout << points[3] << endl;
                 //Gouraund interpolation
                 if (gouraudShading)
                 {
@@ -111,10 +120,21 @@ public:
                 //flat shading 
                 else 
                 {
-                    Vec3f line1 = points[1] - points[0];
-                    Vec3f line2 = points[2] - points[1];
+                    Vec3f line1;
+                    Vec3f line2;
+                    if (iPhi < M_PI / 2)
+                    {
+                        line1 = points[2] - points[1];
+                        line2 = points[3] - points[2];
+                    }
+                    else
+                    {
+                        line1 = points[1] - points[0];
+                        line2 = points[2] - points[1];
+                    }
+             
                     Vec3f flatNormal;
-                    Vec3f::Cross3(flatNormal, line1, line2);
+                    Vec3f::Cross3(flatNormal, line2, line1);
                     flatNormal.Normalize();
                     glNormal3f(flatNormal.x(), flatNormal.y(), flatNormal.z());
                     for (int i = 0; i < 4; i++)

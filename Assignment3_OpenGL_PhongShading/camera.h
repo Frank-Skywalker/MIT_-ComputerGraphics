@@ -111,12 +111,16 @@ public:
 		//Vec3f horizontal;
 		//Vec3f::Cross3(horizontal, direction, up);
 		//horizontal.Normalize();
-		Vec3f screenUp;
-		Vec3f::Cross3(screenUp, horizontal, direction);
-		center += horizontal * dx + screenUp * dy;
-		// ===========================================
-		// ASSIGNMENT 3: Fix any other affected values
-		// ===========================================
+		//Vec3f screenUp;
+		//Vec3f::Cross3(screenUp, horizontal, direction);
+		//center += horizontal * dx + screenUp * dy;
+		//// ===========================================
+		//// ASSIGNMENT 3: Fix any other affected values
+		//// ===========================================
+		//up.Normalize();
+		//up = screenUp;
+
+		center += horizontal * dx + up * dy;
 	}
 
 // ====================================================================
@@ -128,8 +132,26 @@ public:
 		//Vec3f::Cross3(horizontal, direction, up);
 		//horizontal.Normalize();
 
-		// Don't let the model flip upside-down (There is a singularity 
-		// at the poles when 'up' and 'direction' are aligned)
+		//// Don't let the model flip upside-down (There is a singularity 
+		//// at the poles when 'up' and 'direction' are aligned)
+		//float tiltAngle = acos(up.Dot3(direction));
+		//if (tiltAngle - ry > 3.13)
+		//	ry = tiltAngle - 3.13;
+		//else if (tiltAngle - ry < 0.01)
+		//	ry = tiltAngle - 0.01;
+		//Matrix rotMat = Matrix::MakeAxisRotation(up, rx);
+		//rotMat *= Matrix::MakeAxisRotation(horizontal, ry);
+		//rotMat.Transform(center);
+		//rotMat.TransformDirection(direction);
+
+		// ===========================================
+		// ASSIGNMENT 3: Fix any other affected values
+		// ===========================================
+		//direction.Normalize();
+
+
+
+
 		float tiltAngle = acos(up.Dot3(direction));
 		if (tiltAngle - ry > 3.13)
 			ry = tiltAngle - 3.13;
@@ -140,9 +162,7 @@ public:
 		rotMat.Transform(center);
 		rotMat.TransformDirection(direction);
 
-		// ===========================================
-		// ASSIGNMENT 3: Fix any other affected values
-		// ===========================================
+
 		this->direction.Normalize();
 		this->up = this->up - this->direction * this->up.Dot3(this->direction);
 		this->up.Normalize();
@@ -233,15 +253,22 @@ public:
 // ====================================================================
 	void truckCamera(float dx, float dy)
 	{
-		Vec3f horizontal;
-		Vec3f::Cross3(horizontal, direction, up);
-		horizontal.Normalize();
-		Vec3f screenUp;
-		Vec3f::Cross3(screenUp, horizontal, direction);
-		center += horizontal * dx + screenUp * dy;
+		//Vec3f horizontal;
+		//Vec3f::Cross3(horizontal, direction, up);
+		//horizontal.Normalize();
+		//Vec3f screenUp;
+		//Vec3f::Cross3(screenUp, horizontal, direction);
+		//center += horizontal * dx + screenUp * dy;
+
 		// ===========================================
 		// ASSIGNMENT 3: Fix any other affected values
 		// ===========================================
+		//screenUp.Normalize();
+		//up = screenUp;
+
+
+		center += horizontal * dx + up * dy;
+
 	}
 
 
@@ -250,11 +277,27 @@ public:
 // ====================================================================
 	void rotateCamera(float rx, float ry)
 	{
-		Vec3f horizontal;
-		Vec3f::Cross3(horizontal, direction, up);
-		horizontal.Normalize();
-		// Don't let the model flip upside-down (There is a singularity
-		// at the poles when 'up' and 'direction' are aligned)
+		//Vec3f horizontal;	
+		//Vec3f::Cross3(horizontal, direction, up);
+		//horizontal.Normalize();
+		//// Don't let the model flip upside-down (There is a singularity
+		//// at the poles when 'up' and 'direction' are aligned)
+		//float tiltAngle = acos(up.Dot3(direction));
+		//if (tiltAngle - ry > 3.13)
+		//	ry = tiltAngle - 3.13;
+		//else if (tiltAngle - ry < 0.01)
+		//	ry = tiltAngle - 0.01;
+		//Matrix rotMat = Matrix::MakeAxisRotation(up, rx);
+		//rotMat *= Matrix::MakeAxisRotation(horizontal, ry);
+		//rotMat.Transform(center);
+		//rotMat.TransformDirection(direction);
+		//direction.Normalize(); 
+		// ===========================================
+		// ASSIGNMENT 3: Fix any other affected values
+		// ===========================================
+	
+
+
 		float tiltAngle = acos(up.Dot3(direction));
 		if (tiltAngle - ry > 3.13)
 			ry = tiltAngle - 3.13;
@@ -264,10 +307,6 @@ public:
 		rotMat *= Matrix::MakeAxisRotation(horizontal, ry);
 		rotMat.Transform(center);
 		rotMat.TransformDirection(direction);
-		//direction.Normalize(); 
-		// ===========================================
-		// ASSIGNMENT 3: Fix any other affected values
-		// ===========================================
 		this->direction.Normalize();
 		this->up = this->up - this->direction * this->up.Dot3(this->direction);
 		this->up.Normalize();

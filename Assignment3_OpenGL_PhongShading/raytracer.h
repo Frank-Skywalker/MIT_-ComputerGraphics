@@ -176,7 +176,7 @@ public:
     }
 
 
-    void PhongShader(char* outputFile, bool shadeBack)
+    void phongShader(char* outputFile, bool shadeBack)
     {
         Image outputImage(width, height);
         for (int i = 0; i < width * height; i++)

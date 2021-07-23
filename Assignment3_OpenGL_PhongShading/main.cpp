@@ -27,7 +27,7 @@ void shade(void)
 	raytracer->doRaytrace();
 	if (output_file != NULL)
 	{
-		raytracer->diffuseShader(output_file, shade_back);
+		raytracer->phongShader(output_file, shade_back);
 	}
 
 	if (depth_file != NULL)
@@ -44,8 +44,6 @@ void shade(void)
 int main(int argc, char* argv[])
 {
 	// ======================================================== // ======================================================== // Some sample code you might like to use for parsing // command line arguments
-
-
 
 	// sample command line: // raytracer -input scene1_1.txt -size 200 200 -output output1_1.tga -depth 9 10 depth1_1.tga
 
@@ -125,6 +123,8 @@ int main(int argc, char* argv[])
 	raytracer = new Raytracer(input_file, width, height, depth_min, depth_max);
 	if (previsualize)
 	{
+		//glewInit();
+		//glutInit(&argc, argv);
 		GLCanvas glCanvas;
 		glCanvas.initialize(raytracer->getScene(), shade);
 	}

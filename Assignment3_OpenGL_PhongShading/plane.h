@@ -68,7 +68,7 @@ public:
 		points[2] = o - basis1 * LENGTH;
 		points[3] = o - basis2 * LENGTH;
 
-
+		getMaterial()->glSetMaterial();
 		glBegin(GL_QUADS);
 		glNormal3f(normal.x(), normal.y(), normal.z());
 		glVertex3f(points[0].x(), points[0].y(), points[0].z());

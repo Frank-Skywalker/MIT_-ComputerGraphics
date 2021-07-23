@@ -49,6 +49,7 @@ public:
 
 	virtual void paint(void)
 	{
+		getMaterial()->glSetMaterial();
 		glBegin(GL_TRIANGLES);
 		glNormal3f(normal.x(), normal.y(), normal.z());
 		glVertex3f(a.x(), a.y(), a.z());

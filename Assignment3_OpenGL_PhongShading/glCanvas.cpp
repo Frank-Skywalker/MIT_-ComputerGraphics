@@ -5,10 +5,7 @@
 #include "group.h"
 
 // Included files for OpenGL Rendering
-#include <gl/glew.h>
-#include <gl/GL.h>
-#include<gl/GLU.h>
-#include <gl/glut.h>
+
 
 
 // ========================================================
@@ -252,7 +249,7 @@ void GLCanvas::initialize(SceneParser *_scene, void (*_renderFunction)(void)) {
   // Set global lighting parameters
   glEnable(GL_LIGHTING);
   glShadeModel(GL_SMOOTH);
-  glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+  //glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 
   // Set window parameters
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGB);
