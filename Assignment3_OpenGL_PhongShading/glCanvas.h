@@ -10,7 +10,6 @@
 
 #ifndef _GL_CANVAS_H_
 #define _GL_CANVAS_H_
-
 #include <stdlib.h>
 
 #include <gl/glew.h>
@@ -26,7 +25,7 @@ class SceneParser;
 
 //   0: don't fix   
 //   1: do fix
-#define SPECULAR_FIX 0 
+#define SPECULAR_FIX 0
 
 // ====================================================================
 

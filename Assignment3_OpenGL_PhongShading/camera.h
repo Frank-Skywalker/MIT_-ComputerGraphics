@@ -266,7 +266,6 @@ public:
 		//screenUp.Normalize();
 		//up = screenUp;
 
-
 		center += horizontal * dx + up * dy;
 
 	}

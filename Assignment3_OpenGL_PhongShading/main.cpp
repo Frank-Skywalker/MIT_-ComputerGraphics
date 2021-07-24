@@ -2,7 +2,6 @@
 #include<assert.h>
 #include "raytracer.h"
 #include"glCanvas.h"
-
 using namespace std;
 
 

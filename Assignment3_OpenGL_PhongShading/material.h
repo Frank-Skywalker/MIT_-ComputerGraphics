@@ -11,6 +11,7 @@
 #ifdef SPECULAR_FIX
 // OPTIONAL: global variable allows (hacky) communication
 // with glCanvas::display extern int SPECULAR_FIX_WHICH_PASS;
+extern int SPECULAR_FIX_WHICH_PASS;
 #endif
 
 class Material {
@@ -45,12 +46,33 @@ public:
         Vec3f h = dirToView + dirToLight;
         h.Normalize();
         float cosBeta = normal.Dot3(h);
-        if (cosBeta < 0)
+//#if !SPECULAR_FIX
+        if (normal.Dot3(dirToLight)< 0)
         {
             cosBeta = 0;
         }
         //ignore r^2 and ks
         Vec3f specularComponent=powf(cosBeta, exponent)* lightColor*specularColor;
+//#else
+        /*
+        In the examples below we illustrate an artifact that occurs at grazing angles
+        for wide specular lobes (small exponents).
+        To solve this problem, the specular component can be multiplied by the dot
+        product of the normal and direction to the light instead of simply clamping
+        it to zero when this dot product is negative.
+
+        */
+//        Vec3f specularComponent;
+//        if (normal.Dot3(dirToLight) < 0)
+//        {
+//            specularComponent = powf(cosBeta, exponent) * lightColor * specularColor * normal.Dot3(dirToLight);
+//        }
+//        else
+//        {
+//            specularComponent = powf(cosBeta, exponent) * lightColor * specularColor;
+//        }
+//        //ignore r^2 and ks
+//#endif
 
         float cosTheta = normal.Dot3(dirToLight);
         if (cosTheta < 0)
@@ -62,6 +84,8 @@ public:
         //no ambientComponent
 
         return specularComponent + diffuseComponent;
+
+
 	}
 
     Vec3f getSpecularColor() const { return specularColor; }
