@@ -31,7 +31,17 @@ void shade(void)
 	if (output_file != NULL)
 	{
 		raytracer->raytraceShader(output_file);
+		//cout << "here" << endl;
 	}
+}
+
+void trace(float x,float y)
+{
+	Vec2f point(x, y);
+	Ray ray=raytracer->getScene()->getCamera()->generateRay(point);
+	Hit hit;
+	raytracer->traceRay(ray, raytracer->getScene()->getCamera()->getTMin(), maxBounces, 1, 1, hit);
+	RayTree::SetMainSegment(ray, 0, hit.getT());
 }
 
 int main(int argc, char* argv[])
@@ -140,7 +150,7 @@ int main(int argc, char* argv[])
 		//glewInit();
 		//glutInit(&argc, argv);
 		GLCanvas glCanvas;
-		glCanvas.initialize(raytracer->getScene(), shade);
+		glCanvas.initialize(raytracer->getScene(), shade, trace);
 	}
 	else
 	{

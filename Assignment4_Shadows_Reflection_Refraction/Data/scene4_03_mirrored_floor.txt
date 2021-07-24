@@ -45,7 +45,7 @@ Scale  0.25 1.0 0.25
 YRotate  45 
     Translate  0 1 0 
     TriangleMesh {
-           obj_file cube.obj
+           obj_file .\Data\cube.obj
 }
 }
 
@@ -55,7 +55,7 @@ Transform {
 Scale  1.6 0.3 0.1 
     Translate  0 1 0 
     TriangleMesh {
-           obj_file cube.obj
+           obj_file .\Data\cube.obj
 }
 }
 
@@ -66,7 +66,7 @@ Scale  0.25 1.0 0.25
 YRotate  45 
     Translate  0 1 0 
     TriangleMesh {
-           obj_file cube.obj
+           obj_file .\Data\cube.obj
 }
 }
 }
