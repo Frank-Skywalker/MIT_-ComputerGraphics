@@ -2,7 +2,10 @@
 #define _RAY_TREE_H
 
 #include "ray.h"
-#include <GL/gl.h>
+#include <gl/glew.h>
+#include <gl/GL.h>
+#include<gl/GLU.h>
+#include <gl/glut.h>
 
 // ====================================================================
 // ====================================================================

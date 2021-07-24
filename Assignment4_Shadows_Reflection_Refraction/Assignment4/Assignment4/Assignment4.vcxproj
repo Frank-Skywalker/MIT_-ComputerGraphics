@@ -86,7 +86,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -152,7 +152,6 @@
     <ClInclude Include="..\..\ray.h" />
     <ClInclude Include="..\..\raytracer.h" />
     <ClInclude Include="..\..\rayTree.h" />
-    <ClInclude Include="..\..\rtracer.h" />
     <ClInclude Include="..\..\scene_parser.h" />
     <ClInclude Include="..\..\sphere.h" />
     <ClInclude Include="..\..\transform.h" />
@@ -160,7 +159,6 @@
     <ClInclude Include="..\..\vectors.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\camera_additions.cpp" />
     <ClCompile Include="..\..\glCanvas.cpp" />
     <ClCompile Include="..\..\image.cpp" />
     <ClCompile Include="..\..\light.cpp" />

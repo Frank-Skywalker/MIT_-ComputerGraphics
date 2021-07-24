@@ -15,64 +15,48 @@
 
 class SceneParser;
 
-class Raytracer
+class RayTracer
 {
 public:
-    Raytracer()
+    RayTracer()
     {
         assert(0);
     }
 
-    Raytracer(char *input_file, int width, int height,float depth_min,float depth_max) : input_file(input_file), width(width), height(height),depth_min(depth_min),depth_max(depth_max)
+    RayTracer(char *input_file, int width, int height,float depth_min,float depth_max) : input_file(input_file), width(width), height(height),depth_min(depth_min),depth_max(depth_max)
     {
         scene = new SceneParser(input_file);
         hits= new Hit[width * height];
         rays = new Ray[width * height];
+        assert(scene != NULL);
+        ambientLight = scene->getAmbientLight();
+    }
 
+    //Assignment4
+    RayTracer(char* input_file, int width, int height, int max_bounces, float cutoff_weight, bool shadows, bool shadeback) : 
+        input_file(input_file), width(width), height(height), maxBounces(max_bounces), cutoffWeight(cutoff_weight), shadeShadows(shadows),shadeBack(shadeback)
+    {
+        scene = new SceneParser(input_file);
+        hits = new Hit[width * height];
+        rays = new Ray[width * height];
+        assert(scene != NULL);
+        ambientLight = scene->getAmbientLight();
     }
 
     //RayTracer(SceneParser* s, int max_bounces, float cutoff_weight, bool shadows, ...);
 
 
-
-
-    void doRaytrace(void)
-    {
-        //Material mat(Vec3f(1, 0, 0));
-        for (int i = 0; i < width * height; i++)
-        {
-            //cout << "i=" << i << endl;
-
-            //cout << "hits[i]" << hits[i].getT() << " " << hits[i].getMaterial() << " " << hits[i].getIntersectionPoint() << endl;
-            //cout << "hits[i]" << hits[i].getT() << " " << hits[i].getMaterial() << " " << hits[i].getIntersectionPoint() << endl;
-            //cout << "hits[i]" << hits[i].getMaterial()->getDiffuseColor()<<endl;
-            if (!scene->getGroup()->intersect(GenerateRayAtIndex(i), hits[i], scene->getCamera()->getTMin()))
-            {
-                //hits[i].setBackgroundMaterial(scene->getBackgroundMaterial());
-            }
-            //cout << "hits[i].Normal: " << hits[i].getNormal() << endl;
-            //cout << "hits[i].T: " << hits[i].getT() << endl;
-
-        }
-
-
-
-      
-
-    }
-
-
-    ~Raytracer()
+    ~RayTracer()
     {
         delete scene;
         delete[] hits;
     }
 
 
-
-
+    
     void colorShader(char* outputFile)
     {
+        doRayCasting();
         Image outputImage(width, height);
         for (int i = 0; i < width * height; i++)
         {
@@ -85,6 +69,7 @@ public:
 
     void depthShader(char* outputFile)
     {
+        doRayCasting();
         Image outputImage(width, height);
         for (int i = 0; i < width * height; i++)
         {
@@ -103,6 +88,7 @@ public:
 
     void normalShader(char* outputFile)
     {
+        doRayCasting();
         Image outputImage(width, height);
         for (int i = 0; i < width * height; i++)
         {
@@ -136,6 +122,7 @@ public:
 */
     void diffuseShader(char* outputFile,bool shadeBack)
     {
+        doRayCasting();
         Image outputImage(width, height);
         for (int i = 0; i < width * height; i++)
         {
@@ -181,8 +168,9 @@ public:
     }
 
 
-    void phongShader(char* outputFile, bool shadeBack)
+    void phongShader(char* outputFile)
     {
+        doRayCasting();
         Image outputImage(width, height);
         for (int i = 0; i < width * height; i++)
         {
@@ -229,6 +217,21 @@ public:
     }
 
 
+    //Assignment4
+    void raytraceShader(char* outputFile)
+    {
+        Image outputImage(width, height);
+        for (int i = 0; i < width * height; i++)
+        {
+            int x = i % width;
+            int y = i / width;
+            Hit hit;
+            Ray ray = generateRayAtIndex(i);
+            outputImage.SetPixel(x, y, traceRay(ray, scene->getCamera()->getTMin(), maxBounces, 1, 1, hit));
+        }
+        outputImage.SaveTGA(outputFile);
+    }
+
 
 
 private:
@@ -242,13 +245,17 @@ private:
     float depth_max;
     //GLCanvas *glCanvas;
 
-
+    //Assignment4
     int maxBounces;
     float cutoffWeight;
-    bool traceShadow;
+    bool shadeShadows;
+    bool shadeBack;
+    Vec3f ambientLight;
+
+    
 
 
-    Ray GenerateRayAtIndex(int index)
+    Ray generateRayAtIndex(int index)
     {
         int xindex=index%width;
         int yindex = index / width;
@@ -261,11 +268,79 @@ private:
     }
 
 
+    void doRayCasting(void)
+    {
+        for (int i = 0; i < width * height; i++)
+        {
+            scene->getGroup()->intersect(generateRayAtIndex(i), hits[i], scene->getCamera()->getTMin());
+        }
+    }
+
+
+    //Assignment4
+    Vec3f mirrorDirection(const Vec3f& normal, const Vec3f& incoming)
+    {
+        Vec3f mirror = incoming - 2 * normal.Dot3(incoming) * normal;
+        mirror.Normalize();
+        return mirror;
+    }
+
+
+    bool transmittedDirection(const Vec3f& normal, const Vec3f& incoming,
+        float index_i, float index_t, Vec3f& transmitted)
+    {
+        Vec3f inverseIncoming = incoming;
+        inverseIncoming.Negate();
+        float yitaR = index_i / index_t;
+        transmitted = (yitaR * normal.Dot3(inverseIncoming) - sqrtf(1 - powf(yitaR, 2) * (1 - powf(normal.Dot3(inverseIncoming), 2)))) * normal - yitaR * inverseIncoming;
+        transmitted.Normalize();
+        return true;
+    }
+   
     Vec3f traceRay(Ray& ray, float tmin, int bounces, float weight,
         float indexOfRefraction, Hit& hit) const
     {
+        if (bounces > maxBounces || weight < cutoffWeight)
+        {
+            return Vec3f(0, 0, 0);
+        }
 
+        scene->getGroup()->intersect(ray, hit, tmin);
+        //no intersection
+        if (hit.getT() == INFINITY)
+        {
+            return weight * scene->getBackgroundColor();
+        }
+
+        Vec3f normal = hit.getNormal();
+        //shade back and ray inside object
+        if (shadeBack && ray.getDirection().Dot3(normal) > 0)
+        {
+            normal.Negate();
+        }
+
+        //no shade back and ray inside object
+        if (!shadeBack && ray.getDirection().Dot3(normal) > 0)
+        {
+            return Vec3f(0, 0, 0);
+        }
+
+        Vec3f objectColor = hit.getMaterial()->getDiffuseColor();
+        Vec3f ambientColor = ambientLight * objectColor;
+        Vec3f diffuseSpecularColor(0, 0, 0);
+        for (int j = 0; j < scene->getNumLights(); j++)
+        {
+            Vec3f dirToLight;
+            Vec3f lightColor;
+            float distanceToLight;
+            scene->getLight(j)->getIllumination(hit.getIntersectionPoint(), dirToLight, lightColor, distanceToLight);
+            diffuseSpecularColor += hit.getMaterial()->Shade(hit.getRay(), hit, dirToLight, lightColor);
+        }
+
+        Vec3f pixelColor = diffuseSpecularColor + ambientColor;
+        return weight * pixelColor;
     }
+   
 
 };
 

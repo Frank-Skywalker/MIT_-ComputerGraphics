@@ -66,17 +66,11 @@
     <ClInclude Include="..\..\vectors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\rtracer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\rayTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\camera_additions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\glCanvas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

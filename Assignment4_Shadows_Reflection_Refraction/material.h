@@ -38,15 +38,16 @@ class PhongMaterial : public Material {
 public:
 
 
-
-    PhongMaterial(const Vec3f& diffuseColor,
-        const Vec3f& specularColor,
-        float exponent,
-        const Vec3f& reflectiveColor,
-        const Vec3f& transparentColor,
-        float indexOfRefraction):Material(diffuseColor), specularColor(specularColor), exponent(exponent),
-        reflectiveColor(reflectiveColor),transparentColor(transparentColor),indexOfRefraction(indexOfRefraction)
+    PhongMaterial(const Vec3f& diffuseColor, const Vec3f& specularColor, float exponent) :Material(diffuseColor), specularColor(specularColor), exponent(exponent)
     {}
+    //PhongMaterial(const Vec3f& diffuseColor,
+    //    const Vec3f& specularColor,
+    //    float exponent,
+    //    const Vec3f& reflectiveColor,
+    //    const Vec3f& transparentColor,
+    //    float indexOfRefraction):Material(diffuseColor), specularColor(specularColor), exponent(exponent),
+    //    reflectiveColor(reflectiveColor),transparentColor(transparentColor),indexOfRefraction(indexOfRefraction)
+    //{}
 
     Vec3f getSpecularColor() const { return specularColor; }
     Vec3f getReflectiveColor() const { return reflectiveColor; }

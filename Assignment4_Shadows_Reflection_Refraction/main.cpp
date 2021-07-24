@@ -5,7 +5,7 @@
 using namespace std;
 
 
-Raytracer *raytracer=NULL;
+RayTracer* raytracer;
 char* input_file = NULL;
 int width = 100;
 int height = 100;
@@ -21,27 +21,16 @@ int thetaSteps;
 int phiSteps;
 
 //Assignment4
-bool traceShadows=false;
+bool shadeShadows=false;
 int maxBounces;
-float weight;
+float cutoffWeight;
 
 void shade(void)
 {
 	assert(raytracer != NULL);
-	raytracer->doRaytrace();
 	if (output_file != NULL)
 	{
-		raytracer->phongShader(output_file, shade_back);
-	}
-
-	if (depth_file != NULL)
-	{
-		raytracer->depthShader(depth_file);
-	}
-
-	if (normal_file != NULL)
-	{
-		raytracer->normalShader(normal_file);
+		raytracer->raytraceShader(output_file);
 	}
 }
 
@@ -118,7 +107,7 @@ int main(int argc, char* argv[])
 		//Assignment4
 		else if (!strcmp(argv[i], "-shadows"))
 		{
-			traceShadows = true;
+			shadeShadows = true;
 		}
 		else if (!strcmp(argv[i], "-bounces"))
 		{
@@ -130,7 +119,7 @@ int main(int argc, char* argv[])
 		{
 			i++;
 			assert(i < argc);
-			weight = atof(argv[i]);
+			cutoffWeight = atof(argv[i]);
 		}
 		else
 		{
@@ -139,9 +128,13 @@ int main(int argc, char* argv[])
 		}
 	}
 
+
+
+
+
 	// ======================================================== // ========================================================
+	raytracer = new RayTracer(input_file, width, height, maxBounces, cutoffWeight, shadeShadows, shade_back);
 	//previsualize this scene with OpenGL
-	raytracer = new Raytracer(input_file, width, height, depth_min, depth_max);
 	if (previsualize)
 	{
 		//glewInit();
