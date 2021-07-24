@@ -38,6 +38,21 @@ public:
 		return false;
 	}
 
+	virtual bool intersectShadowRay(const Ray& r, float tmin)
+	{
+		if (normal.Dot3(r.getDirection()) == 0)
+		{
+			return false;
+		}
+
+		float t = (d - normal.Dot3(r.getOrigin())) / normal.Dot3(r.getDirection());
+		if (t > tmin)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	void paint(void)
 	{
 		//origin projection on the plane

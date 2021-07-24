@@ -73,6 +73,38 @@ public:
         return false;
     }
 
+
+
+    virtual bool intersectShadowRay(const Ray& r, float tmin)
+    {
+        //cout << "Sphere center: " << this->center << endl;
+        Ray raySphereSpace(r.getOrigin() - center, r.getDirection());
+        float disRayOrigin = raySphereSpace.getOrigin().Length();
+
+        float a = raySphereSpace.getDirection().Dot3(raySphereSpace.getDirection());
+        float b = 2 * raySphereSpace.getDirection().Dot3(raySphereSpace.getOrigin());
+        float c = raySphereSpace.getOrigin().Dot3(raySphereSpace.getOrigin()) - radius * radius;
+        float delta = b * b - 4 * a * c;
+        if (delta < 0)
+        {
+            return false;
+        }
+        delta = sqrtf(delta);
+        float t1 = (-b - delta) / (2 * a);
+        float t2 = (-b + delta) / (2 * a);
+        Vec3f p1 = r.pointAtParameter(t1);
+        Vec3f p2 = r.pointAtParameter(t2);
+        Vec3f n1 = p1 - center;
+        Vec3f n2 = p2 - center;
+        n1.Normalize();
+        n2.Normalize();
+        if (t1 > tmin|| t2 > tmin)
+        {
+            return true;
+        }
+        return false;
+    }
+
     void paint(void)
     {
         extern int thetaSteps;

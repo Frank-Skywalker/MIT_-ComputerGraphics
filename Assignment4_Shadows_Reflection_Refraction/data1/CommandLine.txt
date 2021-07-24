@@ -23,7 +23,7 @@ and with the OPTIONAL specular fix:
 .\Assignment3\Debug\Assignment3.exe -input .\data\scene3_10_exponent_variations_back.txt -size 300 300 -output .\data\output3_10.tga -gui -tessellation 100 50 -gouraud 
 and with the OPTIONAL specular fix:
 
-.\Assignment3\Debug\Assignment3.exe -input .\data\scene3_11_weird_lighting_diffuse.txt -size 200 200 -output .\data\output3_11.tga -gui -tessellation 100 50 -gouraud
+.\Assignment4\Debug\Assignment4.exe -input .\data1\scene3_11_weird_lighting_diffuse.txt -size 200 200 -output .\data1\output3_11.tga -gui -tessellation 100 50 -gouraud
 
 .\Assignment3\Debug\Assignment3.exe -input .\data\scene3_12_weird_lighting_specular.txt -size 200 200 -output .\data\output3_12.tga -gui -tessellation 100 50 -gouraud
 and with the OPTIONAL specular fix:

@@ -47,6 +47,35 @@ public:
 		return false;
 	}
 
+
+	virtual bool intersectShadowRay(const Ray& r, float tmin)
+	{
+		Vec3f Ro = r.getOrigin();
+		Vec3f Rd = r.getDirection();
+		float detA = Matrix::det3x3(a.x() - b.x(), a.x() - c.x(), Rd.x(),
+			a.y() - b.y(), a.y() - c.y(), Rd.y(),
+			a.z() - b.z(), a.z() - c.z(), Rd.z());
+		float detBeta = Matrix::det3x3(a.x() - Ro.x(), a.x() - c.x(), Rd.x(),
+			a.y() - Ro.y(), a.y() - c.y(), Rd.y(),
+			a.z() - Ro.z(), a.z() - c.z(), Rd.z());
+		float detGamma = Matrix::det3x3(a.x() - b.x(), a.x() - Ro.x(), Rd.x(),
+			a.y() - b.y(), a.y() - Ro.y(), Rd.y(),
+			a.z() - b.z(), a.z() - Ro.z(), Rd.z());
+
+		float detT = Matrix::det3x3(a.x() - b.x(), a.x() - c.x(), a.x() - Ro.x(),
+			a.y() - b.y(), a.y() - c.y(), a.y() - Ro.y(),
+			a.z() - b.z(), a.z() - c.z(), a.z() - Ro.z());
+
+		float beta = detBeta / detA;
+		float gamma = detGamma / detA;
+		float t = detT / detA;
+		if (t > tmin && beta > 0 && gamma > 0 && beta + gamma < 1)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	virtual void paint(void)
 	{
 		getMaterial()->glSetMaterial();

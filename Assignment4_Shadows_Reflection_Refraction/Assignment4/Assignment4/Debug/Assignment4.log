@@ -1,7 +1,13 @@
-﻿  rayTree.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment4_Shadows_Reflection_Refraction\rayTree.cpp(16,7): warning C4101: 'i': unreferenced local variable
-E:\Codes\CG\MIT_ComputerGraphics\Assignment4_Shadows_Reflection_Refraction\rayTree.cpp(29,7): warning C4101: 'i': unreferenced local variable
+﻿  glCanvas.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment4_Shadows_Reflection_Refraction\group.h(19,16): warning C4018: '<': signed/unsigned mismatch
+  light.cpp
+  main.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment4_Shadows_Reflection_Refraction\group.h(19,16): warning C4018: '<': signed/unsigned mismatch
   scene_parser.cpp
 E:\Codes\CG\MIT_ComputerGraphics\Assignment4_Shadows_Reflection_Refraction\group.h(19,16): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
-  Assignment4.vcxproj -> E:\Codes\CG\MIT_ComputerGraphics\Assignment4_Shadows_Reflection_Refraction\Assignment4\Debug\Assignment4.exe
+scene_parser.obj : error LNK2001: unresolved external symbol "public: virtual class Vec3f __thiscall Material::getSpecularColor(void)const " (?getSpecularColor@Material@@UBE?AVVec3f@@XZ)
+scene_parser.obj : error LNK2001: unresolved external symbol "public: virtual class Vec3f __thiscall Material::getReflectiveColor(void)const " (?getReflectiveColor@Material@@UBE?AVVec3f@@XZ)
+scene_parser.obj : error LNK2001: unresolved external symbol "public: virtual class Vec3f __thiscall Material::getTransparentColor(void)const " (?getTransparentColor@Material@@UBE?AVVec3f@@XZ)
+scene_parser.obj : error LNK2001: unresolved external symbol "public: virtual float __thiscall Material::getIndexOfRefraction(void)const " (?getIndexOfRefraction@Material@@UBEMXZ)
+E:\Codes\CG\MIT_ComputerGraphics\Assignment4_Shadows_Reflection_Refraction\Assignment4\Debug\Assignment4.exe : fatal error LNK1120: 4 unresolved externals

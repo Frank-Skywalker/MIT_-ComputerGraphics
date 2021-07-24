@@ -13,6 +13,8 @@
 #include "material.h"
 #include "glCanvas.h"
 
+#define EPSILON 0.1
+
 class SceneParser;
 
 class RayTracer
@@ -227,7 +229,7 @@ public:
             int y = i / width;
             Hit hit;
             Ray ray = generateRayAtIndex(i);
-            outputImage.SetPixel(x, y, traceRay(ray, scene->getCamera()->getTMin(), maxBounces, 1, 1, hit));
+            outputImage.SetPixel(x, y, traceRay(ray, scene->getCamera()->getTMin(), 0, 1, 1, hit));
         }
         outputImage.SaveTGA(outputFile);
     }
@@ -278,7 +280,7 @@ private:
 
 
     //Assignment4
-    Vec3f mirrorDirection(const Vec3f& normal, const Vec3f& incoming)
+    Vec3f mirrorDirection(const Vec3f& normal, const Vec3f& incoming) const
     {
         Vec3f mirror = incoming - 2 * normal.Dot3(incoming) * normal;
         mirror.Normalize();
@@ -287,7 +289,7 @@ private:
 
 
     bool transmittedDirection(const Vec3f& normal, const Vec3f& incoming,
-        float index_i, float index_t, Vec3f& transmitted)
+        float index_i, float index_t, Vec3f& transmitted) const
     {
         Vec3f inverseIncoming = incoming;
         inverseIncoming.Negate();
@@ -334,11 +336,43 @@ private:
             Vec3f lightColor;
             float distanceToLight;
             scene->getLight(j)->getIllumination(hit.getIntersectionPoint(), dirToLight, lightColor, distanceToLight);
-            diffuseSpecularColor += hit.getMaterial()->Shade(hit.getRay(), hit, dirToLight, lightColor);
+            if(!shadeShadows)
+            {
+                diffuseSpecularColor += hit.getMaterial()->Shade(hit.getRay(), hit, dirToLight, lightColor);
+                continue;
+            }
+
+            //shade shadows
+            Ray shadowRay(hit.getIntersectionPoint(), dirToLight);
+            if (!scene->getGroup()->intersectShadowRay(shadowRay, EPSILON))
+            {
+                diffuseSpecularColor += hit.getMaterial()->Shade(hit.getRay(), hit, dirToLight, lightColor);
+            }
+            
         }
 
-        Vec3f pixelColor = diffuseSpecularColor + ambientColor;
-        return weight * pixelColor;
+        //deal with reflection color
+        Vec3f reflectColor= hit.getMaterial()->getReflectiveColor();
+        if (reflectColor != Vec3f(0, 0, 0))
+        {
+            Ray reflectRay(hit.getIntersectionPoint(),mirrorDirection(normal,ray.getDirection()));
+            Hit reflectHit;
+            reflectColor+=traceRay(reflectRay, EPSILON, bounces + 1, weight - 0.1, indexOfRefraction,reflectHit);
+        }
+
+        //deal with refraction color
+        Vec3f refractColor = hit.getMaterial()->getTransparentColor();
+        if (refractColor != Vec3f(0, 0, 0))
+        {
+            Vec3f refractDirection;
+            transmittedDirection(normal, ray.getDirection(), indexOfRefraction, hit.getMaterial()->getIndexOfRefraction(), refractDirection);
+            Ray refractRay(hit.getIntersectionPoint(), refractDirection);
+            Hit refractHit;
+            refractColor += traceRay(refractRay, EPSILON, bounces + 1, weight - 0.1, hit.getMaterial()->getIndexOfRefraction(), refractHit);
+        }
+
+        Vec3f resultColor = refractColor+ reflectColor+ diffuseSpecularColor + ambientColor;
+        return weight * resultColor;
     }
    
 

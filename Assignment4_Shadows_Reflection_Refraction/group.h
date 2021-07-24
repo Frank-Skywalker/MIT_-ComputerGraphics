@@ -35,17 +35,6 @@ public:
 		//cout << "ray: " << r.getDirection() << endl;
 		for (auto it = objects.begin(); it != objects.end(); it++)
 		{
-			//cout << "round: " <<i<< endl;
-			//cout << "sphere material: " << (*it)->getMaterial() << endl;
-			//cout << "h.t: " << h.getT() << endl;
-			//cout << "sphere material:" << (*it)->getMaterial() << endl;
-			//if ((*it)->intersect(r, h, tmin))
-			//{
-			//	//cout << "intersect!" << endl;
-			//	//flag = true;
-			//}
-			//i++;
-			//
 			flag|=(*it)->intersect(r, h, tmin);
 		}
 		//cout << "h.t: " << h.getT() << endl;
@@ -53,6 +42,22 @@ public:
 		return flag;
 		
 	}
+
+
+	virtual bool intersectShadowRay(const Ray& r, float tmin)
+	{
+		for (auto it = objects.begin(); it != objects.end(); it++)
+		{
+			if ((*it)->intersectShadowRay(r, tmin))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+
 
 	virtual void paint(void)
 	{

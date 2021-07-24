@@ -49,6 +49,33 @@ public:
 		return true;
 	}
 
+	virtual bool intersectShadowRay(const Ray& r, float tmin)
+	{
+		//cout << "here" << endl;
+		//transform ray from world space to object space
+		Matrix inverseTransform = transform;
+		assert(inverseTransform.Inverse());
+		Vec3f rayOriginOS = r.getOrigin();
+		Vec3f rayDirectionOS = r.getDirection();
+
+		inverseTransform.Transform(rayOriginOS);
+		inverseTransform.TransformDirection(rayDirectionOS);
+
+		float ratio = rayDirectionOS.Length();
+
+		//store the transform ratio
+		//float ratio = r.getDirection().x() / rayDirectionOS.x();
+		rayDirectionOS.Normalize();
+		Ray rayOS(rayOriginOS, rayDirectionOS);
+
+		//do intersect in object space
+		if (object->intersectShadowRay(rayOS, tmin * ratio))
+		{
+			return true;
+		}
+		return false;
+	}
+
 	virtual void paint(void)
 	{
 		glPushMatrix();
