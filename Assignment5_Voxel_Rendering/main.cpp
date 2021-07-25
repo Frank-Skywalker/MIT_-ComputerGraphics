@@ -25,6 +25,12 @@ bool shadeShadows=false;
 int maxBounces;
 float cutoffWeight;
 
+//Assignment5
+int nx=0;
+int ny=0;
+int nz=0;
+bool shadeGrid = false;
+
 void shade(void)
 {
 	assert(raytracer != NULL);
@@ -130,6 +136,23 @@ int main(int argc, char* argv[])
 			assert(i < argc);
 			cutoffWeight = atof(argv[i]);
 		}
+		//Assignment5
+		else if (!strcmp(argv[i], "-grid"))
+		{	
+			i++;
+			assert(i < argc);
+			nx = atoi(argv[i]);
+			i++;
+			assert(i < argc);
+			ny = atoi(argv[i]);
+			i++;
+			assert(i < argc);
+			nz = atoi(argv[i]);
+		}
+		else if (!strcmp(argv[i], "-visualize_grid"))
+		{
+			shadeGrid = true;
+		}
 		else
 		{
 			printf("whoops error with command line argument %d: '%s'\n", i, argv[i]);
@@ -142,7 +165,7 @@ int main(int argc, char* argv[])
 
 
 	// ======================================================== // ========================================================
-	raytracer = new RayTracer(input_file, width, height, maxBounces, cutoffWeight, shadeShadows, shade_back);
+	raytracer = new RayTracer(input_file, width, height, maxBounces, cutoffWeight, shadeShadows, shade_back,shadeGrid,nx,ny,nz);
 	//previsualize this scene with OpenGL
 	if (previsualize)
 	{

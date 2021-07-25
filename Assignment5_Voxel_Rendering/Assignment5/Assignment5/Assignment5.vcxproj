@@ -142,6 +142,7 @@
     <ClInclude Include="..\..\boundingbox.h" />
     <ClInclude Include="..\..\camera.h" />
     <ClInclude Include="..\..\glCanvas.h" />
+    <ClInclude Include="..\..\grid.h" />
     <ClInclude Include="..\..\group.h" />
     <ClInclude Include="..\..\hit.h" />
     <ClInclude Include="..\..\image.h" />

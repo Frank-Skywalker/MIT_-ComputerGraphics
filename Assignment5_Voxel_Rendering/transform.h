@@ -12,6 +12,11 @@ public:
 		Vec3f objectMin;
 		Vec3f objectMax;
 
+		//object is a plane
+		if (object->getBoundingBox() == NULL)
+		{
+			return;
+		}
 		//get sub object bounding box info
 		object->getBoundingBox()->Get(objectMin, objectMax);
 

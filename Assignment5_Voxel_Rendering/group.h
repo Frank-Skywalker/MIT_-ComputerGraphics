@@ -32,12 +32,23 @@ public:
 		//generate bounding box
 		if (index == objectsNum - 1)
 		{
+			bool hasOtherThanPlane = false;
 			Vec3f min(INFINITY, INFINITY, INFINITY);
 			Vec3f max(-INFINITY, -INFINITY, -INFINITY);
 			for (auto it = objects.begin(); it != objects.end(); it++)
 			{
+				if ((*it)->getBoundingBox() == NULL)
+				{
+					continue;
+				}
+				hasOtherThanPlane = true;
 				Vec3f::Min(min, min, (*it)->getBoundingBox()->getMin());
 				Vec3f::Max(max, max, (*it)->getBoundingBox()->getMax());
+			}
+
+			if(!hasOtherThanPlane)
+			{ 
+				return;
 			}
 			BoundingBox* boundingBox = getBoundingBox();
 			boundingBox = new BoundingBox(min, max);
@@ -80,6 +91,16 @@ public:
 		for (auto it = objects.begin(); it != objects.end(); it++)
 		{
 			(*it)->paint();
+		}
+	}
+
+
+	//Assignment5
+	virtual void insertIntoGrid(Grid* g, Matrix* m)
+	{
+		for (auto it = objects.begin(); it != objects.end(); it++)
+		{
+			(*it)->insertIntoGrid(g,m);
 		}
 	}
 

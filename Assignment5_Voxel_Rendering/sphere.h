@@ -6,6 +6,7 @@
 #include "ray.h"
 #include "vectors.h"
 #include <math.h>
+#include "grid.h"
 
 #define M_PI acos(-1)
 
@@ -198,6 +199,19 @@ public:
         }
         glEnd();
     }
+
+
+    //Assignment5
+    virtual void insertIntoGrid(Grid* g, Matrix* m)
+    {
+        BoundingBox* boundingBox = getBoundingBox();
+        Vec3f minVertex;
+        Vec3f maxVertex;
+        boundingBox->Get(minVertex, maxVertex);
+
+        g->SetVoxels(minVertex, maxVertex);
+    }
+
 
 private:
     Vec3f center;
