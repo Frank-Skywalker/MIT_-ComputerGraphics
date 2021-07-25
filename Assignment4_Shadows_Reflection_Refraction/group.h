@@ -44,11 +44,11 @@ public:
 	}
 
 
-	virtual bool intersectShadowRay(const Ray& r, float tmin)
+	virtual bool intersectShadowRay(const Ray& r, float tmin, float distanceToLight)
 	{
 		for (auto it = objects.begin(); it != objects.end(); it++)
 		{
-			if ((*it)->intersectShadowRay(r, tmin))
+			if ((*it)->intersectShadowRay(r, tmin,distanceToLight))
 			{
 				return true;
 			}

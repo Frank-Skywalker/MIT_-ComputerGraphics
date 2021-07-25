@@ -59,7 +59,7 @@ public:
         }
         else if (t2 > tmin)
         {
-            if (t2 < h.getT())
+            if (t2 < h.getT() )
             {
                 h.set(t2, getMaterial(), n2, r);
                 //cout << "hit with sphere: " << this->center << endl;
@@ -75,7 +75,7 @@ public:
 
 
 
-    virtual bool intersectShadowRay(const Ray& r, float tmin)
+    virtual bool intersectShadowRay(const Ray& r, float tmin,float distanceToLight)
     {
         //cout << "Sphere center: " << this->center << endl;
         Ray raySphereSpace(r.getOrigin() - center, r.getDirection());
@@ -98,7 +98,11 @@ public:
         Vec3f n2 = p2 - center;
         n1.Normalize();
         n2.Normalize();
-        if (t1 > tmin|| t2 > tmin)
+        if (t1 > tmin && t1 <= distanceToLight )
+        {
+            return true;
+        }
+        else if (t2 > tmin && t2 <= distanceToLight)
         {
             return true;
         }

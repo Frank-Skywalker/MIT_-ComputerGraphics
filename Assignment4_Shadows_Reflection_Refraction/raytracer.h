@@ -14,8 +14,9 @@
 #include "glCanvas.h"
 #include "rayTree.h"
 
-#define EPSILON 0.1
+#define EPSILON 0.001
 #define VACUUM_REFRACTION_INDEX 1
+#define WEIGHT_STEP_DECREASE 0.1
 
 class SceneParser;
 
@@ -248,6 +249,11 @@ public:
         }
 
         scene->getGroup()->intersect(ray, hit, tmin);
+        //render main segment
+        if (bounces == 0)
+        {
+            RayTree::SetMainSegment(ray, tmin, hit.getT());
+        }
         //no intersection
         if (hit.getT() == INFINITY)
         {
@@ -284,8 +290,8 @@ public:
 
             //shade shadows
             Ray shadowRay(hit.getIntersectionPoint(), dirToLight);
-            RayTree::AddShadowSegment(shadowRay, 0, 100);
-            if (!scene->getGroup()->intersectShadowRay(shadowRay, EPSILON))
+            RayTree::AddShadowSegment(shadowRay, 0, distanceToLight);
+            if (!scene->getGroup()->intersectShadowRay(shadowRay, EPSILON,distanceToLight))
             {
                 diffuseSpecularColor += hit.getMaterial()->Shade(hit.getRay(), hit, dirToLight, lightColor);
             }
@@ -298,8 +304,8 @@ public:
         {
             Ray reflectRay(hit.getIntersectionPoint(), mirrorDirection(normal, ray.getDirection()));
             Hit reflectHit;
-            Vec3f reflectResult = traceRay(reflectRay, EPSILON, bounces + 1, weight - 0.1, indexOfRefraction, reflectHit);
-            reflectColor.Set(reflectColor.x() * reflectResult.x(), reflectColor.y() * reflectResult.y(), reflectColor.z() * reflectResult.z());
+            Vec3f reflectResult = traceRay(reflectRay, EPSILON, bounces + 1, weight- WEIGHT_STEP_DECREASE, indexOfRefraction, reflectHit);
+            reflectColor = reflectColor * reflectResult;
             RayTree::AddReflectedSegment(reflectRay, 0, reflectHit.getT());
         }
 
@@ -315,7 +321,7 @@ public:
                 transmittedDirection(normal, ray.getDirection(), indexOfRefraction, VACUUM_REFRACTION_INDEX, refractDirection);
                 Ray refractRay(hit.getIntersectionPoint(), refractDirection);
                 Hit refractHit;
-                refractResult = traceRay(refractRay, EPSILON, bounces + 1, weight - 0.1, VACUUM_REFRACTION_INDEX, refractHit);
+                refractResult = traceRay(refractRay, EPSILON, bounces + 1, weight- WEIGHT_STEP_DECREASE, VACUUM_REFRACTION_INDEX, refractHit);
                 RayTree::AddTransmittedSegment(refractRay, 0, refractHit.getT());
 
             }
@@ -325,10 +331,10 @@ public:
                 transmittedDirection(normal, ray.getDirection(), indexOfRefraction, hit.getMaterial()->getIndexOfRefraction(), refractDirection);
                 Ray refractRay(hit.getIntersectionPoint(), refractDirection);
                 Hit refractHit;
-                refractResult = traceRay(refractRay, EPSILON, bounces + 1, weight - 0.1, hit.getMaterial()->getIndexOfRefraction(), refractHit);
+                refractResult = traceRay(refractRay, EPSILON, bounces + 1, weight- WEIGHT_STEP_DECREASE, hit.getMaterial()->getIndexOfRefraction(), refractHit);
                 RayTree::AddTransmittedSegment(refractRay, 0, refractHit.getT());
             }
-            refractColor.Set(refractColor.x() * refractResult.x(), refractColor.y() * refractResult.y(), refractColor.z() * refractResult.z());
+            refractColor = refractColor * refractResult;
 
         }
 

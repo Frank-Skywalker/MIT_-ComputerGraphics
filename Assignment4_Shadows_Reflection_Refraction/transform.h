@@ -49,7 +49,7 @@ public:
 		return true;
 	}
 
-	virtual bool intersectShadowRay(const Ray& r, float tmin)
+	virtual bool intersectShadowRay(const Ray& r, float tmin,float distanceToLight)
 	{
 		//cout << "here" << endl;
 		//transform ray from world space to object space
@@ -69,7 +69,7 @@ public:
 		Ray rayOS(rayOriginOS, rayDirectionOS);
 
 		//do intersect in object space
-		if (object->intersectShadowRay(rayOS, tmin * ratio))
+		if (object->intersectShadowRay(rayOS, tmin * ratio, distanceToLight*ratio))
 		{
 			return true;
 		}

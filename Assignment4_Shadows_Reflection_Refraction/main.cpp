@@ -40,8 +40,7 @@ void trace(float x,float y)
 	Vec2f point(x, y);
 	Ray ray=raytracer->getScene()->getCamera()->generateRay(point);
 	Hit hit;
-	raytracer->traceRay(ray, raytracer->getScene()->getCamera()->getTMin(), maxBounces, 1, 1, hit);
-	RayTree::SetMainSegment(ray, 0, hit.getT());
+	raytracer->traceRay(ray, raytracer->getScene()->getCamera()->getTMin(), 0, 1, 1, hit);
 }
 
 int main(int argc, char* argv[])

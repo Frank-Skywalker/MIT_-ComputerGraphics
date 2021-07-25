@@ -38,7 +38,7 @@ public:
 		return false;
 	}
 
-	virtual bool intersectShadowRay(const Ray& r, float tmin)
+	virtual bool intersectShadowRay(const Ray& r, float tmin, float distanceToLight) 
 	{
 		if (normal.Dot3(r.getDirection()) == 0)
 		{
@@ -46,7 +46,7 @@ public:
 		}
 
 		float t = (d - normal.Dot3(r.getOrigin())) / normal.Dot3(r.getDirection());
-		if (t > tmin)
+		if (t > tmin && t <= distanceToLight)
 		{
 			return true;
 		}

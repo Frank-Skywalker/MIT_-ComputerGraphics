@@ -10,7 +10,7 @@ class Object3D
 
 public:
     virtual bool intersect(const Ray& r, Hit& h, float tmin) = 0;
-    virtual bool intersectShadowRay(const Ray& r, float tmin) = 0;
+    virtual bool intersectShadowRay(const Ray& r, float tmin,float distanceToLight) = 0;
 
     Object3D(Material* mat) : material(mat) {};
     Object3D() {};
