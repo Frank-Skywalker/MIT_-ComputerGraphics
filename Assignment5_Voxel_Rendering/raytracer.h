@@ -51,9 +51,11 @@ public:
         
         cout << "here2" << endl;
         //Assignment5
-        grid = new Grid(scene->getGroup()->getBoundingBox(), nx, ny, nz);
-        scene->getGroup()->insertIntoGrid(grid, NULL);
-
+        if (shadeGrid)
+        {
+            grid = new Grid(scene->getGroup()->getBoundingBox(), nx, ny, nz);
+            scene->getGroup()->insertIntoGrid(grid, NULL);
+        }
     }
 
     //RayTracer(SceneParser* s, int max_bounces, float cutoff_weight, bool shadows, ...);

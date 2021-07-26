@@ -49,6 +49,7 @@ void Image::SaveTGA(const char *filename) const {
     else if (i == 16) WriteByte(file,24);
     else if (i == 17) WriteByte(file,32);
     else WriteByte(file,0);
+
   }
   // the data
   // flip y so that (0,0) is bottom left corner

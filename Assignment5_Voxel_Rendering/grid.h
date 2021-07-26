@@ -6,7 +6,7 @@
 #include "plane.h"
 #include "material.h"
 
-#define GRID_EPSILON 0.01
+#define GRID_EPSILON 0.00001
 
 class Grid :public Object3D
 {
@@ -216,7 +216,7 @@ public:
 
 		Vec3f startPoint = r.getOrigin() + tmin * r.getDirection();
 
-		if (!findGridIndex(startPoint, startIndex))
+		if (!getVoxelIndex(startPoint, startIndex))
 		{
 			Hit hits[6];
 			//never think about parallel
@@ -263,26 +263,26 @@ public:
 
 
 			//no intersection
-			if (!(tNear < tFar && tNear <= tmin))
+			if (!(tNear < tFar && tNear >= tmin))
 			{
-				cout << "Ray has no intersection with grid" << endl;
+				//cout << "Ray has no intersection with grid" << endl;
 				mi.setTmin(INFINITY);
 				return;
 			}
 
 			//add epsilon
 			startPoint = r.getOrigin() + r.getDirection() * (tNear + GRID_EPSILON);
-			assert(findGridIndex(startPoint, startIndex));
+			assert(getVoxelIndex(startPoint, startIndex));
 			tmin = tmin + GRID_EPSILON;
 		}
 
 		mi.setGridIndex(startIndex);
-		cout << "Start grid index: " << startIndex << endl;
+		//cout << "Start grid index: " << startIndex << endl;
 
 		int sign[3];
 		r.getDirection().Sign(sign);
 		mi.setSign(sign);
-		cout << "Init Sign: " << sign[0] << " " << sign[1] << " " << sign[2] << endl;
+		//cout << "Init Sign: " << sign[0] << " " << sign[1] << " " << sign[2] << endl;
 
 		Vec3f dt;
 		float arraydt[3];
@@ -299,10 +299,10 @@ public:
 		}
 		dt.Set(arraydt[0], arraydt[1], arraydt[2]);
 		mi.setDT(dt);
-		cout << "Init d_t: " << dt << endl;
+		//cout << "Init d_t: " << dt << endl;
 
 		mi.setTmin(tmin);
-		cout << "Init tmin: " << tmin << endl;
+		//cout << "Init tmin: " << tmin << endl;
 
 
 		//get tnext
@@ -461,18 +461,32 @@ private:
 	bool*** opaque;
 
 
-	bool findGridIndex(Vec3f point, int index[]) const
+	bool getVoxelIndex(Vec3f point, int index[]) const
 	{
 		Vec3f pointSubMin = point - gridMinVertex;
 		Vec3f pointSubMax = point - gridMaxVertex;
-		if (!(pointSubMin.x() > 0 && pointSubMin.y() > 0 && pointSubMin.z() > 0
-			&& pointSubMax.x() < 0 && pointSubMax.y() < 0 && pointSubMax.z() < 0))
+		if (!(pointSubMin.x() >= 0 && pointSubMin.y() >= 0 && pointSubMin.z() >= 0
+			&& pointSubMax.x() <= 0 && pointSubMax.y() <= 0 && pointSubMax.z() <= 0))
 		{
 			return false;
 		}
 		index[0] = floor(pointSubMin.x() / gridStep.x());
 		index[1] = floor(pointSubMin.y() / gridStep.y());
 		index[2] = floor(pointSubMin.z() / gridStep.z());
+		if (index[0] >= nx)
+		{
+			index[0] = nx - 1;
+		}
+
+		if (index[1] >= ny)
+		{
+			index[1] = ny - 1;
+		}
+
+		if (index[2] >= nz)
+		{
+			index[2] = nz - 1;
+		}
 
 		return true;
 	}
