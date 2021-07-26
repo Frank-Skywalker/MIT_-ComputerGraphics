@@ -20,7 +20,6 @@ public:
     {
         //generate bounding box
         Vec3f R(radius, radius, radius);
-        BoundingBox* boundingBox = getBoundingBox();
         boundingBox = new BoundingBox(center-R,center+R);
     }
 
@@ -202,14 +201,31 @@ public:
 
 
     //Assignment5
-    virtual void insertIntoGrid(Grid* g, Matrix* m)
+    virtual void insertIntoGrid(Grid* grid, Matrix* m)
     {
-        BoundingBox* boundingBox = getBoundingBox();
+        float voxelHalfDiagonalLength = grid->getVoxelHalfDiagonalLength();
+
         Vec3f minVertex;
         Vec3f maxVertex;
         boundingBox->Get(minVertex, maxVertex);
-
-        g->SetVoxels(minVertex, maxVertex);
+        int mini, minj, mink;
+        int maxi, maxj, maxk;
+        grid->getIndexByVertex(minVertex, mini, minj, mink);
+        grid->getIndexByVertex(maxVertex, maxi, maxj, maxk);
+        for (int i = mini; i <= maxi; i++)
+        {
+            for (int j = minj; j <= maxj; j++)
+            {
+                for (int k = mink; k <= maxk; k++)
+                {
+                    Vec3f voxelCenter=grid->getVoxelCenterByIndex(i, j, k);
+                    if ((voxelCenter - center).Length() <= radius + voxelHalfDiagonalLength)
+                    {
+                        grid->setVoxel(i, j, k);
+                    }
+                }
+            }
+        }
     }
 
 

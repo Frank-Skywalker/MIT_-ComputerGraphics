@@ -39,7 +39,6 @@ public:
 			Vec3f::Min(min, min, transVertices[i]);
 			Vec3f::Max(max, max, transVertices[i]);
 		}
-		BoundingBox* boundingBox=getBoundingBox();
 		boundingBox = new BoundingBox(min, max);
 	}
 	~Transform()

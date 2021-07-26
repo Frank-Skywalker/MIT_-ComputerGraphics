@@ -50,7 +50,6 @@ public:
 			{ 
 				return;
 			}
-			BoundingBox* boundingBox = getBoundingBox();
 			boundingBox = new BoundingBox(min, max);
 		}
 	}

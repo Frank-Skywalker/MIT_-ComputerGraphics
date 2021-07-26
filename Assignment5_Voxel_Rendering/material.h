@@ -46,7 +46,6 @@ protected:
 class PhongMaterial : public Material {
 public:
 
-
     PhongMaterial(const Vec3f& diffuseColor, const Vec3f& specularColor, float exponent) :Material(diffuseColor), specularColor(specularColor), exponent(exponent)
     {}
 

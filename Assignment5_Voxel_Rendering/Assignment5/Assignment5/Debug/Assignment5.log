@@ -1,9 +1,1 @@
-﻿  glCanvas.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment5_Voxel_Rendering\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
-  light.cpp
-  main.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment5_Voxel_Rendering\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
-  scene_parser.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment5_Voxel_Rendering\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  Assignment5.vcxproj -> E:\Codes\CG\MIT_ComputerGraphics\Assignment5_Voxel_Rendering\Assignment5\Debug\Assignment5.exe
+﻿  Assignment5.vcxproj -> E:\Codes\CG\MIT_ComputerGraphics\Assignment5_Voxel_Rendering\Assignment5\Debug\Assignment5.exe

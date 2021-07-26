@@ -36,6 +36,7 @@ public:
         rays = new Ray[width * height];
         assert(scene != NULL);
         ambientLight = scene->getAmbientLight();
+
     }
 
     //Assignment4
@@ -48,7 +49,7 @@ public:
         assert(scene != NULL);
         ambientLight = scene->getAmbientLight();
         
-
+        cout << "here2" << endl;
         //Assignment5
         grid = new Grid(scene->getGroup()->getBoundingBox(), nx, ny, nz);
         scene->getGroup()->insertIntoGrid(grid, NULL);
@@ -123,6 +124,11 @@ public:
     SceneParser* getScene(void)
     {
         return scene;
+    }
+
+    Grid* getGrid(void)
+    {
+        return grid;
     }
 
 
@@ -245,6 +251,57 @@ public:
     }
 
 
+    //Assignment5
+    //based on phong shader
+    void gridShader(char* outputFile)
+    {
+        Image outputImage(width, height);
+        for (int i = 0; i < width * height; i++)
+        {
+            int x = i % width;
+            int y = i / width;
+            Hit hit;
+            Ray ray = generateRayAtIndex(i);
+            grid->intersect(ray, hit, scene->getCamera()->getTMin());
+            if (hit.getT() == INFINITY)
+            {
+                outputImage.SetPixel(x, y, scene->getBackgroundColor());
+                continue;
+            }
+            Vec3f N = hit.getNormal();
+            //cout << "N: " << N << endl;
+            //if shade back
+            if (shadeBack && rays[i].getDirection().Dot3(N) > 0)
+            {
+                N.Negate();
+            }
+            //no shade back and ray inside object
+            if (!shadeBack && rays[i].getDirection().Dot3(N) > 0)
+            {
+                outputImage.SetPixel(x, y, Vec3f(0, 0, 0));
+                continue;
+            }
+
+
+
+            Vec3f objectColor = hit.getMaterial()->getDiffuseColor();
+            Vec3f ambientColor = scene->getAmbientLight() * objectColor;
+            Vec3f diffuseSpecularColor(0, 0, 0);
+            for (int j = 0; j < scene->getNumLights(); j++)
+            {
+                Vec3f dirToLight;
+                Vec3f lightColor;
+                float distanceToLight;
+                scene->getLight(j)->getIllumination(hit.getIntersectionPoint(), dirToLight, lightColor, distanceToLight);
+                diffuseSpecularColor += hit.getMaterial()->Shade(hit.getRay(), hit, dirToLight, lightColor);
+            }
+
+            Vec3f pixelColor = diffuseSpecularColor + ambientColor;
+            outputImage.SetPixel(x, y, pixelColor);
+
+        }
+        outputImage.SaveTGA(outputFile);
+    }
 
 
     Vec3f traceRay(Ray& ray, float tmin, int bounces, float weight,

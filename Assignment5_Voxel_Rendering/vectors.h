@@ -209,6 +209,12 @@ public:
         data[1] = d1;
         data[2] = d2;
     }
+
+    void Set(int index, float d)
+    {
+        data[index] = d;
+    }
+
     void Scale(float d0, float d1, float d2) {
         data[0] *= d0;
         data[1] *= d1;
@@ -372,7 +378,12 @@ public:
     }
 
    
-
+    void Sign(int sign[]) const
+    {
+        sign[0]=(data[0] > 0) ? 1 : ((data[0] < 0) ? -1 : 0);
+        sign[1]=(data[1] > 0) ? 1 : ((data[1] < 0) ? -1 : 0);
+        sign[2]=(data[2] > 0) ? 1 : ((data[2] < 0) ? -1 : 0);
+    }
 
 
     // INPUT / OUTPUT

@@ -50,7 +50,7 @@ public:
 // making the OpenGL calls to draw the object to the screen.
 // ==================================================================== #include
 
-private:
+protected:
     Material* material;
     BoundingBox* boundingBox;
 };

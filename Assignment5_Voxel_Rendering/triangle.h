@@ -26,7 +26,6 @@ public:
 		Vec3f::Max(max, max, c);
 
 
-		BoundingBox* boundingBox = getBoundingBox();
 		boundingBox = new BoundingBox(min,max);
 	}
 	~Triangle() {};

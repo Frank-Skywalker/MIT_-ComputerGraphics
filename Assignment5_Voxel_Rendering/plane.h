@@ -9,6 +9,8 @@ public:
 	Plane(Vec3f& normal, float d, Material* m):Object3D(m),normal(normal),d(d)
 	{
 		this->normal.Normalize();
+		//Assignment5
+		boundingBox = NULL;
 	}
 
 	Plane(Vec3f a, Vec3f b, Vec3f c,Material* m):Object3D(m)
@@ -16,6 +18,8 @@ public:
 		Vec3f::Cross3(normal, b - a, c - b);
 		normal.Normalize();
 		d = fabsf(a.Dot3(normal));
+		//Assignment5
+		boundingBox = NULL;
 	}
 	~Plane(){}
 	bool intersect(const Ray& r, Hit& h, float tmin)
@@ -25,6 +29,7 @@ public:
 			return false;
 		}
 
+		
 		float t = (d - normal.Dot3(r.getOrigin())) / normal.Dot3(r.getDirection());
 		if (t>tmin)
 		{

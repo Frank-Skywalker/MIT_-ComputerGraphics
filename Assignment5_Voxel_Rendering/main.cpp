@@ -36,8 +36,14 @@ void shade(void)
 	assert(raytracer != NULL);
 	if (output_file != NULL)
 	{
-		raytracer->raytraceShader(output_file);
-		//cout << "here" << endl;
+		if (shadeGrid)
+		{
+			raytracer->gridShader(output_file);
+		}
+		else
+		{
+			raytracer->raytraceShader(output_file);
+		}
 	}
 }
 
@@ -169,10 +175,8 @@ int main(int argc, char* argv[])
 	//previsualize this scene with OpenGL
 	if (previsualize)
 	{
-		//glewInit();
-		//glutInit(&argc, argv);
 		GLCanvas glCanvas;
-		glCanvas.initialize(raytracer->getScene(), shade, trace);
+		glCanvas.initialize(raytracer->getScene(), shade, trace, raytracer->getGrid(), shadeGrid);
 	}
 	else
 	{
