@@ -9,8 +9,6 @@
  
  
 .\Assignment5\Debug\Assignment5.exe -input .\Data\scene5_02_spheres.txt -size 200 200 -gui -grid 8 8 8 -visualize_grid
-Visualize Hit Cells
-Visualize Entered Faces
 	
 	
 	

@@ -74,16 +74,18 @@ public:
 		normals[0].Set(1, 0, 0);
 		normals[1].Set(0, 1, 0);
 		normals[2].Set(0, 0, 1);
-		gridPlanes[0] = new Plane(normals[0], gridMinVertex.x(),m);
-		gridPlanes[1] = new Plane(normals[0], gridMaxVertex.x(), m);
-		gridPlanes[2] = new Plane(normals[1], gridMinVertex.y(), m);
-		gridPlanes[3] = new Plane(normals[1], gridMaxVertex.y(), m);
-		gridPlanes[4] = new Plane(normals[2], gridMinVertex.z(), m);
-		gridPlanes[5] = new Plane(normals[2], gridMaxVertex.z(), m);
+		gridPlanes[0] = new Plane(normals[0], gridMinVertex.x(),m);			//yz
+		gridPlanes[1] = new Plane(normals[0], gridMaxVertex.x(), m);		//yz
+		gridPlanes[2] = new Plane(normals[1], gridMinVertex.y(), m);		//xz
+		gridPlanes[3] = new Plane(normals[1], gridMaxVertex.y(), m);		//xz
+		gridPlanes[4] = new Plane(normals[2], gridMinVertex.z(), m);		//xy
+		gridPlanes[5] = new Plane(normals[2], gridMaxVertex.z(), m);		//xy
 
 
 		//init material
-		nowMaterialIndex = 0;
+		nowMaterialIndexFace = 0;
+		nowMaterialIndexCell = 0;
+
 		materials[0] = new PhongMaterial(Vec3f(1, 1, 1), Vec3f(0, 0, 0), 0);
 		materials[1] = new PhongMaterial(Vec3f(0.95, 0.129, 0.98), Vec3f(0, 0, 0), 0);
 		materials[2] = new PhongMaterial(Vec3f(0.6549, 0.149, 0.98), Vec3f(0, 0, 0), 0);
@@ -167,14 +169,14 @@ public:
 			{
 				vertices[v]= cubeVertices[cubeFaces[f][v]] + offset;
 			}
-			RayTree::AddHitCellFace(vertices[0], vertices[1], vertices[2], vertices[3], cubeNormals[f], materials[nowMaterialIndex]);
+			RayTree::AddHitCellFace(vertices[0], vertices[1], vertices[2], vertices[3], cubeNormals[f], materials[nowMaterialIndexCell]);
 			
 		}
 
-		nowMaterialIndex++;
-		if (nowMaterialIndex >= 16)
+		nowMaterialIndexCell++;
+		if (nowMaterialIndexCell >= 16)
 		{
-			nowMaterialIndex -= 16;
+			nowMaterialIndexCell -= 16;
 		}
 
 	}
@@ -203,11 +205,11 @@ public:
 			vertices[v] = cubeVertices[cubeFaces[index][v]] + offset;
 		}
 
-		RayTree::AddEnteredFace(vertices[0], vertices[1], vertices[2], vertices[3], cubeNormals[index],materials[nowMaterialIndex]);
-		nowMaterialIndex++;
-		if (nowMaterialIndex >= 16)
+		RayTree::AddEnteredFace(vertices[0], vertices[1], vertices[2], vertices[3], cubeNormals[index],materials[nowMaterialIndexFace]);
+		nowMaterialIndexFace++;
+		if (nowMaterialIndexFace >= 16)
 		{
-			nowMaterialIndex -= 16;
+			nowMaterialIndexFace -= 16;
 		}
 	
 	}
@@ -215,13 +217,13 @@ public:
 
 	virtual bool intersectShadowRay(const Ray& r, float tmin, float distanceToLight)
 	{
-
 		return false;
 	}
 
 	virtual bool intersect(const Ray& r, Hit& h, float tmin)
 	{
-		nowMaterialIndex = 0;
+		nowMaterialIndexCell = 0;
+		nowMaterialIndexFace = 0;
 		MarchingInfo mi;
 		initializeRayMarch(mi,r,tmin);
 		if (mi.getTmin() == INFINITY)
@@ -264,6 +266,10 @@ public:
 		//bool startPointInGrid = true;
 		//float startT=0;
 		//bool intersect = false;
+
+		int sign[3];
+		r.getDirection().Sign(sign);
+
 		int startIndex[3] = { 0,0,0 };
 
 		Vec3f startPoint = r.getOrigin() + tmin * r.getDirection();
@@ -277,62 +283,81 @@ public:
 				gridPlanes[i]->intersect(r, hits[i], tmin);
 			}
 
+
 			float tNear = -INFINITY;
 			float tFar = INFINITY;
-			if (r.getDirection().x() > 0)
-			{
-				tNear = fmaxf(tNear, hits[0].getT());
-				tFar = fminf(tFar, hits[1].getT());
-			}
-			else
-			{
-				tNear = fmaxf(tNear, hits[1].getT());
-				tFar = fminf(tFar, hits[0].getT());
-			}
 
-			if (r.getDirection().y() > 0)
+			for (int i = 0; i < 3; i++)
 			{
-				tNear = fmaxf(tNear, hits[2].getT());
-				tFar = fminf(tFar, hits[3].getT());
+				int index = 2 * i;
+				if (sign[i] > 0)
+				{
+					tNear = fmaxf(tNear, hits[index].getT());
+					tFar = fminf(tFar, hits[index + 1].getT());
+				}
+				else
+				{
+					tNear = fmaxf(tNear, hits[index+1].getT());
+					tFar = fminf(tFar, hits[index].getT());
+				}
+
 			}
-			else
-			{
-				tNear = fmaxf(tNear, hits[3].getT());
-				tFar = fminf(tFar, hits[2].getT());
-			}
+			//if (r.getDirection().x() > 0)
+			//{
+			//	tNear = fmaxf(tNear, hits[0].getT());
+			//	tFar = fminf(tFar, hits[1].getT());
+			//}
+			//else
+			//{
+			//	tNear = fmaxf(tNear, hits[1].getT());
+			//	tFar = fminf(tFar, hits[0].getT());
+			//}
+
+			//if (r.getDirection().y() > 0)
+			//{
+			//	tNear = fmaxf(tNear, hits[2].getT());
+			//	tFar = fminf(tFar, hits[3].getT());
+			//}
+			//else
+			//{
+			//	tNear = fmaxf(tNear, hits[3].getT());
+			//	tFar = fminf(tFar, hits[2].getT());
+			//}
 
 
-			if (r.getDirection().z() > 0)
-			{
-				tNear = fmaxf(tNear, hits[4].getT());
-				tFar = fminf(tFar, hits[5].getT());
-			}
-			else
-			{
-				tNear = fmaxf(tNear, hits[5].getT());
-				tFar = fminf(tFar, hits[4].getT());
-			}
+			//if (r.getDirection().z() > 0)
+			//{
+			//	tNear = fmaxf(tNear, hits[4].getT());
+			//	tFar = fminf(tFar, hits[5].getT());
+			//}
+			//else
+			//{
+			//	tNear = fmaxf(tNear, hits[5].getT());
+			//	tFar = fminf(tFar, hits[4].getT());
+			//}
 
-
+			cout << "tNear: " << tNear << endl;
+			cout << "tFar: " << tFar << endl;
 			//no intersection
 			if (!(tNear < tFar && tNear >= tmin))
 			{
-				//cout << "Ray has no intersection with grid" << endl;
+				cout << "Ray has no intersection with grid" << endl;
 				mi.setTmin(INFINITY);
 				return;
 			}
 
+			cout << "Ray intersect with grid" << endl;
 			//add epsilon
 			startPoint = r.getOrigin() + r.getDirection() * (tNear + GRID_EPSILON);
 			assert(getVoxelIndex(startPoint, startIndex));
 			tmin = tNear + GRID_EPSILON;
+			cout << "Start Point: " << startPoint << endl;
 		}
 
 		mi.setGridIndex(startIndex);
 		//cout << "Start grid index: " << startIndex << endl;
 
-		int sign[3];
-		r.getDirection().Sign(sign);
+		
 		mi.setSign(sign);
 
 	
@@ -541,7 +566,8 @@ private:
 	Object3DVector ***voxels;
 
 	Material* materials[16];
-	int nowMaterialIndex;
+	int nowMaterialIndexCell;
+	int nowMaterialIndexFace;
 	
 
 	
