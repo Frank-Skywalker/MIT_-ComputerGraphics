@@ -221,7 +221,7 @@ public:
                     Vec3f voxelCenter=grid->getVoxelCenterByIndex(i, j, k);
                     if ((voxelCenter - center).Length() <= radius + voxelHalfDiagonalLength)
                     {
-                        grid->setVoxel(i, j, k);
+                        grid->addObjectToVoxel(i, j, k, this);
                     }
                 }
             }

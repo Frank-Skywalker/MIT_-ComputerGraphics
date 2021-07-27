@@ -31,6 +31,8 @@ int ny=0;
 int nz=0;
 bool shadeGrid = false;
 
+
+
 void shade(void)
 {
 	assert(raytracer != NULL);
@@ -53,15 +55,14 @@ void trace(float x,float y)
 	Ray ray=raytracer->getScene()->getCamera()->generateRay(point);
 	Hit hit;
 	raytracer->traceRay(ray, raytracer->getScene()->getCamera()->getTMin(), 0, 1, 1, hit);
+	if (shadeGrid)
+	{
+		raytracer->getGrid()->intersect(ray, hit, raytracer->getScene()->getCamera()->getTMin());
+	}
+
 }
 
-void traceGrid(float x, float y)
-{
-	Vec2f point(x, y);
-	Ray ray = raytracer->getScene()->getCamera()->generateRay(point);
-	Hit hit;
-	raytracer->getGrid()->intersect(ray, hit, raytracer->getScene()->getCamera()->getTMin());
-}
+
 
 int main(int argc, char* argv[])
 {
@@ -184,15 +185,7 @@ int main(int argc, char* argv[])
 	if (previsualize)
 	{
 		GLCanvas glCanvas;
-		if (shadeGrid)
-		{
-			cout << "herereree" << endl;
-			glCanvas.initialize(raytracer->getScene(), shade, traceGrid, raytracer->getGrid(), shadeGrid);
-		}
-		else
-		{
-			glCanvas.initialize(raytracer->getScene(), shade, trace, raytracer->getGrid(), shadeGrid);
-		}
+		glCanvas.initialize(raytracer->getScene(), shade, trace, raytracer->getGrid(), shadeGrid);
 	}
 	else
 	{

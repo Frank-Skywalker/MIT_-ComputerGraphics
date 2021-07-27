@@ -9,6 +9,7 @@
 #include "object3dvector.h"
 
 #define GRID_EPSILON 0.000001
+#define MATERIAL_NUM 16
 
 class Grid :public Object3D
 {
@@ -16,7 +17,7 @@ public:
 	Grid(BoundingBox* bb, int nx, int ny, int nz):nx(nx),ny(ny),nz(nz)
 	{
 
-		material = new PhongMaterial(Vec3f(0.5, 0, 0), Vec3f(), 0);
+		//material = new PhongMaterial(Vec3f(0.5, 0, 0), Vec3f(), 0);
 
 		cout << "bb min" << bb->getMin() << endl;
 		cout << "bb max" << bb->getMax() << endl;
@@ -32,17 +33,13 @@ public:
 		voxelHalfDiagonalLength = gridStep.Length() / 2;
 
 
-		opaque = new bool** [nx];
+		voxels = new Object3DVector** [nx];
 		for (int i = 0; i < nx; i++)
 		{
-			opaque[i] = new bool* [ny];
+			voxels[i] = new Object3DVector* [ny];
 			for (int j = 0; j < ny; j++)
 			{
-				opaque[i][j]=new bool[nz];
-				for (int k = 0; k < nz; k++)
-				{
-					opaque[i][j][k] = false;
-				}
+				voxels[i][j] = new Object3DVector [nz];
 			}
 		}
 
@@ -85,69 +82,43 @@ public:
 		gridPlanes[5] = new Plane(normals[2], gridMaxVertex.z(), m);
 
 
+		//init material
+		nowMaterialIndex = 0;
+		materials[0] = new PhongMaterial(Vec3f(1, 1, 1), Vec3f(0, 0, 0), 0);
+		materials[1] = new PhongMaterial(Vec3f(0.95, 0.129, 0.98), Vec3f(0, 0, 0), 0);
+		materials[2] = new PhongMaterial(Vec3f(0.6549, 0.149, 0.98), Vec3f(0, 0, 0), 0);
+		materials[3] = new PhongMaterial(Vec3f(0.2235, 0.16, 0.98), Vec3f(0, 0, 0), 0);
+		materials[4] = new PhongMaterial(Vec3f(0, 0.1647, 1), Vec3f(0, 0, 0), 0);
+		materials[5] = new PhongMaterial(Vec3f(0, 0.34, 1), Vec3f(0, 0, 0), 0);
+		materials[6] = new PhongMaterial(Vec3f(0.145, 0.7098, 0.99), Vec3f(0, 0, 0), 0);
+		materials[7] = new PhongMaterial(Vec3f(0.30,1, 1), Vec3f(0, 0, 0), 0);
+
+		materials[8] = new PhongMaterial(Vec3f(0.20, 0.65, 0.47), Vec3f(0, 0, 0), 0);
+		materials[9] = new PhongMaterial(Vec3f(0.21, 0.647, 0.2392), Vec3f(0, 0, 0), 0);
+		materials[10] = new PhongMaterial(Vec3f(0.2157, 0.647, 0.1333), Vec3f(0, 0, 0), 0);
+		materials[11] = new PhongMaterial(Vec3f(0.29, 0.647, 0.133), Vec3f(0, 0, 0), 0);
+
+		materials[12] = new PhongMaterial(Vec3f(0.745, 0.99, 0.2196), Vec3f(0, 0, 0), 0);
+		materials[13] = new PhongMaterial(Vec3f(1, 0.99, 0.2157), Vec3f(0, 0, 0), 0);
+		materials[14] = new PhongMaterial(Vec3f(0.99, 0.6863, 0.1294), Vec3f(0, 0, 0), 0);
+		materials[15] = new PhongMaterial(Vec3f(0.96, 0.2784, 0), Vec3f(0, 0, 0), 0);
+
+
+
+
 	}
 
 
-	void setVoxel(int i, int j, int k)
+	void addObjectToVoxel(int i, int j, int k, Object3D* obj)
 	{
-		opaque[i][j][k] = true;
+		//opaque[i][j][k] = true;
+		voxels[i][j][k].addObject(obj);
 	}
 
 
-	//void setVoxels(Vec3f minVertex, Vec3f maxVertex)
-	//{
-	//	cout << endl;
-	//	cout << "minVertex: " << minVertex<<endl;
-	//	cout << "maxVertex: " << maxVertex<<endl;
-	//	int minI = floor((minVertex.x() - gridMinVertex.x()) / gridStep.x());
-	//	cout << "minI: " << minI<<endl;
-
-	//	int maxI = floor((maxVertex.x() - gridMinVertex.x()) / gridStep.x());
-	//	if (maxI >=nx)
-	//	{
-	//		maxI = nx-1;
-	//	}
-	//	cout << "maxI: " << maxI << endl;
-
-
-	//	int minJ = floor((minVertex.y() - gridMinVertex.y()) / gridStep.y());
-	//	cout << "minJ: " << minJ << endl;
-
-	//	int maxJ = floor((maxVertex.y() - gridMinVertex.y()) / gridStep.y());
-	//	if (maxJ >= ny)
-	//	{
-	//		maxJ = ny - 1;
-	//	}
-	//	cout << "maxJ: " << maxJ << endl;
-
-
-	//	int minK = floor((minVertex.z() - gridMinVertex.z()) / gridStep.z());
-	//	cout << "minK: " << minK << endl;
-
-	//	int maxK = floor((maxVertex.z() - gridMinVertex.z()) / gridStep.z());
-	//	if (maxK >= nz)
-	//	{
-	//		maxK = nz - 1;
-	//	}
-	//	cout << "maxK: " << maxK << endl;
-
-	//
-	//	for (int i = minI; i <= maxI; i++)
-	//	{
-	//		for (int j = minJ; j <= maxJ; j++)
-	//		{
-	//			for (int k = minK; k <= maxK; k++)
-	//			{
-	//				opaque[i][j][k] = true;
-	//			}
-	//		}
-	//	}
-
-	//}
 
 	virtual void paint(void)
 	{
-		getMaterial()->glSetMaterial();
 		glBegin(GL_QUADS);
 		for (int i = 0; i < nx; i++)
 		{
@@ -155,8 +126,17 @@ public:
 			{
 				for (int k = 0; k < nz; k++)
 				{
-					if (opaque[i][j][k] == true)
+					//if (opaque[i][j][k] == true)
+					int numObjects = voxels[i][j][k].getNumObjects();
+					if(numObjects!=0)
 					{
+						int index = numObjects-1;
+						if (index >= 16)
+						{
+							index = 15;
+						}
+						this->material = materials[index];
+						getMaterial()->glSetMaterial();
 						Vec3f offset = gridStep * Vec3f(i, j, k);
 						for (int f = 0; f < 6; f++)
 						{
@@ -177,13 +157,7 @@ public:
 
 	void addHitCell(int i, int j, int k)
 	{
-		Material *materials[6];
-		materials[0] = new PhongMaterial(Vec3f(1, 1, 1), Vec3f(0, 0, 0), 0);
-		materials[1] = new PhongMaterial(Vec3f(0, 1, 1), Vec3f(0, 0, 0), 0);
-		materials[2] = new PhongMaterial(Vec3f(1, 1, 1), Vec3f(0, 0, 0), 0);
-		materials[3] = new PhongMaterial(Vec3f(1, 1, 1), Vec3f(0, 0, 0), 0);
-		materials[4] = new PhongMaterial(Vec3f(1, 1, 1), Vec3f(0, 0, 0), 0);
-		materials[5] = new PhongMaterial(Vec3f(1, 1, 1), Vec3f(0, 0, 0), 0);
+
 
 		Vec3f offset = gridStep * Vec3f(i, j, k);
 		for (int f = 0; f < 6; f++)
@@ -193,8 +167,14 @@ public:
 			{
 				vertices[v]= cubeVertices[cubeFaces[f][v]] + offset;
 			}
-			RayTree::AddHitCellFace(vertices[0], vertices[1], vertices[2], vertices[3], cubeNormals[f], materials[1]);
+			RayTree::AddHitCellFace(vertices[0], vertices[1], vertices[2], vertices[3], cubeNormals[f], materials[nowMaterialIndex]);
+			
+		}
 
+		nowMaterialIndex++;
+		if (nowMaterialIndex >= 16)
+		{
+			nowMaterialIndex -= 16;
 		}
 
 	}
@@ -202,13 +182,7 @@ public:
 
 	void addEnteredFace(int i, int j, int k, int axis, int* sign)
 	{
-		Material* materials[6];
-		materials[0] = new PhongMaterial(Vec3f(1, 1, 1), Vec3f(0, 0, 0), 0);
-		materials[1] = new PhongMaterial(Vec3f(0, 1, 1), Vec3f(0, 0, 0), 0);
-		materials[2] = new PhongMaterial(Vec3f(1, 1, 1), Vec3f(0, 0, 0), 0);
-		materials[3] = new PhongMaterial(Vec3f(1, 1, 1), Vec3f(0, 0, 0), 0);
-		materials[4] = new PhongMaterial(Vec3f(1, 1, 1), Vec3f(0, 0, 0), 0);
-		materials[5] = new PhongMaterial(Vec3f(1, 1, 1), Vec3f(0, 0, 0), 0);
+
 
 		Vec3f offset = gridStep * Vec3f(i, j, k);
 
@@ -229,7 +203,13 @@ public:
 			vertices[v] = cubeVertices[cubeFaces[index][v]] + offset;
 		}
 
-		RayTree::AddEnteredFace(vertices[0], vertices[1], vertices[2], vertices[3], cubeNormals[index],materials[1]);
+		RayTree::AddEnteredFace(vertices[0], vertices[1], vertices[2], vertices[3], cubeNormals[index],materials[nowMaterialIndex]);
+		nowMaterialIndex++;
+		if (nowMaterialIndex >= 16)
+		{
+			nowMaterialIndex -= 16;
+		}
+	
 	}
 	
 
@@ -241,6 +221,7 @@ public:
 
 	virtual bool intersect(const Ray& r, Hit& h, float tmin)
 	{
+		nowMaterialIndex = 0;
 		MarchingInfo mi;
 		initializeRayMarch(mi,r,tmin);
 		if (mi.getTmin() == INFINITY)
@@ -255,9 +236,15 @@ public:
 			addHitCell(i, j, k);
 			addEnteredFace(i, j, k, mi.getAxis(), mi.getSign());
 			//cout << "i,j,k: " << i << " " << j << " " << k << " " << endl;
-			if (opaque[i][j][k])
+			int numObjects = voxels[i][j][k].getNumObjects();
+			if (numObjects !=0)
 			{
-				h.set(mi.getTmin(), getMaterial(),mi.getNormal() , r);
+				int index = numObjects-1;
+				if (index >= 16)
+				{
+					index = 15;
+				}
+				h.set(mi.getTmin(), materials[index],mi.getNormal() , r);
 				//cout << "Normal: " << mi.getNormal()<<endl;
 				return true;
 			}
@@ -549,9 +536,12 @@ private:
 
 	float voxelHalfDiagonalLength;
 
-	bool*** opaque;
+	//bool*** opaque;
 
-	Object3DVector objVector;
+	Object3DVector ***voxels;
+
+	Material* materials[16];
+	int nowMaterialIndex;
 	
 
 	

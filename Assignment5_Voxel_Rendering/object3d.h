@@ -5,8 +5,10 @@
 #include "ray.h"
 #include "hit.h"
 #include "boundingbox.h"
+//#include "grid.h"
 
 class Grid;
+class BoundingBox;
 
 class Object3D{
 
@@ -43,7 +45,10 @@ public:
     }
 
 
-    virtual void insertIntoGrid(Grid* g, Matrix* m) {}
+    virtual void insertIntoGrid(Grid* grid, Matrix* m)
+    {
+    }
+
 // ====================================================================
 // Add the following pure virtual function to Object3D and define it
 // in each of its subclasses. The paint routine is responsible for

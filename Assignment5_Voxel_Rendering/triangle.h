@@ -102,6 +102,27 @@ public:
 		glEnd();
 	}
 
+	virtual void insertIntoGrid(Grid* grid, Matrix* m)
+	{
+		Vec3f minVertex;
+		Vec3f maxVertex;
+		boundingBox->Get(minVertex, maxVertex);
+		int mini, minj, mink;
+		int maxi, maxj, maxk;
+		grid->getVoxelIndex(minVertex, mini, minj, mink);
+		grid->getVoxelIndex(maxVertex, maxi, maxj, maxk);
+		for (int i = mini; i <= maxi; i++)
+		{
+			for (int j = minj; j <= maxj; j++)
+			{
+				for (int k = mink; k <= maxk; k++)
+				{
+					grid->addObjectToVoxel(i, j, k, this);
+				}
+			}
+		}
+	}
+
 private:
 	Vec3f a;
 	Vec3f b;

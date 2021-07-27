@@ -119,6 +119,12 @@ public:
 		glPopMatrix();
 	}
 
+	virtual void insertIntoGrid(Grid* grid, Matrix* m)
+	{
+		object->insertIntoGrid(grid, m);
+	}
+
+
 private:
 	Matrix transform;
 	Object3D* object;
