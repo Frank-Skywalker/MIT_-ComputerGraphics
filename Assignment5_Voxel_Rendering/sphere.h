@@ -210,8 +210,8 @@ public:
         boundingBox->Get(minVertex, maxVertex);
         int mini, minj, mink;
         int maxi, maxj, maxk;
-        grid->getIndexByVertex(minVertex, mini, minj, mink);
-        grid->getIndexByVertex(maxVertex, maxi, maxj, maxk);
+        grid->getVoxelIndex(minVertex, mini, minj, mink);
+        grid->getVoxelIndex(maxVertex, maxi, maxj, maxk);
         for (int i = mini; i <= maxi; i++)
         {
             for (int j = minj; j <= maxj; j++)

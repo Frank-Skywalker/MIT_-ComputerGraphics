@@ -1,15 +1,17 @@
 #ifndef _MARCHING_INFO_H_
 #define _MARCHING_INFO_H_
 #include "vectors.h"
+#include "rayTree.h"
 
 class MarchingInfo
 {
 public:
 	MarchingInfo():tmin(INFINITY)
 	{
-		threeNormals[0].Set(-1, 0, 0);
-		threeNormals[1].Set(0, -1, 0);
-		threeNormals[2].Set(0, 0, -1);
+		axisNormals[0].Set(-1, 0, 0);
+		axisNormals[1].Set(0, -1, 0);
+		axisNormals[2].Set(0, 0, -1);
+
 	}
 
 	float getTmin()
@@ -83,7 +85,8 @@ public:
 		gridIndex[minI] += sign[minI];
 		tmin = tnext[minI];
 		tnext.Set(minI, tnext[minI] + dt[minI]);
-		normal = threeNormals[minI] * sign[minI];
+		normal = axisNormals[minI] * sign[minI];
+		axis = minI;
 	}
 
 	
@@ -94,8 +97,26 @@ public:
 	
 	void setNormal(int axis)
 	{
-		this->normal = threeNormals[axis]*sign[axis];
+		this->axis = axis;
+		this->normal = axisNormals[axis]*sign[axis];
+
 	}
+
+	void setAxis(int axis)
+	{
+		this->axis = axis;
+	}
+
+	int getAxis()
+	{
+		return axis;
+	}
+
+	int* getSign()
+	{
+		return sign;
+	}
+	
 
 
 
@@ -110,8 +131,12 @@ private:
 	Vec3f dt;
 	int sign[3];
 	Vec3f normal;
+	Vec3f axisNormals[3];
 
-	Vec3f threeNormals[3];
+	int axis;
+
+
+
 
 };
 

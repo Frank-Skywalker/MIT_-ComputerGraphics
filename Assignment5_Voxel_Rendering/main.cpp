@@ -55,6 +55,14 @@ void trace(float x,float y)
 	raytracer->traceRay(ray, raytracer->getScene()->getCamera()->getTMin(), 0, 1, 1, hit);
 }
 
+void traceGrid(float x, float y)
+{
+	Vec2f point(x, y);
+	Ray ray = raytracer->getScene()->getCamera()->generateRay(point);
+	Hit hit;
+	raytracer->getGrid()->intersect(ray, hit, raytracer->getScene()->getCamera()->getTMin());
+}
+
 int main(int argc, char* argv[])
 {
 	// ======================================================== // ======================================================== // Some sample code you might like to use for parsing // command line arguments
@@ -176,7 +184,15 @@ int main(int argc, char* argv[])
 	if (previsualize)
 	{
 		GLCanvas glCanvas;
-		glCanvas.initialize(raytracer->getScene(), shade, trace, raytracer->getGrid(), shadeGrid);
+		if (shadeGrid)
+		{
+			cout << "herereree" << endl;
+			glCanvas.initialize(raytracer->getScene(), shade, traceGrid, raytracer->getGrid(), shadeGrid);
+		}
+		else
+		{
+			glCanvas.initialize(raytracer->getScene(), shade, trace, raytracer->getGrid(), shadeGrid);
+		}
 	}
 	else
 	{
