@@ -8,7 +8,7 @@
 #include "rayTree.h"
 #include "object3dvector.h"
 
-#define GRID_EPSILON 0.000001
+#define GRID_EPSILON 0.00001
 #define MATERIAL_NUM 16
 
 class Grid :public Object3D
@@ -19,16 +19,16 @@ public:
 
 		//material = new PhongMaterial(Vec3f(0.5, 0, 0), Vec3f(), 0);
 
-		cout << "bb min" << bb->getMin() << endl;
-		cout << "bb max" << bb->getMax() << endl;
-		cout << "nx ny nz: " << nx << " " << ny << " " << nz << endl;
+		//cout << "bb min" << bb->getMin() << endl;
+		//cout << "bb max" << bb->getMax() << endl;
+		//cout << "nx ny nz: " << nx << " " << ny << " " << nz << endl;
 		boundingBox = bb;
 		boundingBox->Get(gridMinVertex, gridMaxVertex);
 
 		Vec3f subVertex = gridMaxVertex - gridMinVertex;
 		subVertex.Divide(nx, ny, nz);
 		gridStep = subVertex;
-		cout << "grid step: " << gridStep<<endl;
+		//cout << "grid step: " << gridStep<<endl;
 
 		voxelHalfDiagonalLength = gridStep.Length() / 2;
 
@@ -69,17 +69,17 @@ public:
 		}
 
 		//set six edge planes of the grid
-		Material* m = new PhongMaterial(Vec3f(0, 0, 0), Vec3f(0, 0, 0), 1);
-		Vec3f normals[3];
-		normals[0].Set(1, 0, 0);
-		normals[1].Set(0, 1, 0);
-		normals[2].Set(0, 0, 1);
-		gridPlanes[0] = new Plane(normals[0], gridMinVertex.x(),m);			//yz
-		gridPlanes[1] = new Plane(normals[0], gridMaxVertex.x(), m);		//yz
-		gridPlanes[2] = new Plane(normals[1], gridMinVertex.y(), m);		//xz
-		gridPlanes[3] = new Plane(normals[1], gridMaxVertex.y(), m);		//xz
-		gridPlanes[4] = new Plane(normals[2], gridMinVertex.z(), m);		//xy
-		gridPlanes[5] = new Plane(normals[2], gridMaxVertex.z(), m);		//xy
+		//Material* m = new PhongMaterial(Vec3f(0, 0, 0), Vec3f(0, 0, 0), 1);
+		//Vec3f normals[3];
+		//normals[0].Set(1, 0, 0);
+		//normals[1].Set(0, 1, 0);
+		//normals[2].Set(0, 0, 1);
+		//gridPlanes[0] = new Plane(normals[0], gridMinVertex.x(),m);			//yz
+		//gridPlanes[1] = new Plane(normals[0], gridMaxVertex.x(), m);		//yz
+		//gridPlanes[2] = new Plane(normals[1], gridMinVertex.y(), m);		//xz
+		//gridPlanes[3] = new Plane(normals[1], gridMaxVertex.y(), m);		//xz
+		//gridPlanes[4] = new Plane(normals[2], gridMinVertex.z(), m);		//xy
+		//gridPlanes[5] = new Plane(normals[2], gridMaxVertex.z(), m);		//xy
 
 
 		//init material
@@ -268,7 +268,9 @@ public:
 		//bool intersect = false;
 
 		int sign[3];
-		r.getDirection().Sign(sign);
+		r.getSign(sign);
+		Vec3f rayInvDir = r.getInverseDirection();
+		Vec3f rayOrigin = r.getOrigin();
 
 		int startIndex[3] = { 0,0,0 };
 
@@ -276,82 +278,79 @@ public:
 
 		if (!getVoxelIndex(startPoint, startIndex))
 		{
-			Hit hits[6];
-			//never think about parallel
-			for (int i = 0; i < 6; i++)
-			{
-				gridPlanes[i]->intersect(r, hits[i], tmin);
-			}
 
 
 			float tNear = -INFINITY;
 			float tFar = INFINITY;
 
+			//cout << endl << "origin: " << r.getOrigin() << endl;
+			//cout <<"direcrtion: "<< r.getDirection() << endl;
+			//cout <<"inverse direction: "<< r.getInverseDirection() << endl;
 			for (int i = 0; i < 3; i++)
 			{
-				int index = 2 * i;
-				if (sign[i] > 0)
+				if (rayInvDir[i] >= 0)
 				{
-					tNear = fmaxf(tNear, hits[index].getT());
-					tFar = fminf(tFar, hits[index + 1].getT());
+					tNear = fmaxf(tNear,( gridMinVertex[i] - rayOrigin[i]) * rayInvDir[i]);
+					tFar = fminf(tFar,(gridMaxVertex[i] - rayOrigin[i]) * rayInvDir[i]);
 				}
 				else
 				{
-					tNear = fmaxf(tNear, hits[index+1].getT());
-					tFar = fminf(tFar, hits[index].getT());
+					tNear = fmaxf(tNear,( gridMaxVertex[i] - rayOrigin[i]) * rayInvDir[i]);
+					//cout << "gridMaxVertex[i]: " << gridMaxVertex[i] << endl;
+					//cout << "rayOrigin[i]: " << rayOrigin[i] << endl;
+					//cout << "rayInvDir[i]: " << rayInvDir[i] << endl;
+					//cout << "here near: " << tNear << endl;
+					tFar = fminf(tFar, (gridMinVertex[i] - rayOrigin[i]) * rayInvDir[i]);
 				}
-
 			}
-			//if (r.getDirection().x() > 0)
+	
+			//Hit hits[6];
+			////never think about parallel
+			//for (int i = 0; i < 6; i++)
 			//{
-			//	tNear = fmaxf(tNear, hits[0].getT());
-			//	tFar = fminf(tFar, hits[1].getT());
-			//}
-			//else
-			//{
-			//	tNear = fmaxf(tNear, hits[1].getT());
-			//	tFar = fminf(tFar, hits[0].getT());
-			//}
-
-			//if (r.getDirection().y() > 0)
-			//{
-			//	tNear = fmaxf(tNear, hits[2].getT());
-			//	tFar = fminf(tFar, hits[3].getT());
-			//}
-			//else
-			//{
-			//	tNear = fmaxf(tNear, hits[3].getT());
-			//	tFar = fminf(tFar, hits[2].getT());
+			//	//gridPlanes[i]->intersect(r, hits[i], tmin);
 			//}
 
 
-			//if (r.getDirection().z() > 0)
+			//float tNear = -INFINITY;
+			//float tFar = INFINITY;
+
+
+			//for (int i = 0; i < 3; i++)
 			//{
-			//	tNear = fmaxf(tNear, hits[4].getT());
-			//	tFar = fminf(tFar, hits[5].getT());
-			//}
-			//else
-			//{
-			//	tNear = fmaxf(tNear, hits[5].getT());
-			//	tFar = fminf(tFar, hits[4].getT());
+			//	int index = 2 * i;
+			//	if (sign[i] > 0)
+			//	{
+			//		tNear = fmaxf(tNear, hits[index].getT());
+			//		tFar = fminf(tFar, hits[index + 1].getT());
+			//	}
+			//	else
+			//	{
+			//		tNear = fmaxf(tNear, hits[index+1].getT());
+			//		tFar = fminf(tFar, hits[index].getT());
+			//	}
+
 			//}
 
-			cout << "tNear: " << tNear << endl;
-			cout << "tFar: " << tFar << endl;
+
+			//cout << "tNear: " << tNear << endl;
+			//cout << "tFar: " << tFar << endl;
 			//no intersection
 			if (!(tNear < tFar && tNear >= tmin))
 			{
-				cout << "Ray has no intersection with grid" << endl;
+				//cout << "Ray has no intersection with grid" << endl;
 				mi.setTmin(INFINITY);
 				return;
 			}
 
-			cout << "Ray intersect with grid" << endl;
+			//cout << "Ray intersect with grid" << endl;
 			//add epsilon
-			startPoint = r.getOrigin() + r.getDirection() * (tNear + GRID_EPSILON);
-			assert(getVoxelIndex(startPoint, startIndex));
-			tmin = tNear + GRID_EPSILON;
-			cout << "Start Point: " << startPoint << endl;
+			startPoint = r.getOrigin() + r.getDirection() * (tNear);
+			assert(!getVoxelIndex(startPoint, startIndex));
+			//cout << "startPoint: " << startPoint << endl;
+			//cout << "t: " << tNear << endl;
+			tmin = tNear;
+			//cout << "Start Point: " << startPoint << endl;
 		}
 
 		mi.setGridIndex(startIndex);
@@ -367,14 +366,15 @@ public:
 		float arraydt[3];
 		for (int i = 0; i < 3; i++)
 		{
-			if (sign[i] == 0)
-			{
-				arraydt[i] = INFINITY;
-			}
-			else
-			{
-				arraydt[i] = gridStep[i] / fabs(r.getDirection()[i]);
-			}
+			//if (sign[i] == 0)
+			//{
+			//	arraydt[i] = INFINITY;
+			//}
+			//else
+			//{
+			//	arraydt[i] = gridStep[i] / fabs(r.getDirection()[i]);
+			//}
+			arraydt[i] = gridStep[i] * fabs(rayInvDir[i]);
 		}
 		dt.Set(arraydt[0], arraydt[1], arraydt[2]);
 		mi.setDT(dt);
@@ -461,25 +461,37 @@ public:
 	{
 		Vec3f pointSubMin = point - gridMinVertex;
 		Vec3f pointSubMax = point - gridMaxVertex;
-		if (!(pointSubMin.x() >= 0 && pointSubMin.y() >= 0 && pointSubMin.z() >= 0
-			&& pointSubMax.x() <= 0 && pointSubMax.y() <= 0 && pointSubMax.z() <= 0))
+		if (!(pointSubMin.x() >= -GRID_EPSILON && pointSubMin.y() >= -GRID_EPSILON && pointSubMin.z() >= -GRID_EPSILON
+			&& pointSubMax.x() <= GRID_EPSILON && pointSubMax.y() <= GRID_EPSILON && pointSubMax.z() <= GRID_EPSILON))
 		{
 			return false;
 		}
 		i = floor(pointSubMin.x() / gridStep.x());
 		j = floor(pointSubMin.y() / gridStep.y());
 		k = floor(pointSubMin.z() / gridStep.z());
-		if (i>= nx)
+		if (i < 0)
+		{
+			i = 0;
+		}
+		else if (i>= nx)
 		{
 			i= nx - 1;
 		}
 
-		if (j>= ny)
+		if (j < 0)
+		{
+			j = 0;
+		}
+		else if (j>= ny)
 		{
 			j= ny - 1;
 		}
 
-		if (k>= nz)
+		if (k < 0)
+		{
+			k = 0;
+		}
+		else if (k>= nz)
 		{
 			k= nz - 1;
 		}
@@ -491,25 +503,37 @@ public:
 	{
 		Vec3f pointSubMin = point - gridMinVertex;
 		Vec3f pointSubMax = point - gridMaxVertex;
-		if (!(pointSubMin.x() >= 0 && pointSubMin.y() >= 0 && pointSubMin.z() >= 0
-			&& pointSubMax.x() <= 0 && pointSubMax.y() <= 0 && pointSubMax.z() <= 0))
+		if (!(pointSubMin.x() >= -GRID_EPSILON && pointSubMin.y() >= -GRID_EPSILON && pointSubMin.z() >= -GRID_EPSILON
+			&& pointSubMax.x() <= GRID_EPSILON && pointSubMax.y() <= GRID_EPSILON && pointSubMax.z() <= GRID_EPSILON))
 		{
 			return false;
 		}
 		index[0] = floor(pointSubMin.x() / gridStep.x());
 		index[1] = floor(pointSubMin.y() / gridStep.y());
 		index[2] = floor(pointSubMin.z() / gridStep.z());
-		if (index[0] >= nx)
+		if (index[0] < 0)
+		{
+			index[0] = 0;
+		}
+		else if (index[0] >= nx)
 		{
 			index[0] = nx - 1;
 		}
 
-		if (index[1] >= ny)
+		if (index[1] < 0)
+		{
+			index[1] = 0;
+		}
+		else if (index[1] >= ny)
 		{
 			index[1] = ny - 1;
 		}
 
-		if (index[2] >= nz)
+		if (index[2] < 0)
+		{
+			index[2] = 0;
+		}
+		else if (index[2] >= nz)
 		{
 			index[2] = nz - 1;
 		}
@@ -535,7 +559,21 @@ public:
 	Vec3f getVoxelCornerBySign(int i, int j, int k, int sign[]) const
 	{
 		Vec3f voxelCenter=getVoxelCenterByIndex(i, j, k);
-		Vec3f offset(sign[0] * gridStep.x() / 2, sign[1] * gridStep.y() / 2, sign[2] * gridStep.z() / 2);
+		int mysign[3];
+		//deal with sign 0
+		for (int i = 0; i < 3; i++)
+		{
+			if (sign[i] == 0)
+			{
+				mysign[i] = 1;
+			}
+			else
+			{
+				mysign[i] = sign[i];
+			}
+		}
+		Vec3f offset(mysign[0] * gridStep.x() / 2, mysign[1] * gridStep.y() / 2, mysign[2] * gridStep.z() / 2);
+
 		return voxelCenter + offset;
 	}
 
@@ -557,7 +595,7 @@ private:
 		{0, 4, 6, 2},		//yz	x	-1
 		{1, 3, 7, 5} };		//yz	x	1
 	Vec3f cubeNormals[6];
-	Plane *gridPlanes[6];
+	//Plane *gridPlanes[6];
 
 	float voxelHalfDiagonalLength;
 

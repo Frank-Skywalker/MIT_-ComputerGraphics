@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{ab81e5ed-0b30-4308-8bbe-561b849af9e8}</ProjectGuid>
+    <ProjectGuid>{00d39d40-a1a4-4971-9f0f-d4598410363a}</ProjectGuid>
     <RootNamespace>Assignment5</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -139,6 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\boundingbox.cpp" />
+    <ClCompile Include="..\..\glCanvas.cpp" />
+    <ClCompile Include="..\..\image.cpp" />
+    <ClCompile Include="..\..\light.cpp" />
+    <ClCompile Include="..\..\main.cpp" />
+    <ClCompile Include="..\..\matrix.cpp" />
+    <ClCompile Include="..\..\rayTree.cpp" />
+    <ClCompile Include="..\..\scene_parser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="..\..\boundingbox.h" />
     <ClInclude Include="..\..\camera.h" />
     <ClInclude Include="..\..\glCanvas.h" />
@@ -156,22 +166,11 @@
     <ClInclude Include="..\..\ray.h" />
     <ClInclude Include="..\..\raytracer.h" />
     <ClInclude Include="..\..\rayTree.h" />
-    <ClInclude Include="..\..\rtracer.h" />
     <ClInclude Include="..\..\scene_parser.h" />
     <ClInclude Include="..\..\sphere.h" />
     <ClInclude Include="..\..\transform.h" />
     <ClInclude Include="..\..\triangle.h" />
     <ClInclude Include="..\..\vectors.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\boundingbox.cpp" />
-    <ClCompile Include="..\..\glCanvas.cpp" />
-    <ClCompile Include="..\..\image.cpp" />
-    <ClCompile Include="..\..\light.cpp" />
-    <ClCompile Include="..\..\main.cpp" />
-    <ClCompile Include="..\..\matrix.cpp" />
-    <ClCompile Include="..\..\rayTree.cpp" />
-    <ClCompile Include="..\..\scene_parser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

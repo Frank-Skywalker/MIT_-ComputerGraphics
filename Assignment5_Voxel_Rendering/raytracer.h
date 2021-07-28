@@ -40,8 +40,8 @@ public:
     }
 
     //Assignment4
-    RayTracer(char* input_file, int width, int height, int max_bounces, float cutoff_weight, bool shadows, bool shadeback, bool shadeGrid,int nx, int ny, int nz) : 
-        input_file(input_file), width(width), height(height), maxBounces(max_bounces), cutoffWeight(cutoff_weight), shadeShadows(shadows),shadeBack(shadeback),shadeGrid(shadeGrid)
+    RayTracer(char* input_file, int width, int height, int max_bounces, float cutoff_weight, bool shadows, bool shadeback, bool useGrid,int nx, int ny, int nz) : 
+        input_file(input_file), width(width), height(height), maxBounces(max_bounces), cutoffWeight(cutoff_weight), shadeShadows(shadows),shadeBack(shadeback)
     {
         scene = new SceneParser(input_file);
         hits = new Hit[width * height];
@@ -49,12 +49,18 @@ public:
         assert(scene != NULL);
         ambientLight = scene->getAmbientLight();
         
-        cout << "here2" << endl;
+        //cout << "here2" << endl;
         //Assignment5
-        if (shadeGrid)
+        if (useGrid)
         {
+            Matrix *m=new Matrix;
+            m->SetToIdentity();
             grid = new Grid(scene->getGroup()->getBoundingBox(), nx, ny, nz);
-            scene->getGroup()->insertIntoGrid(grid, NULL);
+            scene->getGroup()->insertIntoGrid(grid, m);
+        }
+        else
+        {
+            grid = NULL;
         }
     }
 
@@ -434,7 +440,7 @@ private:
 
     //Assignment5
     Grid* grid;
-    bool shadeGrid;
+    //bool shadeGrid;
 
     
 

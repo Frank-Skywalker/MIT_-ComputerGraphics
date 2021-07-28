@@ -121,6 +121,7 @@ public:
 
 	virtual void insertIntoGrid(Grid* grid, Matrix* m)
 	{
+		*m =(*m) * transform;
 		object->insertIntoGrid(grid, m);
 	}
 

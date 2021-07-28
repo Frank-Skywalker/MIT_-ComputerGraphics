@@ -30,6 +30,7 @@ int nx=0;
 int ny=0;
 int nz=0;
 bool shadeGrid = false;
+bool useGrid = false;
 
 
 
@@ -154,6 +155,7 @@ int main(int argc, char* argv[])
 		//Assignment5
 		else if (!strcmp(argv[i], "-grid"))
 		{	
+			useGrid = true;
 			i++;
 			assert(i < argc);
 			nx = atoi(argv[i]);
@@ -180,7 +182,7 @@ int main(int argc, char* argv[])
 
 
 	// ======================================================== // ========================================================
-	raytracer = new RayTracer(input_file, width, height, maxBounces, cutoffWeight, shadeShadows, shade_back,shadeGrid,nx,ny,nz);
+	raytracer = new RayTracer(input_file, width, height, maxBounces, cutoffWeight, shadeShadows, shade_back,useGrid,nx,ny,nz);
 	//previsualize this scene with OpenGL
 	if (previsualize)
 	{
