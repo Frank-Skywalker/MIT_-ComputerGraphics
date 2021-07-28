@@ -54,17 +54,18 @@ public:
         //Assignment5
         if (useGrid)
         {
-            Matrix *m=new Matrix;
-            m->SetToIdentity();
+            //Matrix *m=new Matrix;
+            //m->SetToIdentity();
             grid = new Grid(scene->getGroup()->getBoundingBox(), nx, ny, nz);
-            scene->getGroup()->insertIntoGrid(grid, m);
+            scene->getGroup()->insertIntoGrid(grid, NULL);
 
-            RayTracingStats::Initialize(width, height, scene->getGroup()->getBoundingBox(), nx, ny, nz);
         }
         else
         {
             grid = NULL;
         }
+        RayTracingStats::Initialize(width, height, scene->getGroup()->getBoundingBox(), nx, ny, nz);
+
     }
 
     //RayTracer(SceneParser* s, int max_bounces, float cutoff_weight, bool shadows, ...);
@@ -424,13 +425,143 @@ public:
 
 
     //Assignment6
-    void RayCast()
+    void RayCast(char* outputFile)
     {
-
+        Image outputImage(width, height);
+        for (int i = 0; i < width * height; i++)
+        {
+            int x = i % width;
+            int y = i / width;
+            Hit hit;
+            Ray ray = generateRayAtIndex(i);
+            RayTracingStats::IncrementNumNonShadowRays();
+            outputImage.SetPixel(x, y, traceRay(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit));
+        }
+        outputImage.SaveTGA(outputFile);
     }
 
-    void RayCastFast()
+    void RayCastFast(char *outputFile)
     {
+        Image outputImage(width, height);
+        for (int i = 0; i < width * height; i++)
+        {
+            int x = i % width;
+            int y = i / width;
+            Hit hit;
+            Ray ray = generateRayAtIndex(i);
+            RayTracingStats::IncrementNumNonShadowRays();
+            outputImage.SetPixel(x, y, traceRayFast(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit));
+        }
+        outputImage.SaveTGA(outputFile);
+    }
+
+
+
+    Vec3f traceRayFast(Ray& ray, float tmin, int bounces, float weight,
+        float indexOfRefraction, Hit& hit) const
+    {
+        if (bounces > maxBounces || weight < cutoffWeight)
+        {
+            return Vec3f(0, 0, 0);
+        }
+
+        //scene->getGroup()->intersect(ray, hit, tmin);
+        grid->intersectObjects(ray, hit, tmin);
+        //render main segment
+        if (bounces == 0)
+        {
+            RayTree::SetMainSegment(ray, tmin, hit.getT());
+        }
+        //no intersection
+        if (hit.getT() == INFINITY)
+        {
+            return weight * scene->getBackgroundColor();
+        }
+
+        Vec3f normal = hit.getNormal();
+        //shade back and ray inside object
+        if (shadeBack && ray.getDirection().Dot3(normal) > 0)
+        {
+            normal.Negate();
+        }
+
+        //no shade back and ray inside object
+        if (!shadeBack && ray.getDirection().Dot3(normal) > 0)
+        {
+            return Vec3f(0, 0, 0);
+        }
+
+        Vec3f objectColor = hit.getMaterial()->getDiffuseColor();
+        Vec3f ambientColor = ambientLight * objectColor;
+        Vec3f diffuseSpecularColor(0, 0, 0);
+        for (int j = 0; j < scene->getNumLights(); j++)
+        {
+            Vec3f dirToLight;
+            Vec3f lightColor;
+            float distanceToLight;
+            scene->getLight(j)->getIllumination(hit.getIntersectionPoint(), dirToLight, lightColor, distanceToLight);
+            if (!shadeShadows)
+            {
+                diffuseSpecularColor += hit.getMaterial()->Shade(hit.getRay(), hit, dirToLight, lightColor);
+                continue;
+            }
+
+            //shade shadows
+            Ray shadowRay(hit.getIntersectionPoint(), dirToLight);
+            RayTree::AddShadowSegment(shadowRay, 0, distanceToLight);
+            RayTracingStats::IncrementNumShadowRays();
+            if (!grid->intersectObjectsShadow(shadowRay, EPSILON, distanceToLight))
+            {
+                diffuseSpecularColor += hit.getMaterial()->Shade(hit.getRay(), hit, dirToLight, lightColor);
+            }
+
+        }
+
+        //deal with reflection color
+        Vec3f reflectColor = hit.getMaterial()->getReflectiveColor();
+        if (reflectColor != Vec3f(0, 0, 0))
+        {
+            Ray reflectRay(hit.getIntersectionPoint(), mirrorDirection(normal, ray.getDirection()));
+            Hit reflectHit;
+            RayTracingStats::IncrementNumNonShadowRays();
+            Vec3f reflectResult = traceRayFast(reflectRay, EPSILON, bounces + 1, weight - WEIGHT_STEP_DECREASE, indexOfRefraction, reflectHit);
+            reflectColor = reflectColor * reflectResult;
+            RayTree::AddReflectedSegment(reflectRay, 0, reflectHit.getT());
+        }
+
+        //deal with refraction color
+        Vec3f refractColor = hit.getMaterial()->getTransparentColor();
+        if (refractColor != Vec3f(0, 0, 0))
+        {
+            Vec3f refractDirection;
+            Vec3f refractResult;
+            //ray from inside object
+            if (ray.getDirection().Dot3(hit.getNormal()) > 0)
+            {
+                transmittedDirection(normal, ray.getDirection(), indexOfRefraction, VACUUM_REFRACTION_INDEX, refractDirection);
+                Ray refractRay(hit.getIntersectionPoint(), refractDirection);
+                Hit refractHit;
+                RayTracingStats::IncrementNumNonShadowRays();
+                refractResult = traceRayFast(refractRay, EPSILON, bounces + 1, weight - WEIGHT_STEP_DECREASE, VACUUM_REFRACTION_INDEX, refractHit);
+                RayTree::AddTransmittedSegment(refractRay, 0, refractHit.getT());
+
+            }
+            //ray from outside object
+            else
+            {
+                transmittedDirection(normal, ray.getDirection(), indexOfRefraction, hit.getMaterial()->getIndexOfRefraction(), refractDirection);
+                Ray refractRay(hit.getIntersectionPoint(), refractDirection);
+                Hit refractHit;
+                RayTracingStats::IncrementNumNonShadowRays();
+                refractResult = traceRayFast(refractRay, EPSILON, bounces + 1, weight - WEIGHT_STEP_DECREASE, hit.getMaterial()->getIndexOfRefraction(), refractHit);
+                RayTree::AddTransmittedSegment(refractRay, 0, refractHit.getT());
+            }
+            refractColor = refractColor * refractResult;
+
+        }
+
+        Vec3f resultColor = refractColor + reflectColor + diffuseSpecularColor + ambientColor;
+        return weight * resultColor;
     }
 
 

@@ -1,0 +1,32 @@
+﻿  glCanvas.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(55,1): error C2027: use of undefined type 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(10): message : see declaration of 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(56,1): error C2027: use of undefined type 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(10): message : see declaration of 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(63,1): error C2027: use of undefined type 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(10): message : see declaration of 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
+  light.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(55,1): error C2027: use of undefined type 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(10): message : see declaration of 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(56,1): error C2027: use of undefined type 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(10): message : see declaration of 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(63,1): error C2027: use of undefined type 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(10): message : see declaration of 'Grid'
+  main.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(55,1): error C2027: use of undefined type 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(10): message : see declaration of 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(56,1): error C2027: use of undefined type 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(10): message : see declaration of 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(63,1): error C2027: use of undefined type 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(10): message : see declaration of 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
+  scene_parser.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(55,1): error C2027: use of undefined type 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(10): message : see declaration of 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(56,1): error C2027: use of undefined type 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(10): message : see declaration of 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(63,1): error C2027: use of undefined type 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(10): message : see declaration of 'Grid'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...

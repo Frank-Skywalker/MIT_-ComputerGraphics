@@ -19,9 +19,9 @@ public:
 
 		//material = new PhongMaterial(Vec3f(0.5, 0, 0), Vec3f(), 0);
 
-		//cout << "bb min" << bb->getMin() << endl;
-		//cout << "bb max" << bb->getMax() << endl;
-		//cout << "nx ny nz: " << nx << " " << ny << " " << nz << endl;
+		cout << "bb min" << bb->getMin() << endl;
+		cout << "bb max" << bb->getMax() << endl;
+		cout << "nx ny nz: " << nx << " " << ny << " " << nz << endl;
 		boundingBox = bb;
 		boundingBox->Get(gridMinVertex, gridMaxVertex);
 
@@ -114,6 +114,7 @@ public:
 	void addObjectToVoxel(int i, int j, int k, Object3D* obj)
 	{
 		//opaque[i][j][k] = true;
+		assert(i >= 0 && i < nx&& j >= 0 && j < ny&& k >= 0 && k < nz);
 		voxels[i][j][k].addObject(obj);
 	}
 
@@ -346,7 +347,7 @@ public:
 			//cout << "Ray intersect with grid" << endl;
 			//add epsilon
 			startPoint = r.getOrigin() + r.getDirection() * (tNear);
-			assert(!getVoxelIndex(startPoint, startIndex));
+			assert(getVoxelIndex(startPoint, startIndex));
 			//cout << "startPoint: " << startPoint << endl;
 			//cout << "t: " << tNear << endl;
 			tmin = tNear;

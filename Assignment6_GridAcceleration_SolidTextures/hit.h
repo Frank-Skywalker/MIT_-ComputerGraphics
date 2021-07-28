@@ -43,6 +43,15 @@ public:
     intersectionPoint = ray.pointAtParameter(t); 
   }
 
+  void set(Hit temph)
+  {
+      t = temph.getT();
+      material = temph.getMaterial();
+      normal = temph.getNormal();
+      ray = temph.getRay();
+      intersectionPoint = temph.getIntersectionPoint();
+  }
+
   //void set(float _t, const Ray& ray)
   //{
   //    t = _t; 

@@ -41,13 +41,21 @@ void shade(void)
 	assert(raytracer != NULL);
 	if (output_file != NULL)
 	{
-		if (shadeGrid)
+		
+		if(useGrid)
 		{
-			raytracer->gridShader(output_file);
+			if (shadeGrid)
+			{
+				raytracer->gridShader(output_file);
+			}
+			else
+			{
+				raytracer->RayCastFast(output_file);
+			}
 		}
 		else
 		{
-			raytracer->raytraceShader(output_file);
+			raytracer->RayCast(output_file);
 		}
 	}
 	if (printStatistics)

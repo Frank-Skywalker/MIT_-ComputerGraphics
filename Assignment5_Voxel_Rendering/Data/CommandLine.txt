@@ -39,3 +39,7 @@ Note: the grid voxelization of the green triangle uses an optional special case 
 .\Assignment5\Debug\Assignment5.exe -input .\Data\scene5_12_nested_transformations.txt -size 200 200 -output .\Data\output5_12.tga -gui -grid 30 30 30 -visualize_grid
 Note: the grid voxelization of the blue rhombus uses an optional special case for transformed triangles and will look different if you have not implemented this option.
   
+
+
+.\Assignment5\Debug\Assignment5.exe -input .\Data\test.txt -size 200 200 -gui
+.\Assignment5\Debug\Assignment5.exe -input .\Data\test.txt -size 200 200 -output .\Data\test.tga -gui -grid 15 15 9 -visualize_grid

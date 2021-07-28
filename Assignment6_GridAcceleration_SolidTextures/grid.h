@@ -7,6 +7,7 @@
 #include "material.h"
 #include "rayTree.h"
 #include "object3dvector.h"
+#include "hit.h"
 
 #define GRID_EPSILON 0.00001
 #define MATERIAL_NUM 16
@@ -111,10 +112,19 @@ public:
 	}
 
 
+	//add an object to specific voxel
 	void addObjectToVoxel(int i, int j, int k, Object3D* obj)
 	{
 		//opaque[i][j][k] = true;
+		assert(i >= 0 && i < nx&& j >= 0 && j < ny&& k >= 0 && k < nz);
 		voxels[i][j][k].addObject(obj);
+	}
+
+
+	//add a plane
+	void addPlane(Plane* p)
+	{
+		planes.addObject(p);
 	}
 
 
@@ -215,12 +225,16 @@ public:
 	}
 	
 
-	virtual bool ShadowRay(const Ray& r, float tmin, float distanceToLight)
+	virtual bool intersectShadowRay(const Ray& r, float tmin, float distanceToLight)
 	{
-		RayTracingStats::IncrementNumIntersections();
+		//RayTracingStats::IncrementNumIntersections();
 		return false;
 	}
 
+
+
+
+	//intersect with voxels
 	virtual bool intersect(const Ray& r, Hit& h, float tmin)
 	{
 		RayTracingStats::IncrementNumIntersections();
@@ -260,6 +274,8 @@ public:
 		return false;
 
 	}
+
+	
 
 
 	void initializeRayMarch(MarchingInfo& mi, const Ray& r, float tmin) const
@@ -349,9 +365,10 @@ public:
 			//cout << "Ray intersect with grid" << endl;
 			//add epsilon
 			startPoint = r.getOrigin() + r.getDirection() * (tNear);
-			assert(!getVoxelIndex(startPoint, startIndex));
-			//cout << "startPoint: " << startPoint << endl;
-			//cout << "t: " << tNear << endl;
+			//assert(1);
+			assert(getVoxelIndex(startPoint, startIndex));
+				//cout << "startPoint: " << startPoint << endl;
+				//cout << "t: " << tNear << endl;
 			tmin = tNear;
 			//cout << "Start Point: " << startPoint << endl;
 		}
@@ -580,6 +597,105 @@ public:
 		return voxelCenter + offset;
 	}
 
+
+
+
+
+	//Assignment6
+
+	//intersect with objects
+	bool intersectObjects(const Ray& r, Hit& h, float tmin)
+	{
+		//nowMaterialIndexCell = 0;
+		//nowMaterialIndexFace = 0;
+		MarchingInfo mi;
+		initializeRayMarch(mi, r, tmin);
+		if (mi.getTmin() == INFINITY)
+		{
+			return false;
+		}
+
+		int i, j, k;
+		mi.getGridIndex(i, j, k);
+		//walk through each voxel along the ray
+		while (i >= 0 && i < nx && j >= 0 && j < ny && k >= 0 && k < nz)
+		{
+			RayTracingStats::IncrementNumGridCellsTraversed();
+			//addHitCell(i, j, k);
+			//addEnteredFace(i, j, k, mi.getAxis(), mi.getSign());
+			//cout << "i,j,k: " << i << " " << j << " " << k << " " << endl
+			float voxelTmax = mi.getCurrentVoxelTmax();
+			int numObjects = voxels[i][j][k].getNumObjects();
+			if (numObjects != 0)
+			{
+				Hit temph(h);
+				for (int o = 0; o < numObjects; o++)
+				{
+					voxels[i][j][k].getObject(o)->intersect(r, temph, tmin);
+				}
+
+				if (temph.getT() <= voxelTmax)
+				{
+					h.set(temph);
+					return true;
+				}
+
+			}
+			mi.nextCell();
+			mi.getGridIndex(i, j, k);
+		}
+
+		return false;
+
+	}
+
+
+	//intersect objects with shadow rays
+	bool intersectObjectsShadow(const Ray& r, float tmin, float distanceToLight)
+	{
+		//nowMaterialIndexCell = 0;
+		//nowMaterialIndexFace = 0;
+		MarchingInfo mi;
+		initializeRayMarch(mi, r, tmin);
+		if (mi.getTmin() == INFINITY)
+		{
+			return false;
+		}
+
+		int i, j, k;
+		mi.getGridIndex(i, j, k);
+		//walk through each voxel along the ray
+		while (i >= 0 && i < nx && j >= 0 && j < ny && k >= 0 && k < nz)
+		{
+			RayTracingStats::IncrementNumGridCellsTraversed();
+			//addHitCell(i, j, k);
+			//addEnteredFace(i, j, k, mi.getAxis(), mi.getSign());
+			//cout << "i,j,k: " << i << " " << j << " " << k << " " << endl
+			//float voxelTmax = mi.getCurrentVoxelTmax();
+			int numObjects = voxels[i][j][k].getNumObjects();
+			if (numObjects != 0)
+			{
+				//Hit temph(h);
+				for (int o = 0; o < numObjects; o++)
+				{
+					if (voxels[i][j][k].getObject(o)->intersectShadowRay(r, tmin, distanceToLight))
+					{
+						return true;
+					}
+				}
+
+			}
+			mi.nextCell();
+			mi.getGridIndex(i, j, k);
+		}
+
+		return false;
+	}
+
+
+
+
+
 private:
 
 	//int nx;
@@ -605,13 +721,13 @@ private:
 	//bool*** opaque;
 
 	Object3DVector ***voxels;
+	Object3DVector planes;
 
 	Material* materials[16];
 	int nowMaterialIndexCell;
 	int nowMaterialIndexFace;
 	
 
-	
 
 	
 	

@@ -100,6 +100,12 @@ public:
 		glEnd();
 	}
 
+
+	virtual void insertIntoGrid(Grid* grid, Matrix* m)
+	{
+
+	}
+
 private:
 	Vec3f normal;
 	float d;

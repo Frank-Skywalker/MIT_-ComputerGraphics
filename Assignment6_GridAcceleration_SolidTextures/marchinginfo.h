@@ -50,6 +50,13 @@ public:
 	{
 		this->dt = dt;
 	}
+
+
+	Vec3f getTnext()
+	{
+		return tnext;
+	}
+
 	void setTnext(Vec3f tnext)
 	{
 		this->tnext = tnext;
@@ -117,7 +124,11 @@ public:
 		return sign;
 	}
 	
-
+	//get maximum t value of the current voxel
+	float getCurrentVoxelTmax()
+	{
+		return fminf(fminf(tnext[0], tnext[1]), tnext[2]);
+	}
 
 
 
@@ -134,6 +145,7 @@ private:
 	Vec3f axisNormals[3];
 
 	int axis;
+	
 
 
 

@@ -53,10 +53,10 @@ public:
         //Assignment5
         if (useGrid)
         {
-            Matrix *m=new Matrix;
-            m->SetToIdentity();
+            //Matrix *m=new Matrix;
+            //m->SetToIdentity();
             grid = new Grid(scene->getGroup()->getBoundingBox(), nx, ny, nz);
-            scene->getGroup()->insertIntoGrid(grid, m);
+            scene->getGroup()->insertIntoGrid(grid, NULL);
         }
         else
         {
