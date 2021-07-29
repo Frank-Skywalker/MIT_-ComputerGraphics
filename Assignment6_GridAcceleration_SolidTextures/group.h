@@ -99,7 +99,16 @@ public:
 	{
 		for (auto it = objects.begin(); it != objects.end(); it++)
 		{
-			(*it)->insertIntoGrid(g,m);
+			Matrix* tempM = NULL;
+			if (m != NULL)
+			{
+				tempM = new Matrix(*m);
+			}
+			(*it)->insertIntoGrid(g, tempM);
+			if (tempM != NULL)
+			{
+				delete tempM;
+			}
 		}
 	}
 

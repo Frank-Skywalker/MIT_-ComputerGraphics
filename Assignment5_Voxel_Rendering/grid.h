@@ -19,9 +19,9 @@ public:
 
 		//material = new PhongMaterial(Vec3f(0.5, 0, 0), Vec3f(), 0);
 
-		cout << "bb min" << bb->getMin() << endl;
-		cout << "bb max" << bb->getMax() << endl;
-		cout << "nx ny nz: " << nx << " " << ny << " " << nz << endl;
+		//cout << "bb min" << bb->getMin() << endl;
+		//cout << "bb max" << bb->getMax() << endl;
+		//cout << "nx ny nz: " << nx << " " << ny << " " << nz << endl;
 		boundingBox = bb;
 		boundingBox->Get(gridMinVertex, gridMaxVertex);
 

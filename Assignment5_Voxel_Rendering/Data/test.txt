@@ -1,49 +1,41 @@
-OrthographicCamera { center 5 5 20 direction -5 -5 -20 up 0 1 0 size 10 }
+OrthographicCamera { center 4 5 10 direction -0.4 -0.5 -1 up 0 1 0 size 6 }
 
-Lights { numLights 1 DirectionalLight { direction -0.5 -0.3 -1 color 0.7 0.7 0.7 } }
+Lights { numLights 1 DirectionalLight { direction -0.3 -0.6 -0.8 color 0.5 0.5 0.5 } }
 
-Background { color 0.2 0 0.6 ambientLight 0.3 0.3 0.3 }
+Background { color 0 0 0 ambientLight 0.5 0.5 0.5 }
 
-Materials { numMaterials 3 Material { diffuseColor 1 1 1 } Material { diffuseColor 1 0 0 } Material { diffuseColor 0 1 0 } }
+Materials { numMaterials 3 Material { diffuseColor 1 0 0 } Material { diffuseColor 0 1 0 } Material { diffuseColor 0 0 1 } }
 
-Group { numObjects 4
+Group { numObjects 1 
+    Transform 
+    { 
+        Scale 1 1 1
+        Group 
+        { 
+            numObjects 2
 
-MaterialIndex 0
-Triangle {
-    vertex0 -4 -4 -2
-vertex1  4  4 -2
-vertex2 -4  4 -2
-}
-Triangle {
-    vertex0 -4 -4 -2
-vertex1  4 -4 -2
-vertex2  4  4 -2
-}
+            MaterialIndex 1 
 
-MaterialIndex 1    
-Transform {
-    ZRotate 0
-    
-Triangle {
-        vertex0 -2 -2 0
-    vertex1 2 1 0
-    vertex2 1 2 0
-    }
-}
+                Transform 
+                { 
+                    Translate -3 1 0 
+                    TriangleMesh 
+                    { 
+                        obj_file E:\Codes\CG\MIT_ComputerGraphics\Assignment5_Voxel_Rendering\Data\cube.obj 
+                    } 
+                } 
+            
 
-MaterialIndex 2    
-Transform {
-        Translate 0 1 0 
-        Scale 1 2 1
-        Transform {
-        Translate 0 1 0
-        ZRotate 45
-        Translate 0 -1 0
-Triangle {
-        vertex0 -2 -2 2
-    vertex1 2 1 2
-    vertex2 1 2 2
-    }
+            MaterialIndex 2
+                Transform 
+                {
+                    Translate 0 1 0 
+                    TriangleMesh 
+                    {
+                        obj_file E:\Codes\CG\MIT_ComputerGraphics\Assignment5_Voxel_Rendering\Data\cube.obj
+                    }
+                    
+                }
         }
-}
+    }
 }

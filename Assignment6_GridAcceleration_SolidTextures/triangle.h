@@ -109,10 +109,32 @@ public:
 		Vec3f minVertex;
 		Vec3f maxVertex;
 		boundingBox->Get(minVertex, maxVertex);
+		if (m != NULL)
+		{
+			//get eight vertices of sub object bounding box
+			Vec3f transVertices[3];
+			transVertices[0] = a;
+			transVertices[1] = b;
+			transVertices[2] = c;
+
+			minVertex.Set(INFINITY, INFINITY, INFINITY);
+			maxVertex.Set(-INFINITY, -INFINITY, -INFINITY);
+			for (int i = 0; i < 3; i++)
+			{
+				m->Transform(transVertices[i]);
+				Vec3f::Min(minVertex, minVertex, transVertices[i]);
+				Vec3f::Max(maxVertex, maxVertex, transVertices[i]);
+			}
+		}
 		int mini, minj, mink;
 		int maxi, maxj, maxk;
-		grid->getVoxelIndex(minVertex, mini, minj, mink);
-		grid->getVoxelIndex(maxVertex, maxi, maxj, maxk);
+		assert(grid->getVoxelIndex(minVertex, mini, minj, mink));
+		//cout << "minVertex: " << minVertex << endl;
+		//cout << "indices: " << mini << " " << minj << " " << mink << endl;
+		//cout << "triangle: " << a << endl;
+		assert(grid->getVoxelIndex(maxVertex, maxi, maxj, maxk));
+		//cout << "maxVertices: " << maxVertex << endl;
+		//cout << "indices: " << maxi << " " << maxj << " " << maxk << endl;
 		for (int i = mini; i <= maxi; i++)
 		{
 			for (int j = minj; j <= maxj; j++)

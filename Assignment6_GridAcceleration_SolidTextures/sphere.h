@@ -205,6 +205,52 @@ public:
     //Assignment5
     virtual void insertIntoGrid(Grid* grid, Matrix* m)
     {
+
+        //transform
+        if (m != NULL)
+        {
+            Vec3f minVertex;
+            Vec3f maxVertex;
+            boundingBox->Get(minVertex, maxVertex);
+
+            //get eight vertices of sub object bounding box
+            Vec3f transVertices[8];
+            transVertices[0] = minVertex;
+            transVertices[1] = Vec3f(minVertex.x(), minVertex.y(), maxVertex.z());
+            transVertices[2] = Vec3f(minVertex.x(), maxVertex.y(), minVertex.z());
+            transVertices[3] = Vec3f(minVertex.x(), maxVertex.y(), maxVertex.z());
+            transVertices[4] = Vec3f(maxVertex.x(), minVertex.y(), minVertex.z());
+            transVertices[5] = Vec3f(maxVertex.x(), minVertex.y(), maxVertex.z());
+            transVertices[6] = Vec3f(maxVertex.x(), maxVertex.y(), minVertex.z());
+            transVertices[7] = Vec3f(maxVertex.x(), maxVertex.y(), maxVertex.z());
+
+            minVertex.Set(INFINITY, INFINITY, INFINITY);
+            maxVertex.Set(-INFINITY, -INFINITY, -INFINITY);
+            for (int i = 0; i < 8; i++)
+            {
+                m->Transform(transVertices[i]);
+                Vec3f::Min(minVertex, minVertex, transVertices[i]);
+                Vec3f::Max(maxVertex, maxVertex, transVertices[i]);
+            }
+            int mini, minj, mink;
+            int maxi, maxj, maxk;
+            assert(grid->getVoxelIndex(minVertex, mini, minj, mink));
+            assert(grid->getVoxelIndex(maxVertex, maxi, maxj, maxk));
+            for (int i = mini; i <= maxi; i++)
+            {
+                for (int j = minj; j <= maxj; j++)
+                {
+                    for (int k = mink; k <= maxk; k++)
+                    {
+                        grid->addObjectToVoxel(i, j, k, this);
+                    }
+                }
+            }
+            return;
+        }
+
+
+        //no transform
         float voxelHalfDiagonalLength = grid->getVoxelHalfDiagonalLength();
 
         Vec3f minVertex;
@@ -212,15 +258,15 @@ public:
         boundingBox->Get(minVertex, maxVertex);
         int mini, minj, mink;
         int maxi, maxj, maxk;
-        grid->getVoxelIndex(minVertex, mini, minj, mink);
-        grid->getVoxelIndex(maxVertex, maxi, maxj, maxk);
+        assert(grid->getVoxelIndex(minVertex, mini, minj, mink));
+        assert(grid->getVoxelIndex(maxVertex, maxi, maxj, maxk));
         for (int i = mini; i <= maxi; i++)
         {
             for (int j = minj; j <= maxj; j++)
             {
                 for (int k = mink; k <= maxk; k++)
                 {
-                    Vec3f voxelCenter=grid->getVoxelCenterByIndex(i, j, k);
+                    Vec3f voxelCenter = grid->getVoxelCenterByIndex(i, j, k);
                     if ((voxelCenter - center).Length() <= radius + voxelHalfDiagonalLength)
                     {
                         grid->addObjectToVoxel(i, j, k, this);
@@ -229,7 +275,6 @@ public:
             }
         }
     }
-
 
 private:
     Vec3f center;

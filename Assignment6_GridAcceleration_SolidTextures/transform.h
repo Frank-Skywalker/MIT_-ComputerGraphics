@@ -121,7 +121,15 @@ public:
 
 	virtual void insertIntoGrid(Grid* grid, Matrix* m)
 	{
-		*m =(*m) * transform;
+		if (m == NULL)
+		{
+			m = new Matrix;
+			m->SetToIdentity();
+		}
+		//cout << "My transform: " << transform << endl;
+		//cout << "m: " << *m << endl;
+		*m = (*m) * transform;
+		//cout << "after *: " << *m << endl;
 		object->insertIntoGrid(grid, m);
 	}
 
@@ -131,5 +139,7 @@ private:
 	Object3D* object;
 
 };
+
+
 
 #endif

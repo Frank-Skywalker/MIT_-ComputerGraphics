@@ -232,8 +232,8 @@ public:
 			}
             int mini, minj, mink;
             int maxi, maxj, maxk;
-            grid->getVoxelIndex(minVertex, mini, minj, mink);
-            grid->getVoxelIndex(maxVertex, maxi, maxj, maxk);
+            assert(grid->getVoxelIndex(minVertex, mini, minj, mink));
+            assert(grid->getVoxelIndex(maxVertex, maxi, maxj, maxk));
             for (int i = mini; i <= maxi; i++)
             {
                 for (int j = minj; j <= maxj; j++)

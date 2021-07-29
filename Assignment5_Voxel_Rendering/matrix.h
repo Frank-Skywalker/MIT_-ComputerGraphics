@@ -89,6 +89,8 @@ public:
     static float det2x2(float a, float b,
         float c, float d);
 
+
+
 private:
 
     // REPRESENTATION
@@ -96,6 +98,20 @@ private:
 
 };
 
+
+inline ostream& operator<<(ostream& os, const Matrix& m) 
+{
+    os << "Matrix: " << endl;
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            os << m.Get(i, j) << " ";
+        }
+        os << endl;
+    }
+    return os;
+}
 // ====================================================================
 // ====================================================================
 

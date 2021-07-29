@@ -425,3 +425,4 @@ void Matrix::TransformDirection(Vec3f& v) const {
     Transform(v2);
     v.Set(v2.x(), v2.y(), v2.z());
 }
+

@@ -40,9 +40,9 @@ public:
 			Vec3f::Max(max, max, transVertices[i]);
 		}
 		boundingBox = new BoundingBox(min, max);
-		cout << "boundingBox of transform: " << endl;
-		cout << "min: " << min << endl;
-		cout << "max: " << max << endl;
+		//cout << "boundingBox of transform: " << endl;
+		//cout << "min: " << min << endl;
+		//cout << "max: " << max << endl;
 	}
 	~Transform()
 	{
@@ -129,7 +129,10 @@ public:
 			m = new Matrix;
 			m->SetToIdentity();
 		}
-		*m = (*m)*transform ;
+		//cout << "My transform: " << transform << endl;
+		//cout << "m: " << *m << endl;
+		*m = (*m)*transform;
+		//cout << "after *: " << *m << endl;
 		object->insertIntoGrid(grid, m);
 	}
 

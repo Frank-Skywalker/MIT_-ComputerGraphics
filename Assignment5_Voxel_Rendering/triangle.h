@@ -110,19 +110,14 @@ public:
 		if (m != NULL)
 		{
 			//get eight vertices of sub object bounding box
-			Vec3f transVertices[8];
-			transVertices[0] = minVertex;
-			transVertices[1] = Vec3f(minVertex.x(), minVertex.y(), maxVertex.z());
-			transVertices[2] = Vec3f(minVertex.x(), maxVertex.y(), minVertex.z());
-			transVertices[3] = Vec3f(minVertex.x(), maxVertex.y(), maxVertex.z());
-			transVertices[4] = Vec3f(maxVertex.x(), minVertex.y(), minVertex.z());
-			transVertices[5] = Vec3f(maxVertex.x(), minVertex.y(), maxVertex.z());
-			transVertices[6] = Vec3f(maxVertex.x(), maxVertex.y(), minVertex.z());
-			transVertices[7] = Vec3f(maxVertex.x(), maxVertex.y(), maxVertex.z());
+			Vec3f transVertices[3];
+			transVertices[0] = a;
+			transVertices[1] = b;
+			transVertices[2] = c;
 
 			minVertex.Set(INFINITY, INFINITY, INFINITY);
 			maxVertex.Set(-INFINITY, -INFINITY, -INFINITY);
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				m->Transform(transVertices[i]);
 				Vec3f::Min(minVertex, minVertex, transVertices[i]);
@@ -131,16 +126,13 @@ public:
 		}
 		int mini, minj, mink;
 		int maxi, maxj, maxk;
-		if (!grid->getVoxelIndex(minVertex, mini, minj, mink))
-		{
-			cout << "minVertex: " << minVertex << endl;
-			cout << "indices: " << mini << " " << minj << " " << mink << endl;
-		}
-		if (!grid->getVoxelIndex(maxVertex, maxi, maxj, maxk))
-		{
-			cout << "maxVertices: " << maxVertex << endl;
-			cout << "indices: " << maxi << " " << maxj << " " << maxk << endl;
-		}
+		assert(grid->getVoxelIndex(minVertex, mini, minj, mink));
+			//cout << "minVertex: " << minVertex << endl;
+			//cout << "indices: " << mini << " " << minj << " " << mink << endl;
+			//cout << "triangle: " << a << endl;
+		assert(grid->getVoxelIndex(maxVertex, maxi, maxj, maxk));
+			//cout << "maxVertices: " << maxVertex << endl;
+			//cout << "indices: " << maxi << " " << maxj << " " << maxk << endl;
 		for (int i = mini; i <= maxi; i++)
 		{
 			for (int j = minj; j <= maxj; j++)
@@ -152,6 +144,9 @@ public:
 			}
 		}
 	}
+
+
+
 
 private:
 	Vec3f a;

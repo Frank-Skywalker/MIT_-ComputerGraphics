@@ -42,4 +42,4 @@ Note: the grid voxelization of the blue rhombus uses an optional special case fo
 
 
 .\Assignment5\Debug\Assignment5.exe -input .\Data\test.txt -size 200 200 -gui
-.\Assignment5\Debug\Assignment5.exe -input .\Data\test.txt -size 200 200 -output .\Data\test.tga -gui -grid 15 15 9 -visualize_grid
+.\Assignment5\Debug\Assignment5.exe -input .\Data\test.txt -size 200 200 -output .\Data\test.tga -gui -grid 30 30 30 -visualize_grid

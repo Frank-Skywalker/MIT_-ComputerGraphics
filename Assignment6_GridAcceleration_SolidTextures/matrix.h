@@ -96,6 +96,22 @@ private:
 
 };
 
+
+
+inline ostream& operator<<(ostream& os, const Matrix& m)
+{
+    os << "Matrix: " << endl;
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            os << m.Get(i, j) << " ";
+        }
+        os << endl;
+    }
+    return os;
+}
+
 // ====================================================================
 // ====================================================================
 
