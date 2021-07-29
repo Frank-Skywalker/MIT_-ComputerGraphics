@@ -447,6 +447,14 @@ public:
         {
             int x = i % width;
             int y = i / width;
+            //if (x == 1 && y == 1)
+            //{
+            //    cout << "here";
+            //}
+            //if (x == 2 && y == 1)
+            //{
+            //    cout << "here";
+            //}
             Hit hit;
             Ray ray = generateRayAtIndex(i);
             RayTracingStats::IncrementNumNonShadowRays();
@@ -465,8 +473,11 @@ public:
             return Vec3f(0, 0, 0);
         }
 
-        //scene->getGroup()->intersect(ray, hit, tmin);
         grid->intersectObjects(ray, hit, tmin);
+            //cout << "hit!" << endl;
+            //cout << "ray: " << ray.getDirection()<<endl;
+            //cout << "hit: " << hit.getNormal()<<endl;
+            //cout << "hit: " << hit.getMaterial() << endl;
         //render main segment
         if (bounces == 0)
         {

@@ -655,17 +655,20 @@ public:
 					}
 					else
 					{
-						temph.set(hitmap[obj]);
+						if (hitmap[obj].getT() < temph.getT())
+						{
+							temph.set(hitmap[obj]);
+						}
 					}
 				}
 
-				if (temph.getT() <= voxelTmax)
+				if (temph.getT() <= voxelTmax+GRID_EPSILON)
 				{
 					h.set(temph);
 					return true;
 				}
 				//early stop
-				if (voxelTmax >= h.getT())
+				if (voxelTmax-GRID_EPSILON > h.getT())
 				{
 					return state;
 				}

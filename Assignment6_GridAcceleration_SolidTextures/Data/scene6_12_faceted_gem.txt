@@ -6,4 +6,4 @@ Background { color 0.2 0.2 0.2 ambientLight 0.1 0.1 0.1 }
 
 Materials { numMaterials 2 PhongMaterial { diffuseColor 0.25 0.25 0.25 specularColor 0.25 0.25 0.25 exponent 32 reflectiveColor 0.5 0.5 0.5 transparentColor 0.95 0.95 0.95 indexOfRefraction 2.413 } PhongMaterial { diffuseColor 1 1 1 } }
 
-Group { numObjects 2 MaterialIndex 0 Transform { XRotate -90 TriangleMesh { obj_file diamond.obj } } MaterialIndex 1 Plane { normal 0 1 0 offset -3.5 } }
+Group { numObjects 2 MaterialIndex 0 Transform { XRotate -90 TriangleMesh { obj_file .\Data\diamond.obj } } MaterialIndex 1 Plane { normal 0 1 0 offset -3.5 } }

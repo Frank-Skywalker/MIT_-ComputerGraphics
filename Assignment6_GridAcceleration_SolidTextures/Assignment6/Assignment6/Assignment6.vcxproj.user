@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LocalDebuggerCommandArguments>-input E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\Data\scene6_01_sphere.txt -output E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\Data\output6_01b.tga -size 200 200 -grid 10 10 10 -stats</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-input E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\Data\scene6_02_sphere_triangles.txt -output E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\Data\output6_02b.tga -size 10 10 -grid 10 10 10</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

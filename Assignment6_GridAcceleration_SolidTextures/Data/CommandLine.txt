@@ -6,7 +6,7 @@
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_02_sphere_triangles.txt -output .\Data\output6_02b.tga -size 200 200 -grid 10 10 10 -stats 
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_02_sphere_triangles.txt -output .\Data\output6_02c.tga -size 200 200 -stats -shadows
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_02_sphere_triangles.txt -output .\Data\output6_02d.tga -size 200 200 -grid 10 10 10 -stats -shadows 
-.\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_02_sphere_triangles.txt -output .\Data\output6_02e.tga -size 200 200 -grid 10 10 10 -visualize_grid
+.\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_02_sphere_triangles.txt -output .\Data\output6_02e.tga -size 20 20 -grid 10 10 10 -visualize_grid
   
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_03_sphere_plane.txt -output .\Data\output6_03a.tga -size 200 200 -stats
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_03_sphere_plane.txt -output .\Data\output6_03b.tga -size 200 200 -grid 10 10 10 -stats
