@@ -108,9 +108,12 @@ public:
 	{
 		Vec3f minVertex;
 		Vec3f maxVertex;
+		int mini, minj, mink;
+		int maxi, maxj, maxk;
 		boundingBox->Get(minVertex, maxVertex);
 		if (m != NULL)
 		{
+			transform = new Transform(*m, this);
 			//get eight vertices of sub object bounding box
 			Vec3f transVertices[3];
 			transVertices[0] = a;
@@ -125,26 +128,47 @@ public:
 				Vec3f::Min(minVertex, minVertex, transVertices[i]);
 				Vec3f::Max(maxVertex, maxVertex, transVertices[i]);
 			}
-		}
-		int mini, minj, mink;
-		int maxi, maxj, maxk;
-		assert(grid->getVoxelIndex(minVertex, mini, minj, mink));
-		//cout << "minVertex: " << minVertex << endl;
-		//cout << "indices: " << mini << " " << minj << " " << mink << endl;
-		//cout << "triangle: " << a << endl;
-		assert(grid->getVoxelIndex(maxVertex, maxi, maxj, maxk));
-		//cout << "maxVertices: " << maxVertex << endl;
-		//cout << "indices: " << maxi << " " << maxj << " " << maxk << endl;
-		for (int i = mini; i <= maxi; i++)
-		{
-			for (int j = minj; j <= maxj; j++)
+
+			
+			assert(grid->getVoxelIndex(minVertex, mini, minj, mink));
+			//cout << "minVertex: " << minVertex << endl;
+			//cout << "indices: " << mini << " " << minj << " " << mink << endl;
+			//cout << "triangle: " << a << endl;
+			assert(grid->getVoxelIndex(maxVertex, maxi, maxj, maxk));
+			//cout << "maxVertices: " << maxVertex << endl;
+			//cout << "indices: " << maxi << " " << maxj << " " << maxk << endl;
+			for (int i = mini; i <= maxi; i++)
 			{
-				for (int k = mink; k <= maxk; k++)
+				for (int j = minj; j <= maxj; j++)
 				{
-					grid->addObjectToVoxel(i, j, k, this);
+					for (int k = mink; k <= maxk; k++)
+					{
+						grid->addObjectToVoxel(i, j, k, transform);
+					}
 				}
 			}
 		}
+		else
+		{
+			assert(grid->getVoxelIndex(minVertex, mini, minj, mink));
+			//cout << "minVertex: " << minVertex << endl;
+			//cout << "indices: " << mini << " " << minj << " " << mink << endl;
+			//cout << "triangle: " << a << endl;
+			assert(grid->getVoxelIndex(maxVertex, maxi, maxj, maxk));
+			//cout << "maxVertices: " << maxVertex << endl;
+			//cout << "indices: " << maxi << " " << maxj << " " << maxk << endl;
+			for (int i = mini; i <= maxi; i++)
+			{
+				for (int j = minj; j <= maxj; j++)
+				{
+					for (int k = mink; k <= maxk; k++)
+					{
+						grid->addObjectToVoxel(i, j, k, this);
+					}
+				}
+			}
+		}
+		
 	}
 
 private:

@@ -1,7 +1,12 @@
 #ifndef _PLANE_H_
 #define _PLANE_H_
 #include "object3d.h"
-#define LENGTH 100000
+#include "transform.h"
+#include "grid.h"
+
+#define PLANE_HALF_LENGTH 100000
+
+
 
 class Plane :public Object3D
 {
@@ -85,10 +90,10 @@ public:
 		basis2.Normalize();
 
 		Vec3f points[4];
-		points[0] = o + basis1 * LENGTH;
-		points[1] = o + basis2 * LENGTH;
-		points[2] = o - basis1 * LENGTH;
-		points[3] = o - basis2 * LENGTH;
+		points[0] = o + basis1 * PLANE_HALF_LENGTH;
+		points[1] = o + basis2 * PLANE_HALF_LENGTH;
+		points[2] = o - basis1 * PLANE_HALF_LENGTH;
+		points[3] = o - basis2 * PLANE_HALF_LENGTH;
 
 		getMaterial()->glSetMaterial();
 		glBegin(GL_QUADS);
@@ -103,7 +108,15 @@ public:
 
 	virtual void insertIntoGrid(Grid* grid, Matrix* m)
 	{
-
+		if (m != NULL)
+		{
+			transform = new Transform(*m, this);
+			grid->addInfiniteObject(transform);
+		}
+		else
+		{
+			grid->addInfiniteObject(this);
+		}
 	}
 
 private:

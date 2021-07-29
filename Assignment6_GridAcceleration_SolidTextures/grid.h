@@ -3,11 +3,11 @@
 
 #include "object3d.h"
 #include "marchinginfo.h"
-#include "plane.h"
 #include "material.h"
 #include "rayTree.h"
 #include "object3dvector.h"
 #include "hit.h"
+#include <map>
 
 #define GRID_EPSILON 0.00001
 #define MATERIAL_NUM 16
@@ -122,9 +122,9 @@ public:
 
 
 	//add a plane
-	void addPlane(Plane* p)
+	void addInfiniteObject(Object3D* o)
 	{
-		planes.addObject(p);
+		infiniteObjects.addObject(o);
 	}
 
 
@@ -606,13 +606,27 @@ public:
 	//intersect with objects
 	bool intersectObjects(const Ray& r, Hit& h, float tmin)
 	{
+
+		//avoid duplicate ray-primitive intersections for objects that overlap multiple cells
+	std:map<Object3D*, Hit> hitmap;
+
 		//nowMaterialIndexCell = 0;
 		//nowMaterialIndexFace = 0;
+
+		bool state = false;
+		//intersect the ray with infinite objects first
+		for (int i = 0; i < infiniteObjects.getNumObjects(); i++)
+		{
+			state|=infiniteObjects.getObject(i)->intersect(r, h, tmin);
+		}
+
+		//intersect the ray with gird
 		MarchingInfo mi;
 		initializeRayMarch(mi, r, tmin);
+		//no intersection with the grid
 		if (mi.getTmin() == INFINITY)
 		{
-			return false;
+			return state;
 		}
 
 		int i, j, k;
@@ -631,7 +645,18 @@ public:
 				Hit temph(h);
 				for (int o = 0; o < numObjects; o++)
 				{
-					voxels[i][j][k].getObject(o)->intersect(r, temph, tmin);
+					Object3D* obj = voxels[i][j][k].getObject(o);
+					
+					//avoid duplicate ray-primitive intersections for objects that overlap multiple cells
+					if (hitmap.count(obj)==0)
+					{
+						obj->intersect(r, temph, tmin);
+						hitmap[obj] = temph;
+					}
+					else
+					{
+						temph.set(hitmap[obj]);
+					}
 				}
 
 				if (temph.getT() <= voxelTmax)
@@ -639,13 +664,18 @@ public:
 					h.set(temph);
 					return true;
 				}
+				//early stop
+				if (voxelTmax >= h.getT())
+				{
+					return state;
+				}
 
 			}
 			mi.nextCell();
 			mi.getGridIndex(i, j, k);
 		}
 
-		return false;
+		return state;
 
 	}
 
@@ -721,7 +751,7 @@ private:
 	//bool*** opaque;
 
 	Object3DVector ***voxels;
-	Object3DVector planes;
+	Object3DVector infiniteObjects;				//store infinite objects that cannot be inserted into the grid, need separate intersect routine
 
 	Material* materials[16];
 	int nowMaterialIndexCell;

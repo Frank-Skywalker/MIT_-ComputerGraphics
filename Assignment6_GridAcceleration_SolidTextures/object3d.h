@@ -9,19 +9,34 @@
 
 class Grid;
 class BoundingBox;
+class Transform;
 
 class Object3D{
 
 public:
 
-    Object3D(Material* mat) : material(mat) {};
-    Object3D() {};
+    Object3D(Material* mat) : material(mat) 
+    {
+        boundingBox = NULL;
+        transform= NULL;
+    }
+    Object3D() 
+    {
+        boundingBox = NULL;
+        transform = NULL;
+    };
     ~Object3D()
     {
         //Assignment4
         if (boundingBox != NULL)
         {
             delete boundingBox;
+        }
+
+        //Assignment6
+        if (transform != NULL)
+        {
+            delete transform;
         }
     };
 
@@ -58,6 +73,7 @@ public:
 protected:
     Material* material;
     BoundingBox* boundingBox;
+    Transform* transform;
 };
 
 #endif

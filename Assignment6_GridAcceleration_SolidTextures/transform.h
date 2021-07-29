@@ -5,7 +5,7 @@
 class Transform :public Object3D
 {
 public:
-	Transform(Matrix& m, Object3D* o):transform(m),object(o)
+	Transform(Matrix& m, Object3D* o):matrix(m),object(o)
 	{
 
 		//generate bounding box
@@ -35,7 +35,7 @@ public:
 		Vec3f max(-INFINITY,-INFINITY,-INFINITY);
 		for (int i = 0; i < 8; i++)
 		{
-			transform.Transform(transVertices[i]);
+			matrix.Transform(transVertices[i]);
 			Vec3f::Min(min, min, transVertices[i]);
 			Vec3f::Max(max, max, transVertices[i]);
 		}
@@ -50,7 +50,7 @@ public:
 	{
 		//cout << "here" << endl;
 		//transform ray from world space to object space
-		Matrix inverseTransform = transform;
+		Matrix inverseTransform = matrix;
 		assert(inverseTransform.Inverse());
 		Vec3f rayOriginOS = r.getOrigin();
 		Vec3f rayDirectionOS = r.getDirection();
@@ -86,7 +86,7 @@ public:
 	{
 		//cout << "here" << endl;
 		//transform ray from world space to object space
-		Matrix inverseTransform = transform;
+		Matrix inverseTransform = matrix;
 		assert(inverseTransform.Inverse());
 		Vec3f rayOriginOS = r.getOrigin();
 		Vec3f rayDirectionOS = r.getDirection();
@@ -112,7 +112,7 @@ public:
 	virtual void paint(void)
 	{
 		glPushMatrix();
-		GLfloat* glMatrix = transform.glGet();
+		GLfloat* glMatrix = matrix.glGet();
 		glMultMatrixf(glMatrix);
 		delete[] glMatrix;
 		object->paint();
@@ -128,14 +128,14 @@ public:
 		}
 		//cout << "My transform: " << transform << endl;
 		//cout << "m: " << *m << endl;
-		*m = (*m) * transform;
+		*m = (*m) * matrix;
 		//cout << "after *: " << *m << endl;
 		object->insertIntoGrid(grid, m);
 	}
 
 
 private:
-	Matrix transform;
+	Matrix matrix;
 	Object3D* object;
 
 };
