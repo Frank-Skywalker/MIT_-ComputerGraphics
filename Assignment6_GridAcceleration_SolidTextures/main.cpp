@@ -46,16 +46,18 @@ void shade(void)
 		{
 			if (shadeGrid)
 			{
-				raytracer->gridShader(output_file);
+				raytracer->RayCastGrid(output_file);
 			}
 			else
 			{
 				raytracer->RayCastFast(output_file);
+				//raytracer->RayCastFastNormal(output_file);
 			}
 		}
 		else
 		{
 			raytracer->RayCast(output_file);
+			//raytracer->RayCastNormal(output_file);
 		}
 	}
 	if (printStatistics)

@@ -26,7 +26,9 @@ public:
     t = h.t; 
     material = h.material; 
     normal = h.normal; 
-    intersectionPoint = h.intersectionPoint; }
+    intersectionPoint = h.intersectionPoint;
+    ray = h.ray;
+  }
   ~Hit() {}
 
   // ACCESSORS

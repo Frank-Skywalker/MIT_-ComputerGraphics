@@ -32,13 +32,13 @@ public:
   virtual ~Material() {}
 
   // ACCESSORS
-  virtual Vec3f getDiffuseColor() const { return diffuseColor; }
+  virtual Vec3f getDiffuseColor(Vec3f point) const { return diffuseColor; }
   virtual Vec3f Shade(const Ray& ray, const Hit& hit, const Vec3f& dirToLight, const Vec3f& lightColor) const = 0;
   virtual void glSetMaterial(void) const = 0;
-  virtual Vec3f getSpecularColor() const { return Vec3f(0, 0, 0); }
-  virtual Vec3f getReflectiveColor() const { return Vec3f(0, 0, 0); }
-  virtual Vec3f getTransparentColor() const { return Vec3f(0, 0, 0); }
-  virtual float getIndexOfRefraction() const { return 0; }
+  virtual Vec3f getSpecularColor(Vec3f point) const { return Vec3f(0, 0, 0); }
+  virtual Vec3f getReflectiveColor(Vec3f point) const { return Vec3f(0, 0, 0); }
+  virtual Vec3f getTransparentColor(Vec3f point) const { return Vec3f(0, 0, 0); }
+  virtual float getIndexOfRefraction(Vec3f point) const { return 0; }
 
 protected:
 
@@ -62,10 +62,10 @@ public:
         reflectiveColor(reflectiveColor),transparentColor(transparentColor),indexOfRefraction(indexOfRefraction)
     {}
 
-    Vec3f getSpecularColor() const { return specularColor; }
-    Vec3f getReflectiveColor() const { return reflectiveColor; }
-    Vec3f getTransparentColor() const { return transparentColor; }
-    float getIndexOfRefraction() const { return indexOfRefraction; }
+    Vec3f getSpecularColor(Vec3f point) const { return specularColor; }
+    Vec3f getReflectiveColor(Vec3f point) const { return reflectiveColor; }
+    Vec3f getTransparentColor(Vec3f point) const { return transparentColor; }
+    float getIndexOfRefraction(Vec3f point) const { return indexOfRefraction; }
 
 
 
@@ -73,6 +73,7 @@ public:
 	{
         Vec3f normal = hit.getNormal();
         Vec3f dirToView = ray.getDirection();
+        //cout<<"in phong material: "<<dirToView<<endl;
         dirToView.Negate();
         Vec3f h = dirToView + dirToLight;
         h.Normalize();
@@ -128,11 +129,11 @@ public:
 
     void glSetMaterial(void) const
     {
-
+        Vec3f temp;
         GLfloat one[4] = { 1.0, 1.0, 1.0, 1.0 };
         GLfloat zero[4] = { 0.0, 0.0, 0.0, 0.0 };
-        GLfloat specular[4] = { getSpecularColor().r(), getSpecularColor().g(), getSpecularColor().b(), 1.0 };
-        GLfloat diffuse[4] = { getDiffuseColor().r(), getDiffuseColor().g(), getDiffuseColor().b(), 1.0 };
+        GLfloat specular[4] = { getSpecularColor(temp).r(), getSpecularColor(temp).g(), getSpecularColor(temp).b(), 1.0 };
+        GLfloat diffuse[4] = { getDiffuseColor(temp).r(), getDiffuseColor(temp).g(), getDiffuseColor(temp).b(), 1.0 };
 
         // NOTE: GL uses the Blinn Torrance version of Phong...
         float glexponent = exponent;
@@ -204,6 +205,75 @@ public:
 
     }
 
+    virtual Vec3f getDiffuseColor(Vec3f point) const 
+    { 
+        matrix->Transform(point);
+        int sum = floor(point.x()) + floor(point.y()) + floor(point.z());
+        if (sum % 2)
+        {
+            return material2->getDiffuseColor(point);
+        }
+        else
+        {
+            return material1->getDiffuseColor(point);
+        }
+    }
+
+    virtual Vec3f getSpecularColor(Vec3f point) const 
+    {
+        matrix->Transform(point);
+        int sum = floor(point.x()) + floor(point.y()) + floor(point.z());
+        if (sum % 2)
+        {
+            return material2->getSpecularColor(point);
+        }
+        else
+        {
+            return material1->getSpecularColor(point);
+        }
+    }
+
+    virtual Vec3f getReflectiveColor(Vec3f point) const
+    {
+        matrix->Transform(point);
+        int sum = floor(point.x()) + floor(point.y()) + floor(point.z());
+        if (sum % 2)
+        {
+            return material2->getReflectiveColor(point);
+        }
+        else
+        {
+            return material1->getReflectiveColor(point);
+        }
+    }
+    virtual Vec3f getTransparentColor(Vec3f point) const 
+    {
+        matrix->Transform(point);
+        int sum = floor(point.x()) + floor(point.y()) + floor(point.z());
+        if (sum % 2)
+        {
+            return material2->getTransparentColor(point);
+        }
+        else
+        {
+            return material1->getTransparentColor(point);
+        }
+    }
+
+    virtual float getIndexOfRefraction(Vec3f point) const 
+    {
+        matrix->Transform(point);
+        int sum = floor(point.x()) + floor(point.y()) + floor(point.z());
+        if (sum % 2)
+        {
+            return material2->getIndexOfRefraction(point);
+        }
+        else
+        {
+            return material1->getIndexOfRefraction(point);
+        }
+    }
+
     void glSetMaterial(void) const
     {
         material1->glSetMaterial();
@@ -245,11 +315,110 @@ public:
         material1->glSetMaterial();
     }
 
+
+
+    Vec3f getDiffuseColor(Vec3f point) const
+    {
+        matrix->Transform(point);
+        float n = N(point.x(), point.y(), point.z(), octaves);
+        if (n > 1)
+        {
+            n = 1;
+        }
+        else if (n < 0)
+        {
+            n = 0;
+        }
+        Vec3f color = n * material1->getDiffuseColor(point)+ (1 - n)*material2->getDiffuseColor(point);
+        color.Clamp();
+        return color;
+    }
+
+
+    Vec3f getSpecularColor(Vec3f point) const 
+    {
+        matrix->Transform(point);
+        float n = N(point.x(), point.y(), point.z(), octaves);
+        if (n > 1)
+        {
+            n = 1;
+        }
+        else if (n < 0)
+        {
+            n = 0;
+        }
+        Vec3f color = n * material1->getSpecularColor(point) + (1 - n) * material2->getSpecularColor(point);
+        color.Clamp();
+        return color;
+    }
+    
+    
+    Vec3f getReflectiveColor(Vec3f point) const 
+    {
+        matrix->Transform(point);
+        float n = N(point.x(), point.y(), point.z(), octaves);
+        if (n > 1)
+        {
+            n = 1;
+        }
+        else if (n < 0)
+        {
+            n = 0;
+        }
+        Vec3f color = n * material1->getReflectiveColor(point) + (1 - n) * material2->getReflectiveColor(point);
+        color.Clamp();
+        return color;
+    }
+
+
+    Vec3f getTransparentColor(Vec3f point) const 
+    {
+        matrix->Transform(point);
+        float n = N(point.x(), point.y(), point.z(), octaves);
+        if (n > 1)
+        {
+            n = 1;
+        }
+        else if (n < 0)
+        {
+            n = 0;
+        }
+        Vec3f color = n * material1->getTransparentColor(point) + (1 - n) * material2->getTransparentColor(point);
+        color.Clamp();
+        return color;
+    }
+
+
+    float getIndexOfRefraction(Vec3f point) const 
+    {
+        matrix->Transform(point);
+        float n = N(point.x(), point.y(), point.z(), octaves);
+        if (n > 1)
+        {
+            n = 1;
+        }
+        else if (n < 0)
+        {
+            n = 0;
+        }
+        float index = n * material1->getIndexOfRefraction(point) + (1 - n) * material2->getIndexOfRefraction(point);
+        return index;
+    }
+
+
     virtual Vec3f Shade(const Ray& ray, const Hit& hit, const Vec3f& dirToLight, const Vec3f& lightColor) const
     {
         Vec3f vertex = hit.getIntersectionPoint();
         matrix->Transform(vertex);
         float n=N(vertex.x(), vertex.y(), vertex.z(),octaves);
+        if (n > 1)
+        {
+            n = 1;
+        }
+        else if (n < 0)
+        {
+            n = 0;
+        }
         Vec3f color =n* material1->Shade(ray, hit, dirToLight, lightColor)+ (1-n)*material2->Shade(ray, hit, dirToLight, lightColor);
         color.Clamp();
         return color;
@@ -264,6 +433,7 @@ public:
             result += PerlinNoise::noise(pow2 * x, pow2 * y, pow2 * z)/pow2;
             pow2 *= 2;
         }
+
         return result;
     }
 private:
@@ -278,8 +448,96 @@ class Marble :public Material
 public:
     Marble(Matrix* m, Material* mat1, Material* mat2, int octaves, float frequency, float amplitude):matrix(m), material1(mat1), material2(mat2), octaves(octaves),frequency(frequency),amplitude(amplitude)
     {
-
     }
+
+
+    virtual Vec3f getDiffuseColor(Vec3f point) const
+    {
+        matrix->Transform(point);
+        float m = M(point.x(), point.y(), point.z());
+        if (m > 1)
+        {
+            m = 1;
+        }
+        else if (m < 0)
+        {
+            m = 0;
+        }
+        Vec3f color = m * material1->getDiffuseColor(point) + (1 - m) * material2->getDiffuseColor(point);
+        color.Clamp();
+        return color;
+    }
+
+
+    Vec3f getSpecularColor(Vec3f point) const 
+    {
+        matrix->Transform(point);
+        float m = M(point.x(), point.y(), point.z());
+        if (m > 1)
+        {
+            m = 1;
+        }
+        else if (m < 0)
+        {
+            m = 0;
+        }
+        Vec3f color = m * material1->getSpecularColor(point) + (1 - m) * material2->getSpecularColor(point);
+        color.Clamp();
+        return color;
+    }
+
+
+    Vec3f getReflectiveColor(Vec3f point) const 
+    {
+        matrix->Transform(point);
+        float m = M(point.x(), point.y(), point.z());
+        if (m > 1)
+        {
+            m = 1;
+        }
+        else if (m < 0)
+        {
+            m = 0;
+        }
+        Vec3f color = m * material1->getReflectiveColor(point) + (1 - m) * material2->getReflectiveColor(point);
+        color.Clamp();
+        return color;
+    }
+
+    Vec3f getTransparentColor(Vec3f point) const 
+    {
+        matrix->Transform(point);
+        float m = M(point.x(), point.y(), point.z());
+        if (m > 1)
+        {
+            m = 1;
+        }
+        else if (m < 0)
+        {
+            m = 0;
+        }
+        Vec3f color = m * material1->getTransparentColor(point) + (1 - m) * material2->getTransparentColor(point);
+        color.Clamp();
+        return color;
+    }
+
+
+    float getIndexOfRefraction(Vec3f point) const 
+    {
+        matrix->Transform(point);
+        float m = M(point.x(), point.y(), point.z());
+        if (m > 1)
+        {
+            m = 1;
+        }
+        else if (m < 0)
+        {
+            m = 0;
+        }
+        float index= m * material1->getIndexOfRefraction(point) + (1 - m) * material2->getIndexOfRefraction(point);
+        return index;
+    }
+
 
     void glSetMaterial(void) const
     {
@@ -291,6 +549,14 @@ public:
         Vec3f vertex = hit.getIntersectionPoint();
         matrix->Transform(vertex);
         float m = M(vertex.x(), vertex.y(), vertex.z());
+        if (m > 1)
+        {
+            m = 1;
+        }
+        else if (m < 0)
+        {
+            m = 0;
+        }
         Vec3f color = m * material1->Shade(ray, hit, dirToLight, lightColor) + (1 - m) * material2->Shade(ray, hit, dirToLight, lightColor);
         color.Clamp();
         return color;
@@ -312,6 +578,7 @@ private:
 };
 
 
+
 class Wood :public Material
 {
 public:
@@ -319,6 +586,14 @@ public:
     {
 
     }
+
+    virtual Vec3f getDiffuseColor(Vec3f point) const
+    {
+        
+        return Vec3f(1,1,1);
+    }
+
+
     void glSetMaterial(void) const
     {
         material1->glSetMaterial();
