@@ -100,7 +100,7 @@ Transform {
 XRotate 20
 YRotate -20
 TriangleMesh {
-        obj_file cube.obj
+        obj_file .\Data\cube.obj
     }
 }
 
@@ -110,7 +110,7 @@ Transform {
 XRotate 20
 YRotate -20
 TriangleMesh {
-        obj_file cube.obj
+        obj_file .\Data\cube.obj
     }
 }
 
@@ -120,7 +120,7 @@ Transform {
 XRotate 20
 YRotate -20
 TriangleMesh {
-        obj_file cube.obj
+        obj_file .\Data\cube.obj
     }
 }
 
@@ -130,7 +130,7 @@ Transform {
 XRotate 20
 YRotate -20
 TriangleMesh {
-        obj_file cube.obj
+        obj_file .\Data\cube.obj
     }
 }
 }

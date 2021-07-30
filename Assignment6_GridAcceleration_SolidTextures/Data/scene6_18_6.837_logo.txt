@@ -46,7 +46,7 @@ Group { numObjects 2
 
 MaterialIndex 0
 TriangleMesh {
-    obj_file 6.837.obj
+    obj_file .\Data\6.837.obj
 }
 
 MaterialIndex 7

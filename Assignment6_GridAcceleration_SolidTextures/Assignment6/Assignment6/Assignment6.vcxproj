@@ -145,6 +145,7 @@
     <ClCompile Include="..\..\light.cpp" />
     <ClCompile Include="..\..\main.cpp" />
     <ClCompile Include="..\..\matrix.cpp" />
+    <ClCompile Include="..\..\perlin_noise.cpp" />
     <ClCompile Include="..\..\raytracing_stats.cpp" />
     <ClCompile Include="..\..\rayTree.cpp" />
     <ClCompile Include="..\..\scene_parser.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="..\..\matrix.h" />
     <ClInclude Include="..\..\object3d.h" />
     <ClInclude Include="..\..\object3dvector.h" />
+    <ClInclude Include="..\..\perlin_noise.h" />
     <ClInclude Include="..\..\plane.h" />
     <ClInclude Include="..\..\ray.h" />
     <ClInclude Include="..\..\raytracer.h" />

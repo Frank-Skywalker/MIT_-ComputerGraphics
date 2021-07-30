@@ -6,7 +6,7 @@
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_02_sphere_triangles.txt -output .\Data\output6_02b.tga -size 200 200 -grid 10 10 10 -stats 
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_02_sphere_triangles.txt -output .\Data\output6_02c.tga -size 200 200 -stats -shadows
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_02_sphere_triangles.txt -output .\Data\output6_02d.tga -size 200 200 -grid 10 10 10 -stats -shadows 
-.\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_02_sphere_triangles.txt -output .\Data\output6_02e.tga -size 20 20 -grid 10 10 10 -visualize_grid
+.\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_02_sphere_triangles.txt -output .\Data\output6_02e.tga -size 200 200 -grid 10 10 10 -visualize_grid
   
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_03_sphere_plane.txt -output .\Data\output6_03a.tga -size 200 200 -stats
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_03_sphere_plane.txt -output .\Data\output6_03b.tga -size 200 200 -grid 10 10 10 -stats
@@ -19,8 +19,11 @@
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_04_bunny_mesh_200.txt -output .\Data\output6_04c.tga -size 200 200 -stats -shadows
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_04_bunny_mesh_200.txt -output .\Data\output6_04d.tga -size 200 200 -grid 10 10 7 -stats -shadows
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_04_bunny_mesh_200.txt -output .\Data\output6_04e.tga -size 200 200 -grid 10 10 7 -visualize_grid
+
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_05_bunny_mesh_1k.txt  -output .\Data\output6_05.tga -size 200 200 -grid 15 15 12 -stats -shadows
+
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_06_bunny_mesh_5k.txt  -output .\Data\output6_06.tga -size 200 200 -grid 20 20 15 -stats -shadows
+
 .\Assignment6\Debug\Assignment6.exe -input .\Data\scene6_07_bunny_mesh_40k.txt -output .\Data\output6_07.tga -size 200 200 -grid 40 40 33 -stats -shadows
   
   

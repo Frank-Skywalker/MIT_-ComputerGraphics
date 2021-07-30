@@ -57,6 +57,10 @@ private:
     Light* parsePointLight();
     void parseMaterials();
     Material* parsePhongMaterial();
+    Material* parseCheckerboard(int count);
+    Material* parseNoise(int count);
+    Material* parseMarble(int count);
+    Material* parseWood(int count);
 
     Object3D* parseObject(char token[MAX_PARSER_TOKEN_LENGTH]);
     Group* parseGroup();
@@ -65,6 +69,7 @@ private:
     Triangle* parseTriangle();
     Group* parseTriangleMesh();
     Transform* parseTransform();
+    void parseMatrixHelper(Matrix& matrix, char token[MAX_PARSER_TOKEN_LENGTH]);
 
     // HELPER FUNCTIONS
     int getToken(char token[MAX_PARSER_TOKEN_LENGTH]);

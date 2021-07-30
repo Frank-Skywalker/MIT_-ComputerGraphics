@@ -1,17 +1,6 @@
-﻿  glCanvas.cpp
+﻿  main.cpp
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(39,1): warning C4150: deletion of pointer to incomplete type 'Transform'; no destructor called
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(12): message : see declaration of 'Transform'
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\grid.h(611,1): warning C4102: 'std': unreferenced label
-  main.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(39,1): warning C4150: deletion of pointer to incomplete type 'Transform'; no destructor called
-E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(12): message : see declaration of 'Transform'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\grid.h(611,1): warning C4102: 'std': unreferenced label
-  scene_parser.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(39,1): warning C4150: deletion of pointer to incomplete type 'Transform'; no destructor called
-E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(12): message : see declaration of 'Transform'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\grid.h(611,1): warning C4102: 'std': unreferenced label
-  Generating Code...
   Assignment6.vcxproj -> E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\Assignment6\Debug\Assignment6.exe

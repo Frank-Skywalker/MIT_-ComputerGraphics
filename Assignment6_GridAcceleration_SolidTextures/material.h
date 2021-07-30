@@ -7,7 +7,10 @@
 #include "hit.h"
 #include "vectors.h"
 #include "ray.h"
+#include "matrix.h"
+#include "perlin_noise.h"
 
+#include <math.h>
 #include <gl/glew.h>
 #include <gl/GL.h>
 #include<gl/GLU.h>
@@ -24,6 +27,7 @@ class Material {
 public:
 
   // CONSTRUCTORS & DESTRUCTOR
+  Material(){}
   Material(const Vec3f &d_color) { diffuseColor = d_color; }
   virtual ~Material() {}
 
@@ -31,10 +35,10 @@ public:
   virtual Vec3f getDiffuseColor() const { return diffuseColor; }
   virtual Vec3f Shade(const Ray& ray, const Hit& hit, const Vec3f& dirToLight, const Vec3f& lightColor) const = 0;
   virtual void glSetMaterial(void) const = 0;
-  virtual Vec3f getSpecularColor() const=0 ;
-  virtual Vec3f getReflectiveColor() const=0;
-  virtual Vec3f getTransparentColor() const=0;
-  virtual float getIndexOfRefraction() const=0;
+  virtual Vec3f getSpecularColor() const { return Vec3f(0, 0, 0); }
+  virtual Vec3f getReflectiveColor() const { return Vec3f(0, 0, 0); }
+  virtual Vec3f getTransparentColor() const { return Vec3f(0, 0, 0); }
+  virtual float getIndexOfRefraction() const { return 0; }
 
 protected:
 
@@ -187,6 +191,154 @@ private:
     float indexOfRefraction;
 };
 
+
+
+//Asssignment6
+
+
+class Checkerboard :public Material
+{
+public:
+    Checkerboard(Matrix* m, Material* mat1, Material* mat2):matrix(m),material1(mat1),material2(mat2)
+    {
+
+    }
+
+    void glSetMaterial(void) const
+    {
+        material1->glSetMaterial();
+    }
+
+
+    virtual Vec3f Shade(const Ray& ray, const Hit& hit, const Vec3f& dirToLight, const Vec3f& lightColor) const
+    {
+        Vec3f vertex = hit.getIntersectionPoint();
+        matrix->Transform(vertex);
+        int sum = floor(vertex.x()) + floor(vertex.y()) + floor(vertex.z());
+        if (sum%2)
+        {
+            return material2->Shade(ray, hit, dirToLight, lightColor);
+        }
+        else
+        {
+            return material1->Shade(ray, hit, dirToLight, lightColor);
+        }
+    }
+
+private:
+    Matrix* matrix;
+    Material* material1;
+    Material* material2;
+};
+
+
+
+class Noise : public Material
+{
+public:
+    Noise(Matrix* m, Material* mat1, Material* mat2, int octaves):matrix(m),material1(mat1),material2(mat2),octaves(octaves)
+    {
+    }
+
+    void glSetMaterial(void) const
+    {
+        material1->glSetMaterial();
+    }
+
+    virtual Vec3f Shade(const Ray& ray, const Hit& hit, const Vec3f& dirToLight, const Vec3f& lightColor) const
+    {
+        Vec3f vertex = hit.getIntersectionPoint();
+        matrix->Transform(vertex);
+        float n=N(vertex.x(), vertex.y(), vertex.z(),octaves);
+        Vec3f color =n* material1->Shade(ray, hit, dirToLight, lightColor)+ (1-n)*material2->Shade(ray, hit, dirToLight, lightColor);
+        color.Clamp();
+        return color;
+    }
+
+    static float N(float x, float y, float z,int octaves)
+    {
+        float result=0;
+        float pow2 = 1;
+        for (int i = 0; i < octaves; i++)
+        {
+            result += PerlinNoise::noise(pow2 * x, pow2 * y, pow2 * z)/pow2;
+            pow2 *= 2;
+        }
+        return result;
+    }
+private:
+    Matrix* matrix;
+    Material* material1;
+    Material* material2;
+    int octaves;
+};
+
+class Marble :public Material
+{
+public:
+    Marble(Matrix* m, Material* mat1, Material* mat2, int octaves, float frequency, float amplitude):matrix(m), material1(mat1), material2(mat2), octaves(octaves),frequency(frequency),amplitude(amplitude)
+    {
+
+    }
+
+    void glSetMaterial(void) const
+    {
+        material1->glSetMaterial();
+    }
+
+    virtual Vec3f Shade(const Ray& ray, const Hit& hit, const Vec3f& dirToLight, const Vec3f& lightColor) const
+    {
+        Vec3f vertex = hit.getIntersectionPoint();
+        matrix->Transform(vertex);
+        float m = M(vertex.x(), vertex.y(), vertex.z());
+        Vec3f color = m * material1->Shade(ray, hit, dirToLight, lightColor) + (1 - m) * material2->Shade(ray, hit, dirToLight, lightColor);
+        color.Clamp();
+        return color;
+    }
+
+    float M(float x, float y, float z) const
+    {
+        return sinf(frequency * x + amplitude * Noise::N(x, y, z, octaves));
+    }
+
+private:
+    Matrix* matrix;
+    Material* material1;
+    Material* material2;
+    int octaves;
+    float frequency;
+    float amplitude;
+
+};
+
+
+class Wood :public Material
+{
+public:
+    Wood(Matrix* m, Material* mat1, Material* mat2, int octaves, float frequency, float amplitude) :matrix(m), material1(mat1), material2(mat2), octaves(octaves), frequency(frequency), amplitude(amplitude)
+    {
+
+    }
+    void glSetMaterial(void) const
+    {
+        material1->glSetMaterial();
+    }
+
+    virtual Vec3f Shade(const Ray& ray, const Hit& hit, const Vec3f& dirToLight, const Vec3f& lightColor) const
+    {
+        return Vec3f(1, 1, 1);
+    }
+
+private:
+    Matrix* matrix;
+    Material* material1;
+    Material* material2;
+    int octaves;
+    float frequency;
+    float amplitude;
+
+
+};
 
 // ====================================================================
 // ====================================================================
