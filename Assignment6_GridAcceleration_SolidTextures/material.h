@@ -320,7 +320,9 @@ public:
     Vec3f getDiffuseColor(Vec3f point) const
     {
         matrix->Transform(point);
-        float n = N(point.x(), point.y(), point.z(), octaves);
+        float n = N(point.x(), point.y(), point.z());
+        n = n * 0.6 + 0.4;
+
         if (n > 1)
         {
             n = 1;
@@ -338,7 +340,9 @@ public:
     Vec3f getSpecularColor(Vec3f point) const 
     {
         matrix->Transform(point);
-        float n = N(point.x(), point.y(), point.z(), octaves);
+        float n = N(point.x(), point.y(), point.z());
+        n = n * 0.6 + 0.4;
+
         if (n > 1)
         {
             n = 1;
@@ -356,7 +360,9 @@ public:
     Vec3f getReflectiveColor(Vec3f point) const 
     {
         matrix->Transform(point);
-        float n = N(point.x(), point.y(), point.z(), octaves);
+        float n = N(point.x(), point.y(), point.z());
+        n = n * 0.6 + 0.4;
+
         if (n > 1)
         {
             n = 1;
@@ -374,7 +380,9 @@ public:
     Vec3f getTransparentColor(Vec3f point) const 
     {
         matrix->Transform(point);
-        float n = N(point.x(), point.y(), point.z(), octaves);
+        float n = N(point.x(), point.y(), point.z());
+        n = n * 0.6 + 0.4;
+
         if (n > 1)
         {
             n = 1;
@@ -392,7 +400,8 @@ public:
     float getIndexOfRefraction(Vec3f point) const 
     {
         matrix->Transform(point);
-        float n = N(point.x(), point.y(), point.z(), octaves);
+        float n = N(point.x(), point.y(), point.z());
+        n = n * 0.6 + 0.4;
         if (n > 1)
         {
             n = 1;
@@ -410,7 +419,8 @@ public:
     {
         Vec3f vertex = hit.getIntersectionPoint();
         matrix->Transform(vertex);
-        float n=N(vertex.x(), vertex.y(), vertex.z(),octaves);
+        float n=N(vertex.x(), vertex.y(), vertex.z());
+        n = n * 0.6 + 0.4;
         if (n > 1)
         {
             n = 1;
@@ -424,7 +434,7 @@ public:
         return color;
     }
 
-    static float N(float x, float y, float z,int octaves)
+    float N(float x, float y, float z) const
     {
         float result=0;
         float pow2 = 1;
@@ -448,6 +458,7 @@ class Marble :public Material
 public:
     Marble(Matrix* m, Material* mat1, Material* mat2, int octaves, float frequency, float amplitude):matrix(m), material1(mat1), material2(mat2), octaves(octaves),frequency(frequency),amplitude(amplitude)
     {
+        noise = new Noise(matrix, material1, material2, octaves);
     }
 
 
@@ -455,6 +466,8 @@ public:
     {
         matrix->Transform(point);
         float m = M(point.x(), point.y(), point.z());
+        m = (m + 1) / 2;
+
         if (m > 1)
         {
             m = 1;
@@ -473,6 +486,8 @@ public:
     {
         matrix->Transform(point);
         float m = M(point.x(), point.y(), point.z());
+        m = (m + 1) / 2;
+
         if (m > 1)
         {
             m = 1;
@@ -491,6 +506,9 @@ public:
     {
         matrix->Transform(point);
         float m = M(point.x(), point.y(), point.z());
+
+        m = (m + 1) / 2;
+
         if (m > 1)
         {
             m = 1;
@@ -508,6 +526,7 @@ public:
     {
         matrix->Transform(point);
         float m = M(point.x(), point.y(), point.z());
+        m = (m + 1) / 2;
         if (m > 1)
         {
             m = 1;
@@ -526,6 +545,7 @@ public:
     {
         matrix->Transform(point);
         float m = M(point.x(), point.y(), point.z());
+        m = (m + 1) / 2;
         if (m > 1)
         {
             m = 1;
@@ -549,6 +569,7 @@ public:
         Vec3f vertex = hit.getIntersectionPoint();
         matrix->Transform(vertex);
         float m = M(vertex.x(), vertex.y(), vertex.z());
+        m = (m + 1) / 2;
         if (m > 1)
         {
             m = 1;
@@ -564,7 +585,7 @@ public:
 
     float M(float x, float y, float z) const
     {
-        return sinf(frequency * x + amplitude * Noise::N(x, y, z, octaves));
+        return sinf(frequency * x + amplitude * noise->N(x, y, z));
     }
 
 private:
@@ -574,23 +595,114 @@ private:
     int octaves;
     float frequency;
     float amplitude;
+    Noise* noise;
 
 };
 
 
-
+//not implemented
 class Wood :public Material
 {
 public:
     Wood(Matrix* m, Material* mat1, Material* mat2, int octaves, float frequency, float amplitude) :matrix(m), material1(mat1), material2(mat2), octaves(octaves), frequency(frequency), amplitude(amplitude)
     {
-
+        noise = new Noise(matrix, material1, material2, octaves);
     }
 
     virtual Vec3f getDiffuseColor(Vec3f point) const
     {
-        
-        return Vec3f(1,1,1);
+        matrix->Transform(point);
+        float m = M(point.x(), point.y(), point.z());
+        m = (m + 1) / 2;
+
+        if (m > 1)
+        {
+            m = 1;
+        }
+        else if (m < 0)
+        {
+            m = 0;
+        }
+        Vec3f color = m * material1->getDiffuseColor(point) + (1 - m) * material2->getDiffuseColor(point);
+        color.Clamp();
+        return color;
+    }
+
+
+    Vec3f getSpecularColor(Vec3f point) const
+    {
+        matrix->Transform(point);
+        float m = M(point.x(), point.y(), point.z());
+        m = (m + 1) / 2;
+
+        if (m > 1)
+        {
+            m = 1;
+        }
+        else if (m < 0)
+        {
+            m = 0;
+        }
+        Vec3f color = m * material1->getSpecularColor(point) + (1 - m) * material2->getSpecularColor(point);
+        color.Clamp();
+        return color;
+    }
+
+
+    Vec3f getReflectiveColor(Vec3f point) const
+    {
+        matrix->Transform(point);
+        float m = M(point.x(), point.y(), point.z());
+
+        m = (m + 1) / 2;
+
+        if (m > 1)
+        {
+            m = 1;
+        }
+        else if (m < 0)
+        {
+            m = 0;
+        }
+        Vec3f color = m * material1->getReflectiveColor(point) + (1 - m) * material2->getReflectiveColor(point);
+        color.Clamp();
+        return color;
+    }
+
+    Vec3f getTransparentColor(Vec3f point) const
+    {
+        matrix->Transform(point);
+        float m = M(point.x(), point.y(), point.z());
+        m = (m + 1) / 2;
+        if (m > 1)
+        {
+            m = 1;
+        }
+        else if (m < 0)
+        {
+            m = 0;
+        }
+        Vec3f color = m * material1->getTransparentColor(point) + (1 - m) * material2->getTransparentColor(point);
+        color.Clamp();
+        return color;
+    }
+
+
+    float getIndexOfRefraction(Vec3f point) const
+    {
+        matrix->Transform(point);
+        float m = M(point.x(), point.y(), point.z());
+        m = (m + 1) / 2;
+        if (m > 1)
+        {
+            m = 1;
+        }
+        else if (m < 0)
+        {
+            m = 0;
+        }
+        float index = m * material1->getIndexOfRefraction(point) + (1 - m) * material2->getIndexOfRefraction(point);
+        return index;
     }
 
 
@@ -601,7 +713,26 @@ public:
 
     virtual Vec3f Shade(const Ray& ray, const Hit& hit, const Vec3f& dirToLight, const Vec3f& lightColor) const
     {
-        return Vec3f(1, 1, 1);
+        Vec3f vertex = hit.getIntersectionPoint();
+        matrix->Transform(vertex);
+        float m = M(vertex.x(), vertex.y(), vertex.z());
+        m = (m + 1) / 2;
+        if (m > 1)
+        {
+            m = 1;
+        }
+        else if (m < 0)
+        {
+            m = 0;
+        }
+        Vec3f color = m * material1->Shade(ray, hit, dirToLight, lightColor) + (1 - m) * material2->Shade(ray, hit, dirToLight, lightColor);
+        color.Clamp();
+        return color;
+    }
+
+    float M(float x, float y, float z) const
+    {
+        return sinf(frequency * x + amplitude * noise->N(x, y, z));
     }
 
 private:
@@ -611,7 +742,7 @@ private:
     int octaves;
     float frequency;
     float amplitude;
-
+    Noise* noise;
 
 };
 

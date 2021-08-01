@@ -1,3 +1,12 @@
-﻿  scene_parser.cpp
+﻿  glCanvas.cpp
 E:\Codes\CG\MIT_ComputerGraphics\Assignment5_Voxel_Rendering\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
+  light.cpp
+  main.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment5_Voxel_Rendering\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
+  rayTree.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment5_Voxel_Rendering\rayTree.cpp(17,9): warning C4101: 'i': unreferenced local variable
+E:\Codes\CG\MIT_ComputerGraphics\Assignment5_Voxel_Rendering\rayTree.cpp(33,9): warning C4101: 'i': unreferenced local variable
+  scene_parser.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment5_Voxel_Rendering\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
   Assignment5.vcxproj -> E:\Codes\CG\MIT_ComputerGraphics\Assignment5_Voxel_Rendering\Assignment5\Debug\Assignment5.exe
