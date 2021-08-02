@@ -4,8 +4,7 @@
 #include"glCanvas.h"
 
 
-#define NON_SAMPLE 0
-#define RANDOM_SAMPLE 1
+
 
 
 using namespace std;
@@ -42,8 +41,21 @@ bool useGrid = false;
 bool printStatistics = false;
 
 //Assignment7
-int sampleMode = 0;
-int numSamples = 0;
+//sample
+int sampleMode = NO_SAMPLE;
+int numSamples = 1;
+
+bool renderSample = false;
+char* sampleFile = NULL;
+int sampleZoom =1;
+
+//filter
+int filterMode = NO_FILTER;
+float filterRadius=0;
+
+bool renderFilter = false;
+char* filterFile = NULL;
+int filterZoom = 1;
 
 
 void shade(void)
@@ -66,13 +78,22 @@ void shade(void)
 		}
 		else
 		{
-			raytracer->RayCast(output_file);
+			raytracer->RayCastSample(output_file);
 			//raytracer->RayCastNormal(output_file);
 		}
 	}
 	if (printStatistics)
 	{
 		RayTracingStats::PrintStatistics();
+	}
+
+	if (renderSample == true)
+	{
+		raytracer->RenderSample(sampleFile, sampleZoom);
+	}
+	if (renderFilter == true)
+	{
+		raytracer->RenderFilter(filterFile, filterZoom);
 	}
 }
 
@@ -202,12 +223,72 @@ int main(int argc, char* argv[])
 			printStatistics = true;
 		}
 		//Assignment7
+
+		//sample modes
 		else if (!strcmp(argv[i], "-random_samples"))
 		{
 			sampleMode = RANDOM_SAMPLE;
 			i++;
 			assert(i < argc);
 			numSamples = atoi(argv[i]);
+		}
+		else if (!strcmp(argv[i], "-uniform_samples"))
+		{
+			sampleMode = UNIFORM_SAMPLE;
+			i++;
+			assert(i < argc);
+			numSamples = atoi(argv[i]);
+		}
+		else if (!strcmp(argv[i], "-jittered_samples"))
+		{
+			sampleMode = JITTERED_SAMPLE;
+			i++;
+			assert(i < argc);
+			numSamples = atoi(argv[i]);
+		}
+		//should render samples
+		else if (!strcmp(argv[i], "-render_samples"))
+		{
+			renderSample = true;
+			i++;
+			assert(i < argc);
+			sampleFile = argv[i];
+			i++;
+			assert(i < argc);
+			sampleZoom = atoi(argv[i]);
+		}
+		//filter modes
+		else if (!strcmp(argv[i], "-box_filter"))
+		{
+			filterMode = BOX_FILTER;
+			i++;
+			assert(i < argc);
+			filterRadius = atof(argv[i]);
+		}
+		else if (!strcmp(argv[i], "-tent_filter"))
+		{
+			filterMode = TENT_FILTER;
+			i++;
+			assert(i < argc);
+			filterRadius = atof(argv[i]);
+		}
+		else if (!strcmp(argv[i], "-gaussian_filter"))
+		{
+			filterMode = GAUSSIAN_FILTER;
+			i++;
+			assert(i < argc);
+			filterRadius = atof(argv[i]);
+		}
+		//should render filters
+		else if (!strcmp(argv[i], "-render_filter"))
+		{
+			renderFilter = true;
+			i++;
+			assert(i < argc);
+			filterFile = argv[i];
+			i++;
+			assert(i < argc);
+			filterZoom = atoi(argv[i]);
 		}
 		else
 		{
@@ -221,7 +302,7 @@ int main(int argc, char* argv[])
 
 
 	// ======================================================== // ========================================================
-	raytracer = new RayTracer(input_file, width, height, maxBounces, cutoffWeight, shadeShadows, shade_back,useGrid,nx,ny,nz);
+	raytracer = new RayTracer(input_file, width, height, maxBounces, cutoffWeight, shadeShadows, shade_back,useGrid,nx,ny,nz,sampleMode,numSamples,filterMode,filterRadius);
 	//previsualize this scene with OpenGL
 	if (previsualize)
 	{

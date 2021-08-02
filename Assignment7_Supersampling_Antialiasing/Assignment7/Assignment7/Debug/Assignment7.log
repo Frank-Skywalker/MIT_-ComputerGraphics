@@ -1,34 +1,12 @@
-﻿  boundingbox.cpp
-  glCanvas.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\object3d.h(39,1): warning C4150: deletion of pointer to incomplete type 'Transform'; no destructor called
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\object3d.h(12): message : see declaration of 'Transform'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\grid.h(611,1): warning C4102: 'std': unreferenced label
-  image.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\image.cpp(43,19): warning C4101: 'tmp': unreferenced local variable
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\image.cpp(99,36): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\image.cpp(99,28): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\image.cpp(99,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\image.cpp(164,36): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\image.cpp(164,28): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\image.cpp(164,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  light.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\object3d.h(39,1): warning C4150: deletion of pointer to incomplete type 'Transform'; no destructor called
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\object3d.h(12): message : see declaration of 'Transform'
+﻿  film.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\filter.h(96,14): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\filter.h(114,14): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\filter.h(118,14): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\filter.h(147,14): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\film.cpp(18,44): warning C4305: 'argument': truncation from 'double' to 'float'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\film.cpp(63,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\film.cpp(64,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   main.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\object3d.h(39,1): warning C4150: deletion of pointer to incomplete type 'Transform'; no destructor called
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\object3d.h(12): message : see declaration of 'Transform'
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\grid.h(611,1): warning C4102: 'std': unreferenced label
-  matrix.cpp
-  perlin_noise.cpp
-  raytracing_stats.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\raytracing_stats.cpp(40,18): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\raytracing_stats.cpp(45,16): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-  rayTree.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\rayTree.cpp(17,9): warning C4101: 'i': unreferenced local variable
-E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\rayTree.cpp(33,9): warning C4101: 'i': unreferenced local variable
-  scene_parser.cpp
 E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\object3d.h(39,1): warning C4150: deletion of pointer to incomplete type 'Transform'; no destructor called
 E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\object3d.h(12): message : see declaration of 'Transform'
 E:\Codes\CG\MIT_ComputerGraphics\Assignment7_Supersampling_Antialiasing\group.h(21,16): warning C4018: '<': signed/unsigned mismatch

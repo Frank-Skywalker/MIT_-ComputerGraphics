@@ -15,6 +15,10 @@
 #include "rayTree.h"
 #include "grid.h"
 #include "raytracing_stats.h"
+#include "film.h"
+#include "sample.h"
+#include "sampler.h"
+#include "filter.h"
 
 #define EPSILON 0.001
 #define VACUUM_REFRACTION_INDEX 1
@@ -25,28 +29,16 @@ class SceneParser;
 class RayTracer
 {
 public:
-    //RayTracer()
-    //{
-    //    assert(0);
-    //}
 
-    //RayTracer(char *input_file, int width, int height,float depth_min,float depth_max) : input_file(input_file), width(width), height(height),depth_min(depth_min),depth_max(depth_max)
-    //{
-    //    scene = new SceneParser(input_file);
-    //    hits= new Hit[width * height];
-    //    rays = new Ray[width * height];
-    //    assert(scene != NULL);
-    //    ambientLight = scene->getAmbientLight();
-
-    //}
 
     //Assignment4
     RayTracer(char* input_file, int width, int height, 
         int max_bounces, float cutoff_weight, bool shadows, bool shadeback, 
         bool useGrid,int nx, int ny, int nz,
-        int sampleMode, int numSamples) : 
+        int sampleMode, int numSamples, int filterMode,float filterRadius) :
         input_file(input_file), width(width), height(height), 
-        maxBounces(max_bounces), cutoffWeight(cutoff_weight), shadeShadows(shadows),shadeBack(shadeback)
+        maxBounces(max_bounces), cutoffWeight(cutoff_weight), shadeShadows(shadows),shadeBack(shadeback),
+        sampleMode(sampleMode),numSamples(numSamples),filterMode(filterMode),filterRadius(filterRadius)
     {
         squareLength = max(width, height);
         scene = new SceneParser(input_file);
@@ -62,13 +54,20 @@ public:
             //m->SetToIdentity();
             grid = new Grid(scene->getGroup()->getBoundingBox(), nx, ny, nz);
             scene->getGroup()->insertIntoGrid(grid, NULL);
-
+            //traceRayFunction = traceRayFast;
         }
         else
         {
             grid = NULL;
         }
         RayTracingStats::Initialize(width, height, scene->getGroup()->getBoundingBox(), nx, ny, nz);
+
+        //Assignment7
+        film = new Film(width, height, numSamples);
+
+        sampler = getSampler(sampleMode,numSamples);
+
+        filter = getFilter(filterMode, filterRadius);
 
     }
 
@@ -82,62 +81,20 @@ public:
         {
             delete grid;
         }
-        //delete[] hits;
+        if (film != NULL)
+        {
+            delete film;
+        }
+        if (sampler != NULL)
+        {
+            delete sampler;
+        }
+        if (filter != NULL)
+        {
+            delete filter;
+        }
     }
 
-
-    
-    //void colorShader(char* outputFile)
-    //{
-    //    doRayCasting();
-    //    Image outputImage(width, height);
-    //    for (int i = 0; i < width * height; i++)
-    //    {
-    //        int x = i % width;
-    //        int y = i / width;
-    //        outputImage.SetPixel(x, y, hits[i].getMaterial()->getDiffuseColor());
-    //    }
-    //    outputImage.SaveTGA(outputFile);
-    //}
-
-    //void depthShader(char* outputFile)
-    //{
-    //    doRayCasting();
-    //    Image outputImage(width, height);
-    //    for (int i = 0; i < width * height; i++)
-    //    {
-    //        int x = i % width;
-    //        int y = i / width;
-    //        //float t = hits[i].getT();
-    //        float t = (depth_max - hits[i].getT()) / (depth_max - depth_min);
-    //        //cout << "t " << t << endl;
-    //        Vec3f depthColor(t, t, t);
-    //        outputImage.SetPixel(x, y, depthColor);
-    //    }
-
-    //    outputImage.SaveTGA(outputFile);
-    //}
-
-
-    //void normalShader(char* outputFile)
-    //{
-    //    doRayCasting();
-    //    Image outputImage(width, height);
-    //    for (int i = 0; i < width * height; i++)
-    //    {
-    //        int x = i % width;
-    //        int y = i / width;
-    //        //if (hits[i].getT() == INFINITY)
-    //        //{
-    //        //    outputImage.SetPixel(x, y, scene->getBackgroundColor());
-    //        //    continue;
-    //        //}
-    //        Vec3f N = hits[i].getNormal();
-    //        Vec3f depthColor(fabsf(N.x()), fabsf(N.y()), fabsf(N.z()));
-    //        outputImage.SetPixel(x, y, depthColor);
-    //    }
-    //    outputImage.SaveTGA(outputFile);
-    //}
 
 
 
@@ -153,367 +110,222 @@ public:
 
 
 
-///*
-//	d	= L . N     	if L . N > 0
-// 	 	= 0	otherwise
-//    cpixel  =  cambient * cobject + SUMi [ clamped(Li . N) * clighti * cobject ]
-//*/
-//    void diffuseShader(char* outputFile,bool shadeBack)
-//    {
-//        doRayCasting();
-//        Image outputImage(width, height);
-//        for (int i = 0; i < width * height; i++)
-//        {
-//            int x = i % width;
-//            int y = i / width;
-//            if (hits[i].getT() == INFINITY)
-//            {
-//                outputImage.SetPixel(x, y, scene->getBackgroundColor());
-//                continue;
-//			}
-//            Vec3f N = hits[i].getNormal();
-//            //cout << "N: " << N << endl;
-//            //if shade back
-//			if (shadeBack && rays[i].getDirection().Dot3(N) > 0)
-//            {
-//                N.Negate();
-//            }
-//            //no shade back and ray inside object
-//            if (!shadeBack && rays[i].getDirection().Dot3(N) > 0)
-//            {
-//                outputImage.SetPixel(x, y, Vec3f(0,0,0));
-//                continue;
-//            }
-//
-//            Vec3f objectColor = hits[i].getMaterial()->getDiffuseColor();
-//            Vec3f ambientColor = scene->getAmbientLight() * objectColor;
-//            Vec3f diffuseColor(0,0,0);
-//            for (int j = 0; j < scene->getNumLights(); j++)
-//            {
-//                Vec3f L;
-//                Vec3f lightColor;
-//                float distanceToLight;
-//                scene->getLight(j)->getIllumination(hits[i].getIntersectionPoint(), L, lightColor, distanceToLight);
-//                float temp = L.Dot3(N);
-//                if (temp < 0)
-//                    temp = 0;
-//                diffuseColor += temp * lightColor * objectColor;
-//            }
-//            Vec3f pixelColor =ambientColor+diffuseColor;
-//            outputImage.SetPixel(x, y, pixelColor);
-//        }
-//        outputImage.SaveTGA(outputFile);
-//    }
 
+	//Assignment6
+	void RayCast(char* outputFile)
+	{
+		Image outputImage(width, height);
+		int xoffset = 0;
+		int yoffset = 0;
 
-    //void phongShader(char* outputFile)
-    //{
-    //    doRayCasting();
-    //    Image outputImage(width, height);
-    //    for (int i = 0; i < width * height; i++)
-    //    {
-    //        int x = i % width;
-    //        int y = i / width;
-    //        if (hits[i].getT() == INFINITY)
-    //        {
-    //            outputImage.SetPixel(x, y, scene->getBackgroundColor());
-    //            continue;
-    //        }
-    //        Vec3f N = hits[i].getNormal();
-    //        //cout << "N: " << N << endl;
-    //        //if shade back
-    //        if (shadeBack && rays[i].getDirection().Dot3(N) > 0)
-    //        {
-    //            N.Negate();
-    //        }
-    //        //no shade back and ray inside object
-    //        if (!shadeBack && rays[i].getDirection().Dot3(N) > 0)
-    //        {
-    //            outputImage.SetPixel(x, y, Vec3f(0, 0, 0));
-    //            continue;
-    //        }
+		//deal with width!=height
+		if (width > height)
+		{
+			yoffset = (squareLength - height) / 2;
+		}
+		else if (width < height)
+		{
+			xoffset = (squareLength - width) / 2;
+		}
+
+		for (int i = 0; i < width * height; i++)
+		{
+			int x = i % width;
+			int y = i / width;
+			int xrayIndex = x + xoffset;
+			int yrayIndex = y + yoffset;
+
+			Hit hit;
+			Ray ray = generateRayAtIndex(xrayIndex, yrayIndex);
+			RayTracingStats::IncrementNumNonShadowRays();
+			outputImage.SetPixel(x, y, traceRay(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit));
+		}
+		outputImage.SaveTGA(outputFile);
+	}
+
+	void RayCastFast(char* outputFile)
+	{
+		Image outputImage(width, height);
+		int xoffset = 0;
+		int yoffset = 0;
+
+		//deal with width!=height
+		if (width > height)
+		{
+			yoffset = (squareLength - height) / 2;
+		}
+		else if (width < height)
+		{
+			xoffset = (squareLength - width) / 2;
+		}
+
+		for (int i = 0; i < width * height; i++)
+		{
+			int x = i % width;
+			int y = i / width;
+			int xrayIndex = x + xoffset;
+			int yrayIndex = y + yoffset;
 
 
 
-    //        Vec3f objectColor = hits[i].getMaterial()->getDiffuseColor();
-    //        Vec3f ambientColor = scene->getAmbientLight() * objectColor;
-    //        Vec3f diffuseSpecularColor(0, 0, 0);
-    //        for (int j = 0; j < scene->getNumLights(); j++)
-    //        {
-    //            Vec3f dirToLight;
-    //            Vec3f lightColor;
-    //            float distanceToLight;
-    //            scene->getLight(j)->getIllumination(hits[i].getIntersectionPoint(), dirToLight, lightColor, distanceToLight);
-    //            diffuseSpecularColor+= hits[i].getMaterial()->Shade(hits[i].getRay(), hits[i],dirToLight,lightColor);
-    //        }
+			Hit hit;
+			Ray ray = generateRayAtIndex(xrayIndex, yrayIndex);
+			RayTracingStats::IncrementNumNonShadowRays();
+			outputImage.SetPixel(x, y, traceRayFast(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit));
+		}
+		outputImage.SaveTGA(outputFile);
+	}
 
-    //        Vec3f pixelColor = diffuseSpecularColor + ambientColor;
-    //        outputImage.SetPixel(x, y, pixelColor);
+	void RayCastGrid(char* outputFile)
+	{
+		Image outputImage(width, height);
+		int xoffset = 0;
+		int yoffset = 0;
 
-    //    }
-    //    outputImage.SaveTGA(outputFile);
-    //}
+		//deal with width!=height
+		if (width > height)
+		{
+			yoffset = (squareLength - height) / 2;
+		}
+		else if (width < height)
+		{
+			xoffset = (squareLength - width) / 2;
+		}
+
+		for (int i = 0; i < width * height; i++)
+		{
+			int x = i % width;
+			int y = i / width;
+			int xrayIndex = x + xoffset;
+			int yrayIndex = y + yoffset;
+			Hit hit;
+			Ray ray = generateRayAtIndex(xrayIndex, yrayIndex);
+			outputImage.SetPixel(x, y, traceRayGrid(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit));
+
+		}
+		outputImage.SaveTGA(outputFile);
+	}
 
 
-    ////Assignment4
-    //void raytraceShader(char* outputFile)
-    //{
-    //    Image outputImage(width, height);
-    //    for (int i = 0; i < width * height; i++)
-    //    {
-    //        int x = i % width;
-    //        int y = i / width;
-    //        Hit hit;
-    //        Ray ray = generateRayAtIndex(i);
-    //        RayTracingStats::IncrementNumNonShadowRays();
-    //        outputImage.SetPixel(x, y, traceRay(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit));
-    //    }
-    //    outputImage.SaveTGA(outputFile);
-    //}
+	void RayCastNormal(char* outputFile)
+	{
+		Image outputImage(width, height);
+		int xoffset = 0;
+		int yoffset = 0;
 
+		//deal with width!=height
+		if (width > height)
+		{
+			yoffset = (squareLength - height) / 2;
+		}
+		else if (width < height)
+		{
+			xoffset = (squareLength - width) / 2;
+		}
 
-    ////Assignment5
-    ////based on phong shader
-    //void gridShader(char* outputFile)
-    //{
-    //    Image outputImage(width, height);
-    //    int xoffset = 0;
-    //    int yoffset = 0;
-
-    //    //deal with width!=height
-    //    if (width > height)
-    //    {
-    //        yoffset = (squareLength - height) / 2;
-    //    }
-    //    else if (width < height)
-    //    {
-    //        xoffset = (squareLength - width) / 2;
-    //    }
-
-    //    for (int i = 0; i < width * height; i++)
-    //    {
-    //        int x = i % width + xoffset;
-    //        int y = i / width+yoffset;
-    //        Hit hit;
-    //        Ray ray = generateRayAtIndex(x,y);
-    //        grid->intersect(ray, hit, scene->getCamera()->getTMin());
-    //        if (hit.getT() == INFINITY)
-    //        {
-    //            outputImage.SetPixel(x, y, scene->getBackgroundColor());
-    //            continue;
-    //        }
-    //        Vec3f N = hit.getNormal();
-    //        //cout << "N: " << N << endl;
-    //        //if shade back
-    //        if (shadeBack && ray.getDirection().Dot3(N) > 0)
-    //        {
-    //            N.Negate();
-    //        }
-    //        //no shade back and ray inside object
-    //        if (!shadeBack && ray.getDirection().Dot3(N) > 0)
-    //        {
-    //            outputImage.SetPixel(x, y, Vec3f(0, 0, 0));
-    //            continue;
-    //        }
+		for (int i = 0; i < width * height; i++)
+		{
+			int x = i % width;
+			int y = i / width;
+			int xrayIndex = x + xoffset;
+			int yrayIndex = y + yoffset;
+			Hit hit;
+			Ray ray = generateRayAtIndex(xrayIndex, yrayIndex);
+			traceRay(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit);
+			Vec3f N = hit.getNormal();
+			Vec3f depthColor(fabsf(N.x()), fabsf(N.y()), fabsf(N.z()));
+			outputImage.SetPixel(x, y, depthColor);
+		}
+		outputImage.SaveTGA(outputFile);
+	}
 
 
 
-    //        Vec3f objectColor = hit.getMaterial()->getDiffuseColor();
-    //        Vec3f ambientColor = scene->getAmbientLight() * objectColor;
-    //        Vec3f diffuseSpecularColor(0, 0, 0);
-    //        for (int j = 0; j < scene->getNumLights(); j++)
-    //        {
-    //            Vec3f dirToLight;
-    //            Vec3f lightColor;
-    //            float distanceToLight;
-    //            scene->getLight(j)->getIllumination(hit.getIntersectionPoint(), dirToLight, lightColor, distanceToLight);
-    //            diffuseSpecularColor += hit.getMaterial()->Shade(hit.getRay(), hit, dirToLight, lightColor);
-    //        }
+	void RayCastFastNormal(char* outputFile)
+	{
+		Image outputImage(width, height);
+		int xoffset = 0;
+		int yoffset = 0;
 
-    //        Vec3f pixelColor = diffuseSpecularColor + ambientColor;
-    //        outputImage.SetPixel(x, y, pixelColor);
+		//deal with width!=height
+		if (width > height)
+		{
+			yoffset = (squareLength - height) / 2;
+		}
+		else if (width < height)
+		{
+			xoffset = (squareLength - width) / 2;
+		}
 
-    //    }
-    //    outputImage.SaveTGA(outputFile);
-    //}
+		for (int i = 0; i < width * height; i++)
+		{
+			int x = i % width;
+			int y = i / width;
+			int xrayIndex = x + xoffset;
+			int yrayIndex = y + yoffset;
+			Hit hit;
+			Ray ray = generateRayAtIndex(xrayIndex, yrayIndex);
+			traceRayFast(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit);
+			Vec3f N = hit.getNormal();
+			Vec3f depthColor(fabsf(N.x()), fabsf(N.y()), fabsf(N.z()));
+			outputImage.SetPixel(x, y, depthColor);
+		}
+		outputImage.SaveTGA(outputFile);
+	}
 
 
 
 
 
-//Assignment6
-void RayCast(char* outputFile)
-{
-    Image outputImage(width, height);
-    int xoffset = 0;
-    int yoffset = 0;
 
-    //deal with width!=height
-    if (width > height)
+	//Assignment7 
+	void RayCastSample(char* outputFile)
+	{
+        Image outputImage(width, height);
+        int xoffset = 0;
+        int yoffset = 0;
+
+        //deal with width!=height
+        yoffset =max( 0, (squareLength - height) / 2);
+        xoffset =max(0, (squareLength - width) / 2);
+
+        for (int i = 0; i < width * height; i++)
+        {
+            int x = i % width;
+            int y = i / width;
+            int xrayIndex = x + xoffset;
+            int yrayIndex = y + yoffset;
+
+            //sampling
+            for (int s = 0; s < numSamples; s++)
+            {
+                Vec2f sampleOffset=sampler->getSamplePosition(s);
+                
+                Hit hit;
+                Ray ray = generateRayAtIndexWithOffset(xrayIndex, yrayIndex, sampleOffset);
+                film->setSample(x, y, s, sampleOffset, traceRayFast(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit));
+            }
+        }
+
+        for (int i = 0; i < width * height; i++)
+        {
+            int x = i % width;
+            int y = i / width;
+            outputImage.SetPixel(x,y,filter->getColor(x, y, film));
+        }
+        outputImage.SaveTGA(outputFile);
+	}
+
+    void RenderSample(char* sampleFile, int sampleZoom)
     {
-        yoffset = (squareLength - height) / 2;
-    }
-    else if (width < height)
-    {
-        xoffset = (squareLength - width) / 2;
-    }
-
-    for (int i = 0; i < width * height; i++)
-    {
-        int x = i % width;
-        int y = i / width;
-        int xrayIndex = x + xoffset;
-        int yrayIndex = y + yoffset;
-
-        Hit hit;
-        Ray ray = generateRayAtIndex(xrayIndex, yrayIndex);
-        RayTracingStats::IncrementNumNonShadowRays();
-        outputImage.SetPixel(x, y, traceRay(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit));
-    }
-    outputImage.SaveTGA(outputFile);
-}
-
-void RayCastFast(char* outputFile)
-{
-    Image outputImage(width, height);
-    int xoffset = 0;
-    int yoffset = 0;
-
-    //deal with width!=height
-    if (width > height)
-    {
-        yoffset = (squareLength - height) / 2;
-    }
-    else if (width < height)
-    {
-        xoffset = (squareLength - width) / 2;
+        film->renderSamples(sampleFile, sampleZoom);
     }
 
-    for (int i = 0; i < width * height; i++)
+    void RenderFilter(char* filterFile, int filterZoom)
     {
-        int x = i % width;
-        int y = i / width;
-        int xrayIndex = x + xoffset;
-        int yrayIndex = y + yoffset;
-
-
-
-        Hit hit;
-        Ray ray = generateRayAtIndex(xrayIndex, yrayIndex);
-        RayTracingStats::IncrementNumNonShadowRays();
-        outputImage.SetPixel(x, y, traceRayFast(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit));
+        assert(filter != NULL);
+        film->renderFilter(filterFile, filterZoom,filter);
     }
-    outputImage.SaveTGA(outputFile);
-}
-
-void RayCastGrid(char* outputFile)
-{
-    Image outputImage(width, height);
-    int xoffset = 0;
-    int yoffset = 0;
-
-    //deal with width!=height
-    if (width > height)
-    {
-        yoffset = (squareLength - height) / 2;
-    }
-    else if (width < height)
-    {
-        xoffset = (squareLength - width) / 2;
-    }
-
-    for (int i = 0; i < width * height; i++)
-    {
-        int x = i % width;
-        int y = i / width;
-        int xrayIndex = x + xoffset;
-        int yrayIndex = y + yoffset;
-        Hit hit;
-        Ray ray = generateRayAtIndex(xrayIndex, yrayIndex);
-        outputImage.SetPixel(x, y, traceRayGrid(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit));
-
-    }
-    outputImage.SaveTGA(outputFile);
-}
- 
-
-void RayCastNormal(char* outputFile)
-{
-    Image outputImage(width, height);
-    int xoffset = 0;
-    int yoffset = 0;
-
-    //deal with width!=height
-    if (width > height)
-    {
-        yoffset = (squareLength - height) / 2;
-    }
-    else if (width < height)
-    {
-        xoffset = (squareLength - width) / 2;
-    }
-
-    for (int i = 0; i < width * height; i++)
-    {
-        int x = i % width;
-        int y = i / width;
-        int xrayIndex = x + xoffset;
-        int yrayIndex = y + yoffset;
-        Hit hit;
-        Ray ray = generateRayAtIndex(xrayIndex, yrayIndex);
-        traceRay(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit);
-        Vec3f N=hit.getNormal();
-        Vec3f depthColor(fabsf(N.x()), fabsf(N.y()), fabsf(N.z()));
-        outputImage.SetPixel(x, y, depthColor);
-    }
-    outputImage.SaveTGA(outputFile);
-}
-
-
-
-void RayCastFastNormal(char* outputFile)
-{
-    Image outputImage(width, height);
-    int xoffset = 0;
-    int yoffset = 0;
-
-    //deal with width!=height
-    if (width > height)
-    {
-        yoffset = (squareLength - height) / 2;
-    }
-    else if (width < height)
-    {
-        xoffset = (squareLength - width) / 2;
-    }
-
-    for (int i = 0; i < width * height; i++)
-    {
-        int x = i % width;
-        int y = i / width;
-        int xrayIndex = x + xoffset;
-        int yrayIndex = y + yoffset;
-        Hit hit;
-        Ray ray = generateRayAtIndex(xrayIndex, yrayIndex);
-        traceRayFast(ray, scene->getCamera()->getTMin(), 0, 1, VACUUM_REFRACTION_INDEX, hit);
-        Vec3f N = hit.getNormal();
-        Vec3f depthColor(fabsf(N.x()), fabsf(N.y()), fabsf(N.z()));
-        outputImage.SetPixel(x, y, depthColor);
-    }
-    outputImage.SaveTGA(outputFile);
-}
-    
-
-
-
-
-
-//Assignment7 
-void newRayCast(char* outputFile)
-{
-
-}
-
 
 
 
@@ -811,7 +623,17 @@ private:
     Grid* grid;
     //bool shadeGrid;
 
-    
+    //Assignment7
+    int sampleMode;
+    int numSamples;
+    int filterMode;
+    float filterRadius;
+    Film* film;
+    Sampler* sampler;
+    Filter* filter;
+
+    Vec3f (*traceRayFunction)(Ray& ray, float tmin, int bounces, float weight,
+        float indexOfRefraction, Hit& hit);
 
 
     //Ray generateRayAtIndex(int index)
@@ -833,6 +655,13 @@ private:
         //point.Get(d0, d1);
         //cout << "pointInfo:" << d0<< " " <<d1<< endl;
         return scene->getCamera()->generateRay(point);
+    }
+
+    Ray generateRayAtIndexWithOffset(float xrayIndex, float yrayIndex,Vec2f sampleOffset)
+    {
+        Vec2f point(((float)xrayIndex + sampleOffset.x()) / (float)squareLength, ((float)yrayIndex + sampleOffset.y()) / (float)squareLength);
+        return scene->getCamera()->generateRay(point);
+
     }
 
 
@@ -866,6 +695,66 @@ private:
     }
    
 
+
+
+
+    Sampler* getSampler(int sampleMode, int numSamples)
+    {
+        Sampler* sampler;
+        if (sampleMode == NO_SAMPLE)
+        {
+            sampler = new UniformSampler(1);
+        }
+        else if (sampleMode == UNIFORM_SAMPLE)
+        {
+            sampler = new UniformSampler(numSamples);
+        }
+        else if (sampleMode == RANDOM_SAMPLE)
+        {
+            sampler = new RandomSampler(numSamples);
+        }
+        else if (sampleMode == JITTERED_SAMPLE)
+        {
+            sampler = new JitteredSampler(numSamples);
+        }
+        else
+        {
+            sampler = NULL;
+        }
+
+        return sampler;
+    }
+
+
+
+
+    Filter* getFilter(int filterMode, float radius)
+    {
+        Filter* filter = NULL;
+        if (filterMode == NO_FILTER)
+        {
+            filter = new BoxFilter(0.5);
+        }
+        else if (filterMode == BOX_FILTER)
+        {
+            filter = new BoxFilter(radius);
+        }
+        else if (filterMode == TENT_FILTER)
+        {
+            filter = new TentFilter(radius);
+        }
+        else if (filterMode == GAUSSIAN_FILTER)
+        {
+            filter = new GaussianFilter(radius);
+        }
+        else
+        {
+            filter = NULL;
+        }
+
+        return filter;
+
+    }
 
 };
 
