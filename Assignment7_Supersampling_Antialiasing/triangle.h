@@ -51,7 +51,7 @@ public:
 		float beta = detBeta / detA;
 		float gamma = detGamma / detA;
 		float t = detT / detA;
-		if (t > tmin && beta>0 && gamma > 0 && beta + gamma < 1)
+		if (t >= tmin && beta>= INTERSECT_EPSILON && gamma >= INTERSECT_EPSILON && beta + gamma <= 1+ INTERSECT_EPSILON)
 		{
 			if (t < h.getT())
 			{

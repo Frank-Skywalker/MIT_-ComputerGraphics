@@ -7,6 +7,9 @@
 #include "boundingbox.h"
 #include "raytracing_stats.h"
 
+#define INTERSECT_EPSILON 0.000001
+
+
 class Grid;
 class BoundingBox;
 class Transform;

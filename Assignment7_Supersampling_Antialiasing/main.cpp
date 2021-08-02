@@ -34,7 +34,7 @@ float cutoffWeight;
 int nx=0;
 int ny=0;
 int nz=0;
-bool shadeGrid = false;
+bool renderGrid = false;
 bool useGrid = false;
 
 //Assignment6
@@ -51,7 +51,7 @@ int sampleZoom =1;
 
 //filter
 int filterMode = NO_FILTER;
-float filterRadius=0;
+float filterRadius=0.5;
 
 bool renderFilter = false;
 char* filterFile = NULL;
@@ -61,32 +61,14 @@ int filterZoom = 1;
 void shade(void)
 {
 	assert(raytracer != NULL);
-	if (output_file != NULL)
-	{
-		
-		if(useGrid)
-		{
-			if (shadeGrid)
-			{
-				raytracer->RayCastGrid(output_file);
-			}
-			else
-			{
-				raytracer->RayCastFast(output_file);
-				//raytracer->RayCastFastNormal(output_file);
-			}
-		}
-		else
-		{
-			raytracer->RayCastSample(output_file);
-			//raytracer->RayCastNormal(output_file);
-		}
-	}
+
+	raytracer->RayCastSample(output_file);
+
+
 	if (printStatistics)
 	{
 		RayTracingStats::PrintStatistics();
 	}
-
 	if (renderSample == true)
 	{
 		raytracer->RenderSample(sampleFile, sampleZoom);
@@ -95,6 +77,7 @@ void shade(void)
 	{
 		raytracer->RenderFilter(filterFile, filterZoom);
 	}
+
 }
 
 void trace(float x,float y)
@@ -103,7 +86,7 @@ void trace(float x,float y)
 	Ray ray=raytracer->getScene()->getCamera()->generateRay(point);
 	Hit hit;
 	raytracer->traceRay(ray, raytracer->getScene()->getCamera()->getTMin(), 0, 1, 1, hit);
-	if (shadeGrid)
+	if (renderGrid)
 	{
 		raytracer->getGrid()->intersect(ray, hit, raytracer->getScene()->getCamera()->getTMin());
 	}
@@ -215,7 +198,7 @@ int main(int argc, char* argv[])
 		}
 		else if (!strcmp(argv[i], "-visualize_grid"))
 		{
-			shadeGrid = true;
+			renderGrid = true;
 		}
 		//Assignment6
 		else if (!strcmp(argv[i], "-stats"))
@@ -302,12 +285,12 @@ int main(int argc, char* argv[])
 
 
 	// ======================================================== // ========================================================
-	raytracer = new RayTracer(input_file, width, height, maxBounces, cutoffWeight, shadeShadows, shade_back,useGrid,nx,ny,nz,sampleMode,numSamples,filterMode,filterRadius);
+	raytracer = new RayTracer(input_file, width, height, maxBounces, cutoffWeight, shadeShadows, shade_back,useGrid,nx,ny,nz,renderGrid,sampleMode,numSamples,filterMode,filterRadius);
 	//previsualize this scene with OpenGL
 	if (previsualize)
 	{
 		GLCanvas glCanvas;
-		glCanvas.initialize(raytracer->getScene(), shade, trace, raytracer->getGrid(), shadeGrid);
+		glCanvas.initialize(raytracer->getScene(), shade, trace, raytracer->getGrid(), renderGrid);
 	}
 	else
 	{

@@ -25,6 +25,7 @@ public:
 		int numSamples = film->getNumSamples();
 		int width = film->getWidth();
 		int height = film->getHeight();
+		float totalWeight = 0;
 		Vec3f color;
 		for (int i = x - supportRadius; i<= x + supportRadius; i++)
 		{
@@ -50,13 +51,16 @@ public:
 				{
 					Sample sample=film->getSample(i, j, k);
 					Vec2f samplePosition(i+ sample.getPosition().x(),j+sample.getPosition().y());
-					float xoffset = samplePosition.x() - x;
-					float yoffset = samplePosition.y() - y;
-					color+=sample.getColor()*getWeight(xoffset,yoffset);
+					float xoffset = samplePosition.x() - x - 0.5;
+					float yoffset = samplePosition.y() - y - 0.5;
+					float weight = getWeight(xoffset, yoffset);
+					color+=sample.getColor() * weight;
+					totalWeight += weight;
 				}
 			}
 		}
-		return color;
+		
+		return color*(1.0/totalWeight);
 	}
 
 
@@ -135,12 +139,12 @@ public:
 	{
 		Vec2f vec(fabs(x), fabs(y));
 		float d = vec.Length();
-		if (d > 2 * sigma)
-		{
-			return 0;
-		}
+		//if (d > 2 * sigma)
+		//{
+		//	return 0;
+		//}
 
-		return exp(-powf(d, 2) / 2 * powf(sigma, 2));
+		return exp(-powf(d, 2) / (2 * powf(sigma, 2)));
 	}
 	virtual int getSupportRadius()
 	{
