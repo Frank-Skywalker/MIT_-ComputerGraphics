@@ -1,0 +1,48 @@
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_01_bezier.txt -gui -curve_tessellation 30
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_02_bspline.txt -gui -curve_tessellation 30
+ 
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_01_bezier.txt -output_bezier .\Data\output8_01_bezier.txt
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_01_bezier.txt -output_bspline .\Data\output8_01_bspline.txt
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_02_bspline.txt -output_bezier .\Data\output8_02_bezier.txt
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_02_bspline.txt -output_bspline .\Data\output8_02_bspline.txt
+.\Assignment8\Debug\Assignment8.exe -input .\Data\output8_01_bezier.txt -gui -curve_tessellation 30
+.\Assignment8\Debug\Assignment8.exe -input .\Data\output8_01_bspline.txt -gui -curve_tessellation 30
+.\Assignment8\Debug\Assignment8.exe -input .\Data\output8_02_bezier.txt -gui -curve_tessellation 30
+.\Assignment8\Debug\Assignment8.exe -input .\Data\output8_02_bspline.txt -gui -curve_tessellation 30
+ 
+ 
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_03_bezier.txt -gui -curve_tessellation 30
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_04_bspline.txt -gui -curve_tessellation 30
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_05_bspline_dups.txt -gui -curve_tessellation 30
+  
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_06_torus.txt -curve_tessellation 4 -gui
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_06_torus.txt -curve_tessellation 4 -revolution_tessellation 10 -output .\Data\torus_low.obj
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_06_torus.txt -curve_tessellation 30 -revolution_tessellation 60 -output .\Data\torus_high.obj
+..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_06_torus_low.txt -gui -size 300 300
+..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_06_torus_high.txt -gui -size 300 300
+  
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_07_vase.txt -curve_tessellation 4 -output_bspline .\Data\output8_07_edit.txt -gui
+.\Assignment8\Debug\Assignment8.exe -input .\Data\output8_07_edit.txt -curve_tessellation 4 -revolution_tessellation 10 -output .\Data\vase_low.obj
+.\Assignment8\Debug\Assignment8.exe -input .\Data\output8_07_edit.txt -curve_tessellation 10 -revolution_tessellation 60 -output .\Data\vase_high.obj
+..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_07_vase_low.txt -gui -size 300 300
+..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_07_vase_high.txt -gui -size 300 300
+ 
+ 
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_08_bezier_patch.txt -gui
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_08_bezier_patch.txt -patch_tessellation 4 -output .\Data\patch_low.obj
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_08_bezier_patch.txt -patch_tessellation 10 -output .\Data\patch_med.obj
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_08_bezier_patch.txt -patch_tessellation 40 -output .\Data\patch_high.obj
+..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_08_bezier_patch_low.txt -gui -size 300 300
+..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_08_bezier_patch_med.txt -gui -size 300 300
+..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_08_bezier_patch_high.txt -gui -size 300 300
+  
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_09_teapot.txt -curve_tessellation 4 -gui
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_09_teapot.txt -patch_tessellation 4 -curve_tessellation 4 -revolution_tessellation 10 -output .\Data\teapot_low.obj
+.\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_09_teapot.txt -patch_tessellation 30 -curve_tessellation 30 -revolution_tessellation 100 -output .\Data\teapot_high.obj
+..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_09_teapot_low.txt -gui -size 300 300
+..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_09_teapot_high.txt -gui -size 300 300
+  
+.\Assignment8\Debug\Assignment8.exe -input .\Data\output8_07_edit.txt -curve_tessellation 20 -revolution_tessellation 100 -output .\Data\vase_very_high.obj
+..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_10_transparent_vase.txt -output .\Data\output8_10.tga -grid 30 30 30 -size 300 300 -bounces 4 -shade_back -jittered_samples 9 -tent_filter 1.0 -shadows
+..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_11_reflective_teapot.txt -output .\Data\output8_11.tga -grid 50 30 30 -size 300 300 -bounces 4 -shade_back -jittered_samples 9 -tent_filter 1.0 -shadows
+ 

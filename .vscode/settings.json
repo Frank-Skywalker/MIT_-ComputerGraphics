@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "limits": "cpp",
-        "boundingbox.C": "cpp"
+        "boundingbox.C": "cpp",
+        "spline_parser.C": "cpp"
     }
 }
