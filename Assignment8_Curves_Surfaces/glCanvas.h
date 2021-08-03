@@ -2,6 +2,11 @@
 #define _GL_CANVAS_H_
 
 #include <stdlib.h>
+// Included files for OpenGL Rendering
+#include <gl/glew.h>
+#include <gl/GL.h>
+#include<gl/GLU.h>
+#include <gl/glut.h>
 
 class ArgParser;
 class SplineParser;

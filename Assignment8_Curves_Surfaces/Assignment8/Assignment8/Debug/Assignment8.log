@@ -1,0 +1,18 @@
+﻿  glCanvas.cpp
+D:\Windows Kits\10\Include\10.0.18362.0\ucrt\stdlib.h(52,48): error C2381: 'exit': redefinition; 'noreturn' differs
+D:\Windows Kits\10\Include\10.0.18362.0\um\gl\glut.h(146): message : see declaration of 'exit'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\glCanvas.cpp(71,26): error C2027: use of undefined type 'Spline'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline_parser.h(6): message : see declaration of 'Spline'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\glCanvas.cpp(126,6): error C2027: use of undefined type 'Spline'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline_parser.h(6): message : see declaration of 'Spline'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\glCanvas.cpp(137,6): error C2027: use of undefined type 'Spline'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline_parser.h(6): message : see declaration of 'Spline'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\glCanvas.cpp(148,6): error C2027: use of undefined type 'Spline'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline_parser.h(6): message : see declaration of 'Spline'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\glCanvas.cpp(163,18): error C2027: use of undefined type 'Spline'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline_parser.h(6): message : see declaration of 'Spline'
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\glCanvas.cpp(182,11): error C2264: 'exit': error in function definition or declaration; function not called
+  spline_parser.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline_parser.cpp(3,10): fatal error C1083: Cannot open include file: 'curve.h': No such file or directory
+  triangle_mesh.cpp
+  Generating Code...
