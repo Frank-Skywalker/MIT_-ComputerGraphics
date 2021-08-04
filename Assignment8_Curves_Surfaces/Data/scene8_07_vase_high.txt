@@ -11,6 +11,6 @@ Group { numObjects 1
 
 MaterialIndex 0
 TriangleMesh {
-    obj_file vase_high.obj
+    obj_file .\Data\vase_high.obj
 }
 }

@@ -22,6 +22,7 @@
 ..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_06_torus_high.txt -gui -size 300 300
   
 .\Assignment8\Debug\Assignment8.exe -input .\Data\spline8_07_vase.txt -curve_tessellation 4 -output_bspline .\Data\output8_07_edit.txt -gui
+.\Assignment8\Debug\Assignment8.exe -input .\Data\output8_07_edit.txt -curve_tessellation 4 -output_bspline .\Data\output8_07_edit.txt -gui
 .\Assignment8\Debug\Assignment8.exe -input .\Data\output8_07_edit.txt -curve_tessellation 4 -revolution_tessellation 10 -output .\Data\vase_low.obj
 .\Assignment8\Debug\Assignment8.exe -input .\Data\output8_07_edit.txt -curve_tessellation 10 -revolution_tessellation 60 -output .\Data\vase_high.obj
 ..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_07_vase_low.txt -gui -size 300 300
@@ -43,6 +44,6 @@
 ..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_09_teapot_high.txt -gui -size 300 300
   
 .\Assignment8\Debug\Assignment8.exe -input .\Data\output8_07_edit.txt -curve_tessellation 20 -revolution_tessellation 100 -output .\Data\vase_very_high.obj
-..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_10_transparent_vase.txt -output .\Data\output8_10.tga -grid 30 30 30 -size 300 300 -bounces 4 -shade_back -jittered_samples 9 -tent_filter 1.0 -shadows
+..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_10_transparent_vase.txt -output .\Data\output8_10_1.tga -grid 30 30 30 -size 300 300 -bounces 4 -shade_back -jittered_samples 9 -tent_filter 1.0 -shadows
 ..\Assignment7_supersampling_Antialiasing\Assignment7\Debug\Assignment7.exe -input .\Data\scene8_11_reflective_teapot.txt -output .\Data\output8_11.tga -grid 50 30 30 -size 300 300 -bounces 4 -shade_back -jittered_samples 9 -tent_filter 1.0 -shadows
  

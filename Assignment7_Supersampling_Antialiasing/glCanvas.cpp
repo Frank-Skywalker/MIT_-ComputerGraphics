@@ -325,12 +325,12 @@ void GLCanvas::initialize(SceneParser* _scene,
     Vec3f ambColor = scene->getAmbientLight();
     GLfloat ambArr[] = { ambColor.x(), ambColor.y(), ambColor.z(), 1.0 };
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambArr);
-    //glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
     glCullFace(GL_BACK);
     glDisable(GL_CULL_FACE);
 
     // Initialize callback functions
-    glutMouseFunc(mouse);
+    glutMouseFunc(mouse);   
     glutMotionFunc(motion);
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);

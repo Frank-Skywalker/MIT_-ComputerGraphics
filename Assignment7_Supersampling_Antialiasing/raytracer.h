@@ -22,7 +22,7 @@
 
 #define EPSILON 0.001
 #define VACUUM_REFRACTION_INDEX 1
-#define WEIGHT_STEP_DECREASE 0.1
+#define WEIGHT_STEP_DECREASE 0.05
 
 class SceneParser;
 

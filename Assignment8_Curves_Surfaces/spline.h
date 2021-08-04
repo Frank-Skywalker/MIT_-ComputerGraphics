@@ -11,6 +11,8 @@
 #include "matrix.h"
 #include "arg_parser.h"
 
+#define PI acos(-1)
+
 class Spline
 {
 public:
@@ -330,6 +332,43 @@ public:
 		glEnd();
 	}
 
+
+
+	// FOR GENERATING TRIANGLES
+	virtual TriangleMesh* OutputTriangles(ArgParser* args)
+	{
+		TriangleNet* triangleNet=new TriangleNet(args->revolution_tessellation,args->curve_tessellation*numSplines);
+
+
+		float uStep = 2.0f * PI / (float) args->revolution_tessellation;
+		float vStep = 1.0f / (float)args->curve_tessellation;
+		float phi = 0;
+
+		for (int k = 0; k <= args->revolution_tessellation; k++)
+		{
+			float cosPhi = cosf(phi);
+			float sinPhi = sinf(phi);
+			for (int i = 0; i < numSplines; i++)
+			{
+				float t = i;
+				for (int j = 0; j <= args->curve_tessellation; j++)
+				{
+					Vec3f vertex = Q(t);
+					float length = sqrtf(powf(vertex.x(), 2) + powf(vertex.z(), 2));
+					triangleNet->SetVertex( k , i * args->curve_tessellation + j, Vec3f(length*cosPhi,vertex.y(), length *sinPhi));
+					t += vStep;
+				}
+			}
+
+			phi += uStep;
+		}
+		//FILE* file = fopen(args->output_file,"w");
+		//triangleNet.Output(file);
+		//fclose(file);
+		return triangleNet;
+
+	}
+
 private:
 
 
@@ -630,10 +669,70 @@ public:
 class SurfaceOfRevolution : public Surface
 {
 public:
-	SurfaceOfRevolution(Curve *c)
+	SurfaceOfRevolution(Curve *c):curve(c)
 	{
-
 	}
+
+	virtual void Paint(ArgParser* args)
+	{
+		curve->Paint(args);
+	}
+
+	// FOR GENERATING TRIANGLES
+	virtual TriangleMesh* OutputTriangles(ArgParser* args)
+	{
+		return curve->OutputTriangles(args);
+	}
+
+
+	virtual void addControlPoint(int selectedPoint, float x, float y)
+	{
+		curve->addControlPoint(selectedPoint, x, y);
+	}
+
+	virtual void deleteControlPoint(int selectedPoint)
+	{
+		curve->deleteControlPoint(selectedPoint);
+	}
+
+
+	virtual void moveControlPoint(int selectedPoint, float x, float y)
+	{
+		curve->moveControlPoint(selectedPoint, x, y);
+	}
+
+
+
+	// FOR CONVERTING BETWEEN SPLINE TYPES
+	virtual void OutputBezier(FILE* file)
+	{
+		curve->OutputBezier(file);
+	}
+	virtual void OutputBSpline(FILE* file)
+	{
+		curve->OutputBSpline(file);
+	}
+
+	// FOR CONTROL POINT PICKING
+	virtual int getNumVertices()
+	{
+		return curve->getNumVertices();
+	}
+	virtual Vec3f getVertex(int i)
+	{
+		return curve->getVertex(i);
+	}
+
+
+
+	virtual void set(int index, Vec3f point)
+	{
+		curve->set(index, point);
+	}
+
+
+private:
+	Curve* curve;
 };
 
 class BezierPatch : public Surface
@@ -641,13 +740,79 @@ class BezierPatch : public Surface
 public:
 	BezierPatch()
 	{
+		controlPoints.reserve(16);
+
+		for (int i = 0; i < 4; i++)
+		{
+			uBezierCurves[i] = new BezierCurve(4);
+			vBezierCurves[i] = new BezierCurve(4);
+		}
 
 	}
 
-	void set(int index, Vec3f point)
+
+	virtual void set(int index, Vec3f point)
+	{
+		controlPoints.insert(controlPoints.begin() + index, point);
+		if (controlPoints.size() == 16)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					uBezierCurves[i]->set(j, controlPoints[i * 4 + j]);
+					vBezierCurves[i]->set(j, controlPoints[j * 4 + i]);
+				}
+			}
+		}
+	}
+
+	virtual void Paint(ArgParser* args)
 	{
 
+		for (int i = 0; i < 4; i++)
+		{
+			uBezierCurves[i]->Paint(args);
+			vBezierCurves[i]->Paint(args);
+		}
 	}
+
+
+	virtual TriangleMesh* OutputTriangles(ArgParser* args)
+	{
+		float step = 1.0 / (float)args->patch_tessellation;
+		TriangleNet* triangleNet = new TriangleNet(args->patch_tessellation, args->patch_tessellation);
+		
+		float u = 0;
+		for (int i = 0; i <= args->patch_tessellation; i++)
+		{
+			BezierCurve newCurve(4);
+			for (int k = 0; k < 4; k++)
+			{
+				newCurve.set(k, uBezierCurves[k]->Q(u));
+			}
+
+			float v = 0;
+			for (int j = 0; j <= args->patch_tessellation; j++)
+			{
+				Vec3f vertex=newCurve.Q(v);
+				triangleNet->SetVertex(i, j, vertex);
+				v += step;
+			}
+			u += step;
+		}
+
+		return triangleNet;
+	}
+
+
+
+
+private:
+	BezierCurve* uBezierCurves[4];
+	BezierCurve* vBezierCurves[4];
+
+
 };
 
 #endif

@@ -11,6 +11,6 @@ Group { numObjects 1
 
 MaterialIndex 0
 TriangleMesh {
-    obj_file torus_low.obj
+    obj_file .\Data\torus_low.obj
 }
 }

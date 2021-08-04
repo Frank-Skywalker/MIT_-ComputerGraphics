@@ -1,14 +1,14 @@
 ﻿  glCanvas.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(355,17): warning C4018: '<': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(435,3): warning C4018: '>': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(438,29): warning C4018: '>': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(538,21): warning C4018: '<': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(574,28): warning C4018: '>': signed/unsigned mismatch
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(394,17): warning C4018: '<': signed/unsigned mismatch
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(474,3): warning C4018: '>': signed/unsigned mismatch
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(477,29): warning C4018: '>': signed/unsigned mismatch
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(577,21): warning C4018: '<': signed/unsigned mismatch
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(613,28): warning C4018: '>': signed/unsigned mismatch
   spline_parser.cpp
-E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(355,17): warning C4018: '<': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(435,3): warning C4018: '>': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(438,29): warning C4018: '>': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(538,21): warning C4018: '<': signed/unsigned mismatch
-E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(574,28): warning C4018: '>': signed/unsigned mismatch
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(394,17): warning C4018: '<': signed/unsigned mismatch
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(474,3): warning C4018: '>': signed/unsigned mismatch
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(477,29): warning C4018: '>': signed/unsigned mismatch
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(577,21): warning C4018: '<': signed/unsigned mismatch
+E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\spline.h(613,28): warning C4018: '>': signed/unsigned mismatch
   Generating Code...
   Assignment8.vcxproj -> E:\Codes\CG\MIT_ComputerGraphics\Assignment8_Curves_Surfaces\Assignment8\Debug\Assignment8.exe

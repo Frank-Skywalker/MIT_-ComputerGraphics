@@ -11,6 +11,6 @@ Group { numObjects 1
 
 MaterialIndex 0
 TriangleMesh {
-    obj_file patch_med.obj
+    obj_file .\Data\patch_med.obj
 }
 }
