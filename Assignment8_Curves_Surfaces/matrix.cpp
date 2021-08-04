@@ -314,6 +314,18 @@ void Matrix::Transform(Vec4f& v) const {
     v = answer;
 }
 
+//void Matrix::MultiplyVec4f(Vec4f& v) const
+//{
+//    Vec4f answer;
+//    for (int x = 0; x < 4; x++) {
+//        answer.data[x] = 0;
+//        for (int i = 0; i < 4; i++) {
+//            answer.data[y] += Get(x,i) * v[i];
+//        }
+//    }
+//    v = answer;
+//}
+
 // ====================================================================
 // ====================================================================
 

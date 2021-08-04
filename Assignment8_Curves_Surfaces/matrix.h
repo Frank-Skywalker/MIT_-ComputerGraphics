@@ -63,6 +63,7 @@ public:
 
     // Use to transform a point with a matrix
     // that may include translation
+    //void MultiplyVec4f(Vec4f& v) const;
     void Transform(Vec4f& v) const;
     void Transform(Vec3f& v) const;
     void Transform(Vec2f& v) const;
@@ -107,11 +108,11 @@ private:
 inline ostream& operator<<(ostream& os, const Matrix& m)
 {
     os << "Matrix: " << endl;
-    for (int i = 0; i < 4; i++)
+    for (int y = 0; y < 4; y++)
     {
-        for (int j = 0; j < 4; j++)
+        for (int x = 0; x < 4; x++)
         {
-            os << m.Get(i, j) << " ";
+            os << m.Get(x, y) << " ";
         }
         os << endl;
     }

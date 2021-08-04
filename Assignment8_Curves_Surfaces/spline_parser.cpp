@@ -1,7 +1,7 @@
 #include "spline_parser.h"
 #include "spline.h"
-#include "curve.h"
-#include "surface.h"
+//#include "curve.h"
+//#include "surface.h"
 #include "triangle_mesh.h"
 #include "arg_parser.h"
 
@@ -20,7 +20,7 @@ SplineParser::SplineParser(const char *spline_file) {
   getToken(token);
   assert (!strcmp(token,"num_splines"));
   num_splines = readInt();
-  splines = new (Spline*)[num_splines];
+  splines = new Spline* [num_splines];
 
   // read the splines
   for (int i = 0; i < num_splines; i++) {

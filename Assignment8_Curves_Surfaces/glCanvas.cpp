@@ -1,13 +1,17 @@
 // Included files for OpenGL Rendering
-#include <gl/glew.h>
-#include <gl/GL.h>
-#include<gl/GLU.h>
-#include <gl/glut.h>
+
 
 #include "glCanvas.h"
 #include "arg_parser.h"
 #include "spline.h"
 #include "spline_parser.h"
+
+#include <gl/glew.h>
+#include <gl/GL.h>
+#include<gl/GLU.h>
+#include <gl/glut.h>
+
+
 
 // ========================================================
 
@@ -179,7 +183,7 @@ void GLCanvas::keyboard(unsigned char key, int x, int y) {
     printf ("done\n");
     break;
   case 'q':  case 'Q':
-    exit(0);
+      exit(0);
     break;
   default:
     printf("UNKNOWN KEYBOARD INPUT  '%c'\n", key);

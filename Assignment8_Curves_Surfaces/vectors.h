@@ -643,6 +643,11 @@ inline ostream& operator<<(ostream& os, const Vec3f& v) {
     return os;
 }
 
+
+inline ostream& operator<<(ostream& os, const Vec4f& v) {
+    os << "Vec3f <" << v.x() << ", " << v.y() << ", " << v.z() <<", "<<v.w() << ">";
+    return os;
+}
 // ====================================================================
 // ====================================================================
 
