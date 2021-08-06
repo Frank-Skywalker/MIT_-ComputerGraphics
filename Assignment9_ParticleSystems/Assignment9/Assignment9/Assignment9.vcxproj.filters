@@ -59,5 +59,14 @@
     <ClInclude Include="..\..\vectors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\forcefield.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\integrator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

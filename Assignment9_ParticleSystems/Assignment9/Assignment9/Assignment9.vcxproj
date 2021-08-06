@@ -147,7 +147,10 @@
     <ClCompile Include="..\..\system.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\forcefield.h" />
+    <ClInclude Include="..\..\generator.h" />
     <ClInclude Include="..\..\glCanvas.h" />
+    <ClInclude Include="..\..\integrator.h" />
     <ClInclude Include="..\..\matrix.h" />
     <ClInclude Include="..\..\parser.h" />
     <ClInclude Include="..\..\particle.h" />
