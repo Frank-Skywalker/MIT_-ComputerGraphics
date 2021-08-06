@@ -146,7 +146,7 @@ public:
 		glVertex3f(10, 0, 10);
 		glVertex3f(10, 0, -10);
 		glVertex3f(-10, 0, -10);
-		glVertex3f(10, 0, -10);
+		glVertex3f(-10, 0, 10);
 		glEnd();
 	}
 
