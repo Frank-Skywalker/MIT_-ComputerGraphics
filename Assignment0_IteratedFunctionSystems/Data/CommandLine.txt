@@ -1,0 +1,9 @@
+.\Assignment0\Debug\Assignment0.exe -input .\Data\sierpinski_triangle.txt -points 10000 -iters 0 -size 200 -output .\Data\sierpinski_triangle_0.tga
+.\Assignment0\Debug\Assignment0.exe -input .\Data\sierpinski_triangle.txt -points 10000 -iters 1 -size 200 -output .\Data\sierpinski_triangle_1.tga
+.\Assignment0\Debug\Assignment0.exe -input .\Data\sierpinski_triangle.txt -points 10000 -iters 2 -size 200 -output .\Data\sierpinski_triangle_2.tga
+.\Assignment0\Debug\Assignment0.exe -input .\Data\sierpinski_triangle.txt -points 10000 -iters 3 -size 200 -output .\Data\sierpinski_triangle_3.tga
+.\Assignment0\Debug\Assignment0.exe -input .\Data\sierpinski_triangle.txt -points 10000 -iters 4 -size 200 -output .\Data\sierpinski_triangle_4.tga
+.\Assignment0\Debug\Assignment0.exe -input .\Data\sierpinski_triangle.txt -points 10000 -iters 30 -size 200 -output .\Data\sierpinski_triangle.tga
+  
+  
+.\Assignment0\Debug\Assignment0.exe -input .\Data\fern.txt -points 50000 -iters 30 -size 400 -output .\Data\fern.tga

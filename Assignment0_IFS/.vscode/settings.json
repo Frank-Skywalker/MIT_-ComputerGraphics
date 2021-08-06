@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "matrix.h": "cpp",
-        "vectors.h": "cpp",
-        "assert.h": "cpp"
-    }
-}

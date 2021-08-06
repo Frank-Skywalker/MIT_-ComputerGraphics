@@ -1,0 +1,4 @@
+﻿  main.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment0_IteratedFunctionSystems\ifs.h(72,42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment0_IteratedFunctionSystems\ifs.h(72,32): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Assignment0.vcxproj -> E:\Codes\CG\MIT_ComputerGraphics\Assignment0_IteratedFunctionSystems\Assignment0\Debug\Assignment0.exe
