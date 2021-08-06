@@ -1,9 +1,10 @@
 // Included files for OpenGL Rendering
-#include <GL/gl.h>
-#include <GL/glut.h>
 
 #include "particle.h"
-
+#include <gl/glew.h>
+#include <gl/GL.h>
+#include <gl/GLU.h>
+#include <gl/glut.h>
 
 void Particle::increaseAge(float a) { 
   // interpolate towards dead_color as the clock ticks down  

@@ -98,4 +98,31 @@ private:
 };
 
 
+
+
+
+//not implemented
+class WindForceField :public ForceField
+{
+public:
+	WindForceField(float magnitude) : magnitude(magnitude)
+	{
+
+	}
+
+
+	virtual Vec3f getAcceleration(const Vec3f& position, float mass, float t) const
+	{
+		Vec3f direction(0, -position.y(), 0);
+		direction.Normalize();
+		float distance = fabs(position.y());
+		return magnitude * distance * (1.0f / mass) * direction;
+	}
+
+
+private:
+	float magnitude;
+};
+
+
 #endif

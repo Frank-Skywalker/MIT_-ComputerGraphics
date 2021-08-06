@@ -1,6 +1,5 @@
 // Included files for OpenGL Rendering
-#include <GL/gl.h>
-#include <GL/glut.h>
+
 
 #include "glCanvas.h"
 #include "parser.h"
@@ -8,6 +7,11 @@
 #include "particle.h"
 #include "matrix.h"
 
+
+#include <gl/glew.h>
+#include <gl/GL.h>
+#include <gl/GLU.h>
+#include <gl/glut.h>
 // ========================================================
 
 // STATIC VARIABLES

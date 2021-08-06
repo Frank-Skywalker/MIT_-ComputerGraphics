@@ -4,6 +4,12 @@
 #include <assert.h>
 #include "vectors.h"
 
+#include <gl/glew.h>
+#include <gl/GL.h>
+#include <gl/GLU.h>
+#include <gl/glut.h>
+
+
 class Particle;
 class ParticleSet;
 class Generator;

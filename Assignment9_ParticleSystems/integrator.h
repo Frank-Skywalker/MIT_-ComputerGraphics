@@ -81,5 +81,34 @@ public:
 
 
 
+//not implemented
+class RungeKuttaIntegrator :public Integrator
+{
+	virtual void Update(Particle* particle, ForceField* forcefield, float t, float dt)
+	{
+		particle->increaseAge(dt);
+
+		Vec3f velocityN = particle->getVelocity();
+		Vec3f positionN = particle->getPosition();
+		float mass = particle->getMass();
+
+		Vec3f positionM = positionN + velocityN * (dt / 2.0f);
+		Vec3f velocityM = velocityN + forcefield->getAcceleration(positionN, mass, t) * (dt / 2.0f);
+
+		Vec3f newPosition = positionN + velocityM * dt;
+		Vec3f newVelocity = velocityN + forcefield->getAcceleration(positionM, mass, t + dt / 2.0f) * dt;
+
+		particle->setPosition(newPosition);
+		particle->setVelocity(newVelocity);
+	}
+
+
+	virtual Vec3f getColor()
+	{
+		return Vec3f(0, 0, 1);
+	}
+};
+
+
 
 #endif
