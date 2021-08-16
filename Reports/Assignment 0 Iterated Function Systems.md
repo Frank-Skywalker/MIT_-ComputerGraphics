@@ -1,10 +1,10 @@
 # Assignment 0: Iterated Function Systems
 
-##### 陈九润 3180105488
 
 
 
-## 代码
+
+## 1 代码实现
 
 
 
@@ -84,7 +84,7 @@ private:
 
 
 
-## 实验结果
+## 2 实验结果
 
 
 

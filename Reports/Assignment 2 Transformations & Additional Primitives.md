@@ -1,10 +1,10 @@
 # Assignment 2: Transformations & Additional Primitives
 
-##### 陈九润 3180105488
 
 
 
-## 1 代码
+
+## 1 代码实现
 
 
 
