@@ -686,6 +686,14 @@ public:
 	//intersect objects with shadow rays
 	bool intersectObjectsShadow(const Ray& r, float tmin, float distanceToLight)
 	{
+		//intersect with finite objects
+		for (int i = 0; i < infiniteObjects.getNumObjects(); i++)
+		{
+			if (infiniteObjects.getObject(i)->intersectShadowRay(r, tmin, distanceToLight))
+			{
+				return true;
+			}
+		}
 		//nowMaterialIndexCell = 0;
 		//nowMaterialIndexFace = 0;
 		MarchingInfo mi;

@@ -1,8 +1,17 @@
-﻿  glCanvas.cpp
+﻿  boundingbox.cpp
+  glCanvas.cpp
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(39,1): warning C4150: deletion of pointer to incomplete type 'Transform'; no destructor called
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(12): message : see declaration of 'Transform'
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\grid.h(611,1): warning C4102: 'std': unreferenced label
+  image.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\image.cpp(43,19): warning C4101: 'tmp': unreferenced local variable
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\image.cpp(99,36): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\image.cpp(99,28): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\image.cpp(99,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\image.cpp(164,36): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\image.cpp(164,28): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\image.cpp(164,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   light.cpp
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(39,1): warning C4150: deletion of pointer to incomplete type 'Transform'; no destructor called
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(12): message : see declaration of 'Transform'
@@ -11,13 +20,19 @@ E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\obje
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(12): message : see declaration of 'Transform'
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\grid.h(611,1): warning C4102: 'std': unreferenced label
+  matrix.cpp
+  perlin_noise.cpp
   rayTree.cpp
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\rayTree.cpp(17,9): warning C4101: 'i': unreferenced local variable
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\rayTree.cpp(33,9): warning C4101: 'i': unreferenced local variable
+  raytracing_stats.cpp
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\raytracing_stats.cpp(40,18): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\raytracing_stats.cpp(45,16): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
   scene_parser.cpp
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(39,1): warning C4150: deletion of pointer to incomplete type 'Transform'; no destructor called
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\object3d.h(12): message : see declaration of 'Transform'
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\group.h(21,16): warning C4018: '<': signed/unsigned mismatch
 E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\grid.h(611,1): warning C4102: 'std': unreferenced label
   Generating Code...
+  LINK : E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\Assignment6\Debug\Assignment6.exe not found or not built by the last incremental link; performing full link
   Assignment6.vcxproj -> E:\Codes\CG\MIT_ComputerGraphics\Assignment6_GridAcceleration_SolidTextures\Assignment6\Debug\Assignment6.exe

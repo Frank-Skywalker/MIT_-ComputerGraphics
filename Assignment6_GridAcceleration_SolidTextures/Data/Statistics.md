@@ -28,8 +28,6 @@ RAY TRACING STATISTICS
 
 
 
-
-
 ```shell
 raytracer -input scene6_01_sphere.txt -output output6_01b.tga -size 200 200 -grid 10 10 10 -stats
 ```
@@ -88,8 +86,6 @@ RAY TRACING STATISTICS
 
 
 
-
-
 ```shell
 raytracer -input scene6_02_sphere_triangles.txt -output output6_02b.tga -size 200 200 -grid 10 10 10 -stats 
 ```
@@ -135,8 +131,6 @@ RAY TRACING STATISTICS
   cells traversed per ray    0.0
 ********************************************
 ```
-
-
 
 
 
@@ -198,8 +192,6 @@ RAY TRACING STATISTICS
 
 
 
-
-
 ```shell
 raytracer -input scene6_03_sphere_plane.txt -output output6_03b.tga -size 200 200 -grid 10 10 10 -stats
 ```
@@ -220,10 +212,6 @@ RAY TRACING STATISTICS
   intersections per ray      1.1
   cells traversed per ray    0.6
 ```
-
-
-
-
 
 
 
@@ -248,8 +236,6 @@ RAY TRACING STATISTICS
   cells traversed per ray    0.0
 ********************************************
 ```
-
-
 
 
 
@@ -311,8 +297,6 @@ RAY TRACING STATISTICS
 
 
 
-
-
 ```shell
 raytracer -input scene6_04_bunny_mesh_200.txt -output output6_04b.tga -size 200 200 -grid 10 10 7 -stats
 ```
@@ -334,8 +318,6 @@ RAY TRACING STATISTICS
   cells traversed per ray    3.0
 ********************************************
 ```
-
-
 
 
 
@@ -363,8 +345,6 @@ RAY TRACING STATISTICS
 
 
 
-
-
 ```shell
 raytracer -input scene6_04_bunny_mesh_200.txt -output output6_04d.tga -size 200 200 -grid 10 10 7 -stats -shadows
 ```
@@ -389,11 +369,11 @@ RAY TRACING STATISTICS
 
 
 
-
-
 ```shell
 raytracer -input scene6_04_bunny_mesh_200.txt -output output6_04e.tga -size 200 200 -grid 10 10 7 -visualize_grid
 ```
+
+
 
 
 
@@ -429,7 +409,7 @@ RAY TRACING STATISTICS
 
 ````shell
 raytracer -input scene6_06_bunny_mesh_5k.txt  -output output6_06.tga -size 200 200 -grid 20 20 15 -stats -shadows
-```
+````
 
 ```shell
 ********************************************
@@ -507,8 +487,6 @@ RAY TRACING STATISTICS
 
 
 
-
-
 ```shell
 raytracer -input scene6_11_mirrored_floor.txt -size 200 200 -output output6_11b.tga -shadows -bounces 1 -weight 0.01 -grid 40 10 40 -stats
 ```
@@ -533,11 +511,11 @@ RAY TRACING STATISTICS
 
 
 
-
-
 ```shell
 raytracer -input scene6_11_mirrored_floor.txt -size 200 200 -output output6_11c.tga -grid 40 10 40 -visualize_grid
 ```
+
+
 
 
 
@@ -567,8 +545,6 @@ RAY TRACING STATISTICS
 
 
 
-
-
 ```shell
 raytracer -input scene6_12_faceted_gem.txt -size 200 200 -output output6_12b.tga -shadows -shade_back -bounces 5 -weight 0.01 -grid 20 20 20 -stats
 ```
@@ -593,9 +569,6 @@ RAY TRACING STATISTICS
 
 
 
-
-
 ```shell
 raytracer -input scene6_12_faceted_gem.txt -size 200 200 -output output6_12c.tga -grid 20 20 20 -visualize_grid
 ```
-
